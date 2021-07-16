@@ -1,16 +1,18 @@
 import React from "react";
 import { Flex, Grid, GridItem, Center, Heading } from "@chakra-ui/react";
+import Overview from "./Overview";
 
 const Dashboard = () => {
   return (
-    <Flex h="100%" direction="column">
+    <Flex h="100%" direction="column" p="10px">
       <Center h="100px">
         <Heading
           as="h2"
           size="2xl"
           p="20px"
+          mt="15px"
           style={{ fontWeight: 300 }}
-          color="#031424"
+          color="gray.500"
         >
           Good Morning, <strong>User!</strong>
         </Heading>
@@ -22,13 +24,13 @@ const Dashboard = () => {
         flex="1"
       >
         <GridItem rowSpan={1} colSpan={1}>
-          <Center> Active Projects</Center>
+          Active Projects
         </GridItem>
         <GridItem rowSpan={1} colSpan={1}>
-          <Center>Graphical Information</Center>
+          <Overview />
         </GridItem>
         <GridItem rowSpan={1} colSpan={2}>
-          <Center>Tasks</Center>
+          Tasks
         </GridItem>
       </Grid>
     </Flex>
