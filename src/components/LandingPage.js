@@ -1,12 +1,12 @@
 import React from "react";
 import { Heading } from "@chakra-ui/react";
 
-const Work = () => {
+const LandingPage = () => {
   return (
     <section>
-      <Heading>Work</Heading>
+      <Heading>Landing Page</Heading>
     </section>
   );
 };
 
-export default Work;
+export default LandingPage;

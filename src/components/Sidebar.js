@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SidebarLink from "./styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,10 @@ import {
   faClipboardList,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
+const linkActive = {
+  color: "#031424",
+};
 
 const Sidebar = () => {
   return (
@@ -21,25 +25,36 @@ const Sidebar = () => {
         <Text fontSize="xs" casing="uppercase" mb="5px">
           Overview
         </Text>
-        <SidebarLink>
-          <FontAwesomeIcon icon={faHome} style={{ margin: "0 5px" }} />
-          Dashboard
-        </SidebarLink>
+        <NavLink to="/dashboard" activeStyle={linkActive}>
+          <SidebarLink style={{ width: "100%" }}>
+            <FontAwesomeIcon icon={faHome} style={{ margin: "0 5px" }} />
+            Dashboard
+          </SidebarLink>
+        </NavLink>
         <Text fontSize="xs" casing="uppercase" mb="3px" mt="30px">
           Manage
         </Text>
-        <SidebarLink style={{ margin: "5px 0" }}>
-          <FontAwesomeIcon icon={faUserFriends} style={{ margin: "0 5px" }} />
-          Clients
-        </SidebarLink>
-        <SidebarLink style={{ margin: "5px 0" }}>
-          <FontAwesomeIcon icon={faClipboardList} style={{ margin: "0 5px" }} />
-          Projects
-        </SidebarLink>
-        <SidebarLink style={{ margin: "5px 0" }}>
-          <FontAwesomeIcon icon={faClock} style={{ margin: "0 5px" }} />
-          Time
-        </SidebarLink>
+        <NavLink to="/clients" activeStyle={linkActive}>
+          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
+            <FontAwesomeIcon icon={faUserFriends} style={{ margin: "0 5px" }} />
+            Clients
+          </SidebarLink>
+        </NavLink>
+        <NavLink to="/projects" activeStyle={linkActive}>
+          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
+            <FontAwesomeIcon
+              icon={faClipboardList}
+              style={{ margin: "0 5px" }}
+            />
+            Projects
+          </SidebarLink>
+        </NavLink>
+        <NavLink to="/time" activeStyle={linkActive}>
+          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
+            <FontAwesomeIcon icon={faClock} style={{ margin: "0 5px" }} />
+            Time
+          </SidebarLink>
+        </NavLink>
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
         <SidebarLink
