@@ -15,7 +15,7 @@ const Clients = () => {
     setFilteredClients([...mockClients]);
   }, []);
 
-  // Search for clients
+  // Filter clients
   React.useEffect(() => {
     console.log("Running filter");
     if (!searchValue) {
@@ -26,7 +26,12 @@ const Clients = () => {
     const regex = new RegExp(searchValue, "i");
     const filtered = clients.filter((client) => client.name.match(regex));
     setFilteredClients(filtered);
-  }, [searchValue]);
+  }, [searchValue, clients]);
+
+  const addClient = (client) => {
+    setClients([...clients, client]);
+    setSearchValue("");
+  };
 
   return (
     <section
@@ -54,7 +59,7 @@ const Clients = () => {
             style={{ border: "1px solid lightgrey" }}
           />
         </Flex>
-        <NewClientModal></NewClientModal>
+        <NewClientModal addClient={addClient} />
       </Flex>
       {/* Client Cards */}
       <Flex p="30px" wrap="wrap">
@@ -72,26 +77,3 @@ const Clients = () => {
 };
 
 export default Clients;
-
-// {/* Open Modal */}
-// { && (
-//     <Center>
-//       <form
-//         style={{
-//           borderRadius: "5px",
-//           border: "2px solid grey",
-//           padding: "10px",
-//         }}
-//       >
-//         <FormControl>
-//           <FormLabel>Client Name:</FormLabel>
-//           <Input></Input>
-//           <FormLabel>Contact:</FormLabel>
-//           <Input></Input>
-//           <FormLabel>Email:</FormLabel>
-//           <Input></Input>
-//         </FormControl>
-//         <Button>Create Client</Button>
-//       </form>
-//     </Center>
-//   )}

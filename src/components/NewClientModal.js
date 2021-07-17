@@ -13,9 +13,11 @@ import {
 import NewButton from "./styled/NewButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import NewClientForm from "./forms/NewClientForm";
 
-const NewClientModal = () => {
+const NewClientModal = ({ addClient }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <NewButton onClick={onOpen}>
@@ -26,16 +28,11 @@ const NewClientModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>New Client</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Body text</ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
+          <ModalBody>
+            <NewClientForm addClient={addClient} onClose={onClose} />
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>
