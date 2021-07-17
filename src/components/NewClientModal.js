@@ -4,10 +4,8 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
   useDisclosure,
 } from "@chakra-ui/react";
 import NewButton from "./styled/NewButton";
@@ -25,7 +23,7 @@ const NewClientModal = ({ addClient }) => {
         New Client
       </NewButton>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>New Client</ModalHeader>

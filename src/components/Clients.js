@@ -1,5 +1,13 @@
 import React from "react";
-import { Flex, Heading, Input, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+} from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import NewClientModal from "./NewClientModal";
 import ClientCard from "./ClientCard";
 import { mockClients } from "../data/api";
@@ -17,12 +25,7 @@ const Clients = () => {
 
   // Filter clients
   React.useEffect(() => {
-    console.log("Running filter");
-    if (!searchValue) {
-      console.log("here");
-      console.log(clients);
-      return setFilteredClients([...clients]);
-    }
+    if (!searchValue) return setFilteredClients([...clients]);
     const regex = new RegExp(searchValue, "i");
     const filtered = clients.filter((client) => client.name.match(regex));
     setFilteredClients(filtered);
@@ -51,13 +54,20 @@ const Clients = () => {
           <Heading color="gray.800" fontSize="xl">
             Clients
           </Heading>
-          <Input
-            placeholder="Find a client"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            ml="30px"
-            style={{ border: "1px solid lightgrey" }}
-          />
+          <InputGroup>
+            <InputLeftElement
+              children={
+                <SearchIcon style={{ position: "relative", left: "30px" }} />
+              }
+            />
+            <Input
+              placeholder="Find a client"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              ml="30px"
+              style={{ border: "1px solid lightgrey" }}
+            />
+          </InputGroup>
         </Flex>
         <NewClientModal addClient={addClient} />
       </Flex>
