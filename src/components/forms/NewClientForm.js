@@ -32,6 +32,8 @@ const NewClientForm = ({ action, onClose }) => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Colour Agency"
         ></Input>
+      </FormControl>
+      <FormControl>
         <FormLabel fontSize="sm" casing="uppercase">
           Contact
         </FormLabel>
@@ -40,6 +42,8 @@ const NewClientForm = ({ action, onClose }) => {
           value={contact}
           onChange={(e) => setContact(e.target.value)}
         ></Input>
+      </FormControl>
+      <FormControl>
         <FormLabel fontSize="sm" casing="uppercase">
           Email
         </FormLabel>
