@@ -62,7 +62,7 @@ const Sidebar = () => {
           primary={"#CF6766"}
         >
           <FontAwesomeIcon icon={faSignOutAlt} style={{ margin: "0 5px" }} />
-          Time
+          Log Out
         </SidebarLink>
         <Text>Rhys Morris</Text>
         <Text fontSize="xs">rhysmorris08@gmail.com</Text>

@@ -6,10 +6,12 @@ import Projects from "./components/Projects";
 import Sidebar from "./components/Sidebar";
 import LandingPage from "./components/LandingPage";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import "@fontsource/raleway/400.css";
+import theme from "./theme";
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Router>
         {/* <Route exact path="/" component={LandingPage} /> */}
         <Center>
