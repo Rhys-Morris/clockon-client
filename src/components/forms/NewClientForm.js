@@ -7,14 +7,14 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-const NewClientForm = ({ addClient, onClose }) => {
+const NewClientForm = ({ action, onClose }) => {
   const [name, setName] = React.useState("");
   const [contact, setContact] = React.useState("");
   const [email, setEmail] = React.useState("");
 
   const submitForm = (e) => {
     e.preventDefault();
-    addClient({
+    action({
       name,
       contact,
       email,
@@ -23,7 +23,7 @@ const NewClientForm = ({ addClient, onClose }) => {
 
   return (
     <form onSubmit={submitForm}>
-      <FormControl>
+      <FormControl isRequired>
         <FormLabel fontSize="sm" casing="uppercase">
           Client Name
         </FormLabel>

@@ -8,28 +8,35 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import NewButton from "./styled/NewButton";
+import NewButton from "../styled/NewButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import NewClientForm from "./forms/NewClientForm";
+import NewClientForm from "../forms/NewClientForm";
+import NewProjectForm from "../forms/NewProjectForm";
 
-const NewClientModal = ({ addClient }) => {
+const BaseModal = ({ type, action }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <NewButton onClick={onOpen}>
         <FontAwesomeIcon icon={faPlus} style={{ marginRight: "8px" }} />
-        New Client
+        New {type}
       </NewButton>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>New Client</ModalHeader>
+          <ModalHeader>
+            {type === "Project" ? "Start a New Project" : "New Client"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <NewClientForm addClient={addClient} onClose={onClose} />
+            {type === "Project" ? (
+              <NewProjectForm action={action} onClose={onClose} />
+            ) : (
+              <NewClientForm action={action} onClose={onClose} />
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -37,4 +44,4 @@ const NewClientModal = ({ addClient }) => {
   );
 };
 
-export default NewClientModal;
+export default BaseModal;

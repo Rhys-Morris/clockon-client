@@ -8,9 +8,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import NewClientModal from "./NewClientModal";
 import ClientCard from "./ClientCard";
 import { mockClients } from "../data/api";
+import BaseNewModal from "./modals/BaseNewModal";
 
 const Clients = () => {
   const [clients, setClients] = React.useState([]);
@@ -69,7 +69,7 @@ const Clients = () => {
             />
           </InputGroup>
         </Flex>
-        <NewClientModal addClient={addClient} />
+        <BaseNewModal type={"Client"} action={addClient} />
       </Flex>
       {/* Client Cards */}
       <Flex p="30px" wrap="wrap">
