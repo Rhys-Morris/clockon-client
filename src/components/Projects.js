@@ -1,5 +1,13 @@
 import React from "react";
-import { Heading, Flex, Text, Input, Select, Center } from "@chakra-ui/react";
+import {
+  Heading,
+  Flex,
+  Text,
+  Input,
+  Select,
+  Center,
+  filter,
+} from "@chakra-ui/react";
 import NewClientForm from "./forms/NewClientForm";
 import BaseNewModal from "./modals/BaseNewModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +40,7 @@ const Projects = () => {
   const [filterClient, setFilterClient] = React.useState("");
   const [filterProjectName, setFilterProjectName] = React.useState("");
   const [filterBillable, setFilterBillable] = React.useState("both");
-  const [filterActive, setFilterActive] = React.useState("both");
+  const [filterActive, setFilterActive] = React.useState(true);
 
   // Load projects on render
   React.useEffect(() => {
@@ -41,8 +49,32 @@ const Projects = () => {
 
   // Filter Side Effect
   React.useEffect(() => {
-    const filtered = [...projects];
-
+    let filtered = [...projects];
+    console.log(filterBillable);
+    if (filterClient) {
+      filtered = filtered.filter((p) =>
+        p.client.match(new RegExp(filterClient, "i"))
+      );
+    }
+    if (filterProjectName) {
+      filtered = filtered.filter((p) =>
+        p.name.match(new RegExp(filterProjectName, "i"))
+      );
+    }
+    if (filterBillable !== "both") {
+      filtered = filtered.filter((p) => {
+        if (filterBillable === "true" && p.billable) return true;
+        if (filterBillable === "false" && !p.billable) return true;
+        return false;
+      });
+    }
+    if (filterActive !== "both") {
+      filtered = filtered.filter((p) => {
+        if (filterActive === "true" && p.active) return true;
+        if (filterActive === "false" && !p.active) return true;
+        return false;
+      });
+    }
     setFilteredProjects(filtered);
   }, [projects, filterProjectName, filterClient, filterBillable, filterActive]);
 
@@ -75,15 +107,28 @@ const Projects = () => {
           </Text>
           <Center mr="10px">
             <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
-            <Input placeholder="Client name" style={inputStyle} />
+            <Input
+              placeholder="Client name"
+              style={inputStyle}
+              value={filterClient}
+              onChange={(e) => setFilterClient(e.target.value)}
+            />
           </Center>
           <Center mr="10px">
             <FontAwesomeIcon icon={faClipboardList} style={iconMarginRight} />
-            <Input placeholder="Project name" style={inputStyle} />
+            <Input
+              placeholder="Project name"
+              style={inputStyle}
+              value={filterProjectName}
+              onChange={(e) => setFilterProjectName(e.target.value)}
+            />
           </Center>
           <Center>
             <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
-            <Select>
+            <Select
+              value={filterBillable}
+              onChange={(e) => setFilterBillable(e.target.value)}
+            >
               <option value="both">Both</option>
               <option value={true}>Billable</option>
               <option value={false}>Non-billable</option>
@@ -91,7 +136,11 @@ const Projects = () => {
           </Center>
         </Flex>
         <Center>
-          <Select style={activeSelectStyle}>
+          <Select
+            style={activeSelectStyle}
+            value={filterActive}
+            onChange={(e) => setFilterActive(e.target.value)}
+          >
             <option value={true}>Active</option>
             <option value={false}>Non-Active</option>
             <option value="both">Both</option>
@@ -111,10 +160,10 @@ const Projects = () => {
           <Text fontSize="xs" casing="uppercase" flex="2">
             Project
           </Text>
-          <Text fontSize="xs" casing="uppercase" flex="1" textAlign="center">
+          <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
             Client
           </Text>
-          <Text fontSize="xs" casing="uppercase" flex="1" textAlign="center">
+          <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
             Hours Logged
           </Text>
           <Text fontSize="xs" casing="uppercase" flex="2" textAlign="center">

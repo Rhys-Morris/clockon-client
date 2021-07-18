@@ -17,8 +17,8 @@ const ProjectCard = ({ project }) => {
           <Box
             style={{
               backgroundColor: project.color,
-              width: "20px",
-              height: "20px",
+              width: "10px",
+              height: "10px",
               borderRadius: "50%",
               marginRight: "10px",
             }}
@@ -29,10 +29,10 @@ const ProjectCard = ({ project }) => {
         </Flex>
         {project.billable && <FontAwesomeIcon icon={faDollarSign} />}
       </Flex>
-      <Text fontSize="xs" casing="uppercase" flex="1" textAlign="center">
+      <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
         {project.client}
       </Text>
-      <Text fontSize="xs" casing="uppercase" flex="1" textAlign="center">
+      <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
         {project.hoursLogged}
       </Text>
       <Text fontSize="xs" casing="uppercase" flex="2" textAlign="center">
