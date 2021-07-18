@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import "../stylesheets/clientCard.css";
-import PopoverContentButton from "./styled/PopoverContentButton";
+import "../../stylesheets/clientCard.css";
+import PopoverContentButton from "../styled/PopoverContentButton";
 
 const cardStyle = {
   border: "2px solid lightgrey",

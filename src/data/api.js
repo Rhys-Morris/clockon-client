@@ -31,4 +31,37 @@ const mockClients = [
   },
 ];
 
-export { mockClients };
+const mockProjects = [
+  {
+    id: 1,
+    color: "#00ff00",
+    name: "New Project1",
+    client: "Mock",
+    dueDate: "25-12-2021",
+    billable: true,
+    active: true,
+    hoursLogged: 24,
+  },
+  {
+    id: 2,
+    color: "#ffff00",
+    name: "New Project2",
+    client: "Mock",
+    dueDate: "25-12-2021",
+    billable: false,
+    active: true,
+    hoursLogged: 24,
+  },
+  {
+    id: 3,
+    color: "#00ffff",
+    name: "New Project1",
+    client: "Mock",
+    dueDate: "25-12-2021",
+    billable: true,
+    active: false,
+    hoursLogged: 24,
+  },
+];
+
+export { mockClients, mockProjects };

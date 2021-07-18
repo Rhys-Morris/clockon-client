@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import ClientCard from "./ClientCard";
+import ClientCard from "./cards/ClientCard";
 import { mockClients } from "../data/api";
 import BaseNewModal from "./modals/BaseNewModal";
 
