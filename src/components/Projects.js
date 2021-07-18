@@ -6,9 +6,8 @@ import {
   Input,
   Select,
   Center,
-  filter,
+  Box,
 } from "@chakra-ui/react";
-import NewClientForm from "./forms/NewClientForm";
 import BaseNewModal from "./modals/BaseNewModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { mockProjects } from "../data/api";
 import ProjectCard from "./cards/ProjectCard";
+import Sidebar from "./Sidebar";
 
 // STYLING
 const iconMarginRight = {
@@ -83,103 +83,133 @@ const Projects = () => {
   };
 
   return (
-    <section>
-      {/* HEADER */}
-      <Flex
-        justify="space-between"
-        align="center"
-        p="20px 30px"
-        w="100%"
-        boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)"
+    <Flex h="100%">
+      <Box
+        w="200px"
+        bgGradient="linear(to-b, #30415D, #031424)"
+        h="100%"
+        p="15px"
       >
-        <Heading color="gray.800" fontSize="xl">
-          Projects
-        </Heading>
-        <BaseNewModal type="Project" action={addProject} />
-      </Flex>
-      {/* FILTER ROW */}
-      <Flex
-        align="center"
-        justify="space-between"
-        p="15px 30px"
-        color="gray.500"
-        boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)"
-      >
-        <Flex align="center" justify="start">
-          <Text fontSize="md" mr="10px" w="20">
-            Filter by:
-          </Text>
-          <Center mr="10px">
-            <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
-            <Input
-              placeholder="Client name"
-              style={inputStyle}
-              value={filterClient}
-              onChange={(e) => setFilterClient(e.target.value)}
-            />
-          </Center>
-          <Center mr="10px">
-            <FontAwesomeIcon icon={faClipboardList} style={iconMarginRight} />
-            <Input
-              placeholder="Project name"
-              style={inputStyle}
-              value={filterProjectName}
-              onChange={(e) => setFilterProjectName(e.target.value)}
-            />
-          </Center>
-          <Center>
-            <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
-            <Select
-              value={filterBillable}
-              onChange={(e) => setFilterBillable(e.target.value)}
-            >
-              <option value="both">Both</option>
-              <option value={true}>Billable</option>
-              <option value={false}>Non-billable</option>
-            </Select>
-          </Center>
-        </Flex>
-        <Center>
-          <Select
-            style={activeSelectStyle}
-            value={filterActive}
-            onChange={(e) => setFilterActive(e.target.value)}
+        <Sidebar />
+      </Box>
+      <Box flex="1" color="gray.400">
+        <section>
+          {/* HEADER */}
+          <Flex
+            justify="space-between"
+            align="center"
+            p="20px 30px"
+            w="100%"
+            boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)"
           >
-            <option value={true}>Active</option>
-            <option value={false}>Non-Active</option>
-            <option value="both">Both</option>
-          </Select>
-        </Center>
-      </Flex>
-      {/* Project Card Display */}
-      <Flex direction="column" mt="30px">
-        {/* Heading Row */}
-        <Flex
-          align="center"
-          color="gray.600"
-          fontWeight="bold"
-          boxShadow="0 1px 1px 0 rgba(0, 0,0, .08)"
-          p="5px 30px"
-        >
-          <Text fontSize="xs" casing="uppercase" flex="2">
-            Project
-          </Text>
-          <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
-            Client
-          </Text>
-          <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
-            Hours Logged
-          </Text>
-          <Text fontSize="xs" casing="uppercase" flex="2" textAlign="center">
-            Due Date
-          </Text>
-        </Flex>
-        {/* Cards */}
-        {filteredProjects.map((p) => (
-          <ProjectCard key={p.id} project={p} />
-        ))}
-      </Flex>
-    </section>
+            <Heading color="gray.800" fontSize="xl">
+              Projects
+            </Heading>
+            <BaseNewModal type="Project" action={addProject} />
+          </Flex>
+          {/* FILTER ROW */}
+          <Flex
+            align="center"
+            justify="space-between"
+            p="15px 30px"
+            color="gray.500"
+            boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)"
+          >
+            <Flex align="center" justify="start">
+              <Text fontSize="md" mr="10px" w="20">
+                Filter by:
+              </Text>
+              <Center mr="10px">
+                <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
+                <Input
+                  placeholder="Client name"
+                  style={inputStyle}
+                  value={filterClient}
+                  onChange={(e) => setFilterClient(e.target.value)}
+                />
+              </Center>
+              <Center mr="10px">
+                <FontAwesomeIcon
+                  icon={faClipboardList}
+                  style={iconMarginRight}
+                />
+                <Input
+                  placeholder="Project name"
+                  style={inputStyle}
+                  value={filterProjectName}
+                  onChange={(e) => setFilterProjectName(e.target.value)}
+                />
+              </Center>
+              <Center>
+                <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
+                <Select
+                  value={filterBillable}
+                  onChange={(e) => setFilterBillable(e.target.value)}
+                >
+                  <option value="both">Both</option>
+                  <option value={true}>Billable</option>
+                  <option value={false}>Non-billable</option>
+                </Select>
+              </Center>
+            </Flex>
+            <Center>
+              <Select
+                style={activeSelectStyle}
+                value={filterActive}
+                onChange={(e) => setFilterActive(e.target.value)}
+              >
+                <option value={true}>Active</option>
+                <option value={false}>Non-Active</option>
+                <option value="both">Both</option>
+              </Select>
+            </Center>
+          </Flex>
+          {/* Project Card Display */}
+          <Flex direction="column" mt="30px">
+            {/* Heading Row */}
+            <Flex
+              align="center"
+              color="gray.600"
+              fontWeight="bold"
+              boxShadow="0 1px 1px 0 rgba(0, 0,0, .08)"
+              p="5px 30px"
+            >
+              <Text fontSize="xs" casing="uppercase" flex="2">
+                Project
+              </Text>
+              <Text
+                fontSize="xs"
+                casing="uppercase"
+                flex="1.5"
+                textAlign="center"
+              >
+                Client
+              </Text>
+              <Text
+                fontSize="xs"
+                casing="uppercase"
+                flex="1.5"
+                textAlign="center"
+              >
+                Hours Logged
+              </Text>
+              <Text
+                fontSize="xs"
+                casing="uppercase"
+                flex="2"
+                textAlign="center"
+              >
+                Due Date
+              </Text>
+            </Flex>
+            {/* Cards */}
+            {filteredProjects.map((p) => (
+              <ProjectCard key={p.id} project={p} />
+            ))}
+          </Flex>
+        </section>
+      </Box>
+    </Flex>
   );
 };
 

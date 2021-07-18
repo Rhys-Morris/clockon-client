@@ -6,11 +6,13 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import ClientCard from "./cards/ClientCard";
 import { mockClients } from "../data/api";
 import BaseNewModal from "./modals/BaseNewModal";
+import Sidebar from "./Sidebar";
 
 const Clients = () => {
   const [clients, setClients] = React.useState([]);
@@ -37,52 +39,66 @@ const Clients = () => {
   };
 
   return (
-    <section
-      style={{
-        width: "100%",
-      }}
-    >
-      {/* Header of page */}
-      <Flex
-        justify="space-between"
-        align="center"
-        p="20px 30px"
-        w="100%"
-        boxShadow="0 2px 5px 0 rgba(0, 0,0, .2)"
+    <Flex h="100%">
+      <Box
+        w="200px"
+        bgGradient="linear(to-b, #30415D, #031424)"
+        h="100%"
+        p="15px"
       >
-        <Flex justify="center" align="center">
-          <Heading color="gray.800" fontSize="xl">
-            Clients
-          </Heading>
-          <InputGroup>
-            <InputLeftElement
-              children={
-                <SearchIcon style={{ position: "relative", left: "30px" }} />
-              }
-            />
-            <Input
-              placeholder="Find a client"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              ml="30px"
-              style={{ border: "1px solid lightgrey" }}
-            />
-          </InputGroup>
-        </Flex>
-        <BaseNewModal type={"Client"} action={addClient} />
-      </Flex>
-      {/* Client Cards */}
-      <Flex p="30px" wrap="wrap">
-        {clients.length === 0 && <Text>No clients currently active</Text>}
-        {clients.length >= 1 && filteredClients.length === 0 && (
-          <Text>No clients match your search</Text>
-        )}
-        {filteredClients.length >= 1 &&
-          filteredClients.map((client, index) => (
-            <ClientCard key={index} client={client} />
-          ))}
-      </Flex>
-    </section>
+        <Sidebar />
+      </Box>
+      <Box flex="1" color="gray.400">
+        <section
+          style={{
+            width: "100%",
+          }}
+        >
+          {/* Header of page */}
+          <Flex
+            justify="space-between"
+            align="center"
+            p="20px 30px"
+            w="100%"
+            boxShadow="0 2px 5px 0 rgba(0, 0,0, .2)"
+          >
+            <Flex justify="center" align="center">
+              <Heading color="gray.800" fontSize="xl">
+                Clients
+              </Heading>
+              <InputGroup>
+                <InputLeftElement
+                  children={
+                    <SearchIcon
+                      style={{ position: "relative", left: "30px" }}
+                    />
+                  }
+                />
+                <Input
+                  placeholder="Find a client"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  ml="30px"
+                  style={{ border: "1px solid lightgrey" }}
+                />
+              </InputGroup>
+            </Flex>
+            <BaseNewModal type={"Client"} action={addClient} />
+          </Flex>
+          {/* Client Cards */}
+          <Flex p="30px" wrap="wrap">
+            {clients.length === 0 && <Text>No clients currently active</Text>}
+            {clients.length >= 1 && filteredClients.length === 0 && (
+              <Text>No clients match your search</Text>
+            )}
+            {filteredClients.length >= 1 &&
+              filteredClients.map((client, index) => (
+                <ClientCard key={index} client={client} />
+              ))}
+          </Flex>
+        </section>
+      </Box>
+    </Flex>
   );
 };
 
