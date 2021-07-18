@@ -9,18 +9,26 @@ import {
   Box,
   Select,
   Checkbox,
+  Text,
 } from "@chakra-ui/react";
 import { mockClients } from "../../data/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDollarSign,
+  faCheck,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { inputFormattedToday } from "../../helpers/date";
 
 const NewProjectForm = ({ action, onClose }) => {
   const [name, setName] = React.useState("");
   const [projectColor, setProjectColor] = React.useState("#22ff55");
+  const [clients, setClients] = React.useState([]);
   const [client, setClient] = React.useState("");
   const [billable, setBillable] = React.useState(true);
   const [dueDate, setDueDate] = React.useState(inputFormattedToday());
+  const [addNewClient, setAddNewClient] = React.useState(false);
+  const [newClient, setNewClient] = React.useState("");
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -39,10 +47,17 @@ const NewProjectForm = ({ action, onClose }) => {
     // TO DO - SEND TO API
   };
 
+  // Load in clients on render
+  React.useEffect(() => {
+    setClients([...mockClients]);
+  }, []);
+
+  // Add client via form
+
   return (
     <form onSubmit={submitForm}>
       <FormControl isRequired>
-        <Flex align="flex-end" mb="10px">
+        <Flex align="flex-end" mb="15px">
           <Box flex="4">
             <FormLabel fontSize="sm" casing="uppercase">
               Project Name
@@ -70,11 +85,69 @@ const NewProjectForm = ({ action, onClose }) => {
           </Center>
         </Flex>
       </FormControl>
-      <FormControl isRequired mb="10px">
+      <FormControl isRequired mb="15px">
         {/* TO DO - ADD ABILITY TO CREATE NEW CLIENT HERE */}
-        <FormLabel fontSize="sm">Client</FormLabel>
-        <Select value={client} onChange={(e) => setClient(e.target.value)}>
-          {mockClients.map((c, index) => (
+        <Flex align="center" justify="space-between" mb="5px">
+          <FormLabel htmlFor="clientSelect" fontSize="sm" flex="1">
+            Client
+          </FormLabel>
+          {!addNewClient && (
+            <Button
+              size="xs"
+              fontSize="xs"
+              color="white"
+              bg="#8eaedd"
+              p="2px 4px"
+              borderRadius="2px"
+              onClick={() => setAddNewClient(true)}
+            >
+              New Client
+            </Button>
+          )}
+          {addNewClient && (
+            <Flex align="center">
+              <Input
+                value={newClient}
+                onChange={(e) => setNewClient(e.target.value)}
+                w="150px"
+                ml="5px"
+                fontSize="xs"
+                size="sm"
+                placeholder={"New client name"}
+              />
+              <Button
+                size="xs"
+                color="white"
+                bg="green.300"
+                m="0 5px"
+                onClick={() => {
+                  setClients([
+                    ...clients,
+                    { name: newClient, contact: null, email: null },
+                  ]);
+                  setAddNewClient(false);
+                  setClient(newClient);
+                }}
+              >
+                <FontAwesomeIcon icon={faCheck} />
+              </Button>
+              <Button
+                size="xs"
+                color="white"
+                bg="red.300"
+                onClick={() => setAddNewClient(false)}
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+            </Flex>
+          )}
+        </Flex>
+        <Select
+          id="clientSelect"
+          value={client}
+          onChange={(e) => setClient(e.target.value)}
+        >
+          {clients.map((c, index) => (
             <option key={index} value={c.name}>
               {c.name}
             </option>
@@ -82,7 +155,7 @@ const NewProjectForm = ({ action, onClose }) => {
         </Select>
       </FormControl>
       <Flex align="start">
-        <FormControl mb="10px">
+        <FormControl mb="15px">
           <FormLabel fontSize="sm" m="0">
             Due Date:
           </FormLabel>
@@ -94,7 +167,7 @@ const NewProjectForm = ({ action, onClose }) => {
             onChange={(e) => setDueDate(e.target.value)}
           />
         </FormControl>
-        <FormControl mb="10px">
+        <FormControl mb="15px">
           <Flex align="center" justify="center">
             <FontAwesomeIcon
               icon={faDollarSign}
@@ -102,12 +175,12 @@ const NewProjectForm = ({ action, onClose }) => {
               style={{ marginRight: "5px" }}
             />
             <FormLabel fontSize="sm" m="0">
-              Billable
+              Billable:
             </FormLabel>
             <Checkbox
               defaultIsChecked
               pl="20px"
-              onChange={(e) => e.target.checked}
+              onChange={(e) => setBillable(e.target.checked)}
             />
           </Flex>
         </FormControl>
