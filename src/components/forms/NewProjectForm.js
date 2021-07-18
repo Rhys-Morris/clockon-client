@@ -18,16 +18,25 @@ import { inputFormattedToday } from "../../helpers/date";
 const NewProjectForm = ({ action, onClose }) => {
   const [name, setName] = React.useState("");
   const [projectColor, setProjectColor] = React.useState("#22ff55");
-  const [client, setClient] = React.useState(null);
+  const [client, setClient] = React.useState("");
   const [billable, setBillable] = React.useState(true);
+  const [dueDate, setDueDate] = React.useState(inputFormattedToday());
 
   const submitForm = (e) => {
     e.preventDefault();
+    // STATE UPDATE
     action({
+      id: Math.ceil(Math.random() * 9999), // TO REMOVE
+      hoursLogged: 0,
       name,
+      color: projectColor,
       client,
-      projectColor,
+      dueDate,
+      billable,
+      dueDate,
+      active: true,
     });
+    // TO DO - SEND TO API
   };
 
   return (
@@ -45,7 +54,7 @@ const NewProjectForm = ({ action, onClose }) => {
             ></Input>
           </Box>
           <Center flex="1">
-            <label for="color-picker"></label>
+            <label htmlFor="color-picker"></label>
             <input
               style={{
                 height: "40px",
@@ -56,7 +65,7 @@ const NewProjectForm = ({ action, onClose }) => {
               id="color-picker"
               type="color"
               value={projectColor}
-              onChange={(e) => setProjectColor(e.target.color)}
+              onChange={(e) => setProjectColor(e.target.value)}
             />
           </Center>
         </Flex>
@@ -64,7 +73,7 @@ const NewProjectForm = ({ action, onClose }) => {
       <FormControl isRequired mb="10px">
         {/* TO DO - ADD ABILITY TO CREATE NEW CLIENT HERE */}
         <FormLabel fontSize="sm">Client</FormLabel>
-        <Select>
+        <Select value={client} onChange={(e) => setClient(e.target.value)}>
           {mockClients.map((c, index) => (
             <option key={index} value={c.name}>
               {c.name}
@@ -77,7 +86,13 @@ const NewProjectForm = ({ action, onClose }) => {
           <FormLabel fontSize="sm" m="0">
             Due Date:
           </FormLabel>
-          <Input type="date" mt="5px" min={inputFormattedToday()} />
+          <Input
+            type="date"
+            mt="5px"
+            min={inputFormattedToday()}
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
         </FormControl>
         <FormControl mb="10px">
           <Flex align="center" justify="center">
@@ -89,7 +104,11 @@ const NewProjectForm = ({ action, onClose }) => {
             <FormLabel fontSize="sm" m="0">
               Billable
             </FormLabel>
-            <Checkbox defaultIsChecked pl="20px" onChange={setBillable} />
+            <Checkbox
+              defaultIsChecked
+              pl="20px"
+              onChange={(e) => e.target.checked}
+            />
           </Flex>
         </FormControl>
       </Flex>

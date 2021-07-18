@@ -78,6 +78,10 @@ const Projects = () => {
     setFilteredProjects(filtered);
   }, [projects, filterProjectName, filterClient, filterBillable, filterActive]);
 
+  const addProject = (project) => {
+    setProjects([...projects, project]);
+  };
+
   return (
     <section>
       {/* HEADER */}
@@ -91,7 +95,7 @@ const Projects = () => {
         <Heading color="gray.800" fontSize="xl">
           Projects
         </Heading>
-        <BaseNewModal type="Project" toRender={<NewClientForm />} />
+        <BaseNewModal type="Project" action={addProject} />
       </Flex>
       {/* FILTER ROW */}
       <Flex
