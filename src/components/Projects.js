@@ -40,7 +40,7 @@ const Projects = () => {
   const [filterClient, setFilterClient] = React.useState("");
   const [filterProjectName, setFilterProjectName] = React.useState("");
   const [filterBillable, setFilterBillable] = React.useState("both");
-  const [filterActive, setFilterActive] = React.useState(true);
+  const [filterActive, setFilterActive] = React.useState("true");
 
   // Load projects on render
   React.useEffect(() => {
@@ -50,7 +50,7 @@ const Projects = () => {
   // Filter Side Effect
   React.useEffect(() => {
     let filtered = [...projects];
-    console.log(filterBillable);
+    console.log(filtered);
     if (filterClient) {
       filtered = filtered.filter((p) =>
         p.client.match(new RegExp(filterClient, "i"))
