@@ -33,7 +33,7 @@ const NewClientForm = ({ action, onClose }) => {
           placeholder="Colour Agency"
         ></Input>
       </FormControl>
-      <FormControl>
+      <FormControl mt="10px">
         <FormLabel fontSize="sm" casing="uppercase">
           Contact
         </FormLabel>
@@ -43,7 +43,7 @@ const NewClientForm = ({ action, onClose }) => {
           onChange={(e) => setContact(e.target.value)}
         ></Input>
       </FormControl>
-      <FormControl>
+      <FormControl mt="10px">
         <FormLabel fontSize="sm" casing="uppercase">
           Email
         </FormLabel>

@@ -9,7 +9,6 @@ import {
   Box,
   Select,
   Checkbox,
-  Text,
 } from "@chakra-ui/react";
 import { mockClients } from "../../data/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,7 +40,6 @@ const NewProjectForm = ({ action, onClose }) => {
       client,
       dueDate,
       billable,
-      dueDate,
       active: true,
     });
     // TO DO - SEND TO API

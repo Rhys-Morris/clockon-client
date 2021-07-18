@@ -31,11 +31,6 @@ const ellipsisStyle = {
 };
 
 const ClientCard = ({ client }) => {
-  const [optionsOpen, setOptionsOpen] = React.useState(false);
-  const openCardOptions = () => {
-    setOptionsOpen(true);
-  };
-
   const { name, contact, email } = client;
   return (
     <Flex direction="column" p={"10px"} style={cardStyle} m={"10px"}>
