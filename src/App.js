@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "@fontsource/raleway/400.css";
 import theme from "./theme";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Center>
           <Box h="100vh" w="100vw" color="white">
             <Switch>
+              <Route exact path="/" component={LandingPage} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/clients" component={Clients} />

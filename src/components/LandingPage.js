@@ -1,10 +1,15 @@
 import React from "react";
-import { Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
+import Hero from "./Hero";
+import Features from "./Features";
 
 const LandingPage = () => {
   return (
     <section>
-      <Heading>Landing Page</Heading>
+      <Flex direction="column">
+        <Hero />
+        <Features />
+      </Flex>
     </section>
   );
 };

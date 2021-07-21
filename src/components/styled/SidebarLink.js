@@ -10,7 +10,7 @@ const SidebarLink = styled.button`
   border: none;
 
   &:hover {
-    background: ${(props) => (props.primary ? props.primary : "#7eaedd")};
+    background: ${(props) => (props.primary ? props.primary : "#B6CBE8")};
   }
 `;
 
