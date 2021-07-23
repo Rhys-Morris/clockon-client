@@ -1,9 +1,10 @@
 import React from "react";
 import { Flex, Heading, Box, Text } from "@chakra-ui/react";
 import herovid from "../assets/video.mp4";
-import "../stylesheets/hero.css";
+import "../style/stylesheets/hero.css";
 import PillButton from "./styled/PillButton";
 import LandingNav from "./LandingNav";
+import { Link } from "react-router-dom";
 
 const letterRotate = {
   transform: "rotate(15deg)",
@@ -47,7 +48,9 @@ const Hero = () => {
           <Text style={letterRotate}>o</Text>
           <Text style={letterRotate}>l</Text> of your work
         </Heading>
-        <PillButton fontSize="20px">Get Started</PillButton>
+        <Link exact to="/register">
+          <PillButton fontSize="20px">Get Started</PillButton>
+        </Link>
       </Box>
     </Flex>
   );

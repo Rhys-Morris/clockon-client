@@ -7,34 +7,52 @@ import {
   InputLeftElement,
   Text,
   Box,
+  Select,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import ClientCard from "./cards/ClientCard";
-import { mockClients } from "../data/api";
 import BaseNewModal from "./modals/BaseNewModal";
 import Sidebar from "./Sidebar";
+import { getClients } from "../data/api";
 
 const Clients = () => {
   const [clients, setClients] = React.useState([]);
   const [filteredClients, setFilteredClients] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
+  const [activeFilter, setActiveFilter] = React.useState("active");
 
-  //   On load simulate getting clients
+  //   On load get clients
   React.useEffect(() => {
-    setClients([...mockClients]);
-    setFilteredClients([...mockClients]);
+    getClients()
+      .then((data) => {
+        setClients([...data.clients]);
+        setFilteredClients([...data.clients]);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    // TO DO - move to dispatch
   }, []);
 
-  // Filter clients
+  // ----- FILTER CLIENTS ----
   React.useEffect(() => {
-    if (!searchValue) return setFilteredClients([...clients]);
     const regex = new RegExp(searchValue, "i");
-    const filtered = clients.filter((client) => client.name.match(regex));
+    let filtered = clients.filter((client) => {
+      if (!searchValue) return true;
+      return client.name.match(regex);
+    });
+    filtered = filtered.filter((client) => {
+      if (activeFilter === "both") return true;
+      if (activeFilter === "active" && client.active) return true;
+      if (activeFilter === "inactive" && !client.active) return true;
+      return false;
+    });
     setFilteredClients(filtered);
-  }, [searchValue, clients]);
+  }, [searchValue, clients, activeFilter]);
 
-  const addClient = (client) => {
-    setClients([...clients, client]);
+  // ----- UPDATE CLIENTS - ADDITION / DELETION -----
+  const updateClients = (updatedClients) => {
+    setClients([...updatedClients]);
     setSearchValue("");
   };
 
@@ -78,12 +96,22 @@ const Clients = () => {
                   placeholder="Find a client"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  ml="30px"
+                  w="300px"
+                  ml="20px"
                   style={{ border: "1px solid lightgrey" }}
                 />
               </InputGroup>
+              <Select
+                ml="10px"
+                style={{ border: "1px solid lightgrey" }}
+                onChange={(e) => setActiveFilter(e.target.value)}
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="both">Both</option>
+              </Select>
             </Flex>
-            <BaseNewModal type={"Client"} action={addClient} />
+            <BaseNewModal type={"Client"} action={updateClients} />
           </Flex>
           {/* Client Cards */}
           <Flex p="30px" wrap="wrap">
@@ -92,8 +120,12 @@ const Clients = () => {
               <Text>No clients match your search</Text>
             )}
             {filteredClients.length >= 1 &&
-              filteredClients.map((client, index) => (
-                <ClientCard key={index} client={client} />
+              filteredClients.map((client) => (
+                <ClientCard
+                  key={client.id}
+                  client={client}
+                  updateClients={updateClients}
+                />
               ))}
           </Flex>
         </section>

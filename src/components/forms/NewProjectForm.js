@@ -10,7 +10,7 @@ import {
   Select,
   Checkbox,
 } from "@chakra-ui/react";
-import { mockClients } from "../../data/api";
+import { mockClients } from "../../data/mockData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDollarSign,

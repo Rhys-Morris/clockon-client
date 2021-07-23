@@ -15,7 +15,7 @@ import {
   faDollarSign,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { mockProjects } from "../data/api";
+import { mockProjects } from "../data/mockData";
 import ProjectCard from "./cards/ProjectCard";
 import Sidebar from "./Sidebar";
 

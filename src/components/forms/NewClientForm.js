@@ -6,6 +6,7 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 const NewClientForm = ({ action, onClose }) => {
   const [name, setName] = React.useState("");
@@ -14,11 +15,32 @@ const NewClientForm = ({ action, onClose }) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    action({
-      name,
-      contact,
-      email,
-    });
+    axios
+      .post(
+        "http://localhost:4000/clients",
+        {
+          client: {
+            name,
+            contact,
+            email,
+            active: true,
+          },
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.clients) action(res.data.clients);
+        if (res.data.errors) {
+          // TO IMPLEMENT
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   return (

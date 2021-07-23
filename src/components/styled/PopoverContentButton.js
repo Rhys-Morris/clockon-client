@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 
 const PopoverContentButton = styled.button`
   background: ${(props) => (props.color ? props.color : "#eee")};
-  padding: 4px 8px;
+  padding: 2px 4px;
   border-radius: 7px;
-  opacity: 0.8;
+  opacity: 0.7;
+  color: white;
   text-align: left;
   outline: none;
-  margin: 2px 0;
+  margin: 1px 0;
+  font-size: 14px;
   border: none;
 
   &:hover {
