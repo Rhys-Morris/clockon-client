@@ -1,10 +1,24 @@
 import React from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDollarSign,
+  faTimes,
+  faSortDown,
+  faSortUp,
+} from "@fortawesome/free-solid-svg-icons";
+import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
+import { destroyProject } from "../../data/api";
 
-const ProjectCard = ({ project }) => {
-  console.log(project);
+const ProjectCard = ({ project, dispatch }) => {
+  const dueDate = project.due_date;
+
+  const destroyCard = () => {
+    destroyProject(project.id).then((data) =>
+      dispatch({ type: "setProjects", data: data.projects })
+    );
+  };
+
   return (
     <Flex
       align="center"
@@ -34,11 +48,21 @@ const ProjectCard = ({ project }) => {
         {project.client}
       </Text>
       <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
-        {project.hoursLogged}
+        {project.hours}
       </Text>
       <Text fontSize="xs" casing="uppercase" flex="2" textAlign="center">
-        {project.dueDate}
+        {dueDate}
       </Text>
+      <ConfirmDestroyModal
+        trigger={
+          <FontAwesomeIcon
+            icon={faTimes}
+            color="rgba(255, 0, 0, .4)"
+            style={{ cursor: "pointer" }}
+          />
+        }
+        action={destroyCard}
+      />
     </Flex>
   );
 };

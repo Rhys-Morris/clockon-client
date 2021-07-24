@@ -19,6 +19,24 @@ const destroyClient = (id) => {
     .then((res) => res.data);
 };
 
+const addClient = (clientDetails) => {
+  const { name, contact, email } = clientDetails;
+  return axios
+    .post(
+      "http://localhost:4000/clients",
+      {
+        client: {
+          name,
+          contact,
+          email,
+          active: true,
+        },
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
 const updateClient = (clientDetails) => {
   const { id, name, contact, email, active } = clientDetails;
   return axios
@@ -37,4 +55,47 @@ const updateClient = (clientDetails) => {
     .then((res) => res.data);
 };
 
-export { getClients, destroyClient, updateClient };
+// ----- PROJECTS -----
+
+const getProjects = () => {
+  return axios
+    .get("http://localhost:4000/projects", AUTH_HEADER)
+    .then((res) => res.data);
+};
+
+const addProject = (projectDetails) => {
+  const { name, color, billable, clientId, dueDate } = projectDetails;
+  return axios
+    .post(
+      "http://localhost:4000/projects",
+      {
+        project: {
+          name,
+          color,
+          billable,
+          hours: 0,
+          active: true,
+          client_id: clientId,
+          due_date: dueDate,
+        },
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
+const destroyProject = (id) => {
+  return axios
+    .delete(`http://localhost:4000/projects/${id}`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
+export {
+  getClients,
+  destroyClient,
+  updateClient,
+  addClient,
+  getProjects,
+  addProject,
+  destroyProject,
+};

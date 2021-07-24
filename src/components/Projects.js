@@ -14,43 +14,60 @@ import {
   faClipboardList,
   faDollarSign,
   faUser,
+  faTimes,
+  faSortDown,
+  faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { mockProjects } from "../data/mockData";
 import ProjectCard from "./cards/ProjectCard";
 import Sidebar from "./Sidebar";
-
-// STYLING
-const iconMarginRight = {
-  marginRight: "5px",
-};
-
-const inputStyle = {
-  width: "175px",
-};
-
-const activeSelectStyle = {
-  border: "2px solid gray",
-};
+import {
+  iconMarginRight,
+  inputStyle,
+  activeSelectStyle,
+} from "../style/projects";
+import { getProjects, addProject } from "../data/api";
+import { projectsReducer } from "../data/reducers";
 
 const Projects = () => {
-  // State
-  const [projects, setProjects] = React.useState([]);
-  // Filtering Projects
-  const [filteredProjects, setFilteredProjects] = React.useState([]);
-  const [filterClient, setFilterClient] = React.useState("");
-  const [filterProjectName, setFilterProjectName] = React.useState("");
-  const [filterBillable, setFilterBillable] = React.useState("both");
-  const [filterActive, setFilterActive] = React.useState("true");
+  // ----- STATE -----
 
-  // Load projects on render
+  const initialState = {
+    loading: false,
+    error: null,
+    projects: [],
+    filteredProjects: [],
+    filterClient: "",
+    filterProjectName: "",
+    filterBillable: "both",
+    filterActive: "true",
+    dueDateSortedFirst: "unsorted",
+  };
+  const [projectsState, dispatch] = React.useReducer(
+    projectsReducer,
+    initialState
+  );
+  const {
+    loading,
+    error,
+    projects,
+    filteredProjects,
+    filterClient,
+    filterProjectName,
+    filterBillable,
+    filterActive,
+    dueDateSortedFirst,
+  } = projectsState;
+
+  // ---- SET PROJECTS ON RENDER -----
   React.useEffect(() => {
-    setProjects([...mockProjects]);
+    getProjects().then((data) =>
+      dispatch({ type: "setProjects", data: data.projects })
+    );
   }, []);
 
-  // Filter Side Effect
+  // ----- FILTER PROJECTS ----
   React.useEffect(() => {
     let filtered = [...projects];
-    console.log(filtered);
     if (filterClient) {
       filtered = filtered.filter((p) =>
         p.client.match(new RegExp(filterClient, "i"))
@@ -70,16 +87,29 @@ const Projects = () => {
     }
     if (filterActive !== "both") {
       filtered = filtered.filter((p) => {
+        // BUG HERE
         if (filterActive === "true" && p.active) return true;
-        if (filterActive === "false" && !p.active) return true;
+        if (filterActive === "false" && !p.active) {
+          return true;
+        }
         return false;
       });
     }
-    setFilteredProjects(filtered);
-  }, [projects, filterProjectName, filterClient, filterBillable, filterActive]);
+    dispatch({ type: "setFilteredProjects", data: filtered });
+  }, [
+    projects,
+    filterProjectName,
+    filterClient,
+    filterBillable,
+    filterActive,
+    dueDateSortedFirst,
+  ]);
 
-  const addProject = (project) => {
-    setProjects([...projects, project]);
+  // ----- ADD PROJECT -----
+  const addNewProject = (project) => {
+    addProject(project).then((data) =>
+      dispatch({ type: "setProjects", data: data.projects })
+    );
   };
 
   return (
@@ -105,7 +135,7 @@ const Projects = () => {
             <Heading color="gray.800" fontSize="xl">
               Projects
             </Heading>
-            <BaseNewModal type="Project" action={addProject} />
+            <BaseNewModal type="Project" action={addNewProject} />
           </Flex>
           {/* FILTER ROW */}
           <Flex
@@ -125,7 +155,9 @@ const Projects = () => {
                   placeholder="Client name"
                   style={inputStyle}
                   value={filterClient}
-                  onChange={(e) => setFilterClient(e.target.value)}
+                  onChange={(e) =>
+                    dispatch({ type: "setFilterClient", data: e.target.value })
+                  }
                 />
               </Center>
               <Center mr="10px">
@@ -137,18 +169,28 @@ const Projects = () => {
                   placeholder="Project name"
                   style={inputStyle}
                   value={filterProjectName}
-                  onChange={(e) => setFilterProjectName(e.target.value)}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "setFilterProjectName",
+                      data: e.target.value,
+                    })
+                  }
                 />
               </Center>
               <Center>
                 <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
                 <Select
                   value={filterBillable}
-                  onChange={(e) => setFilterBillable(e.target.value)}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "setFilterBillable",
+                      data: e.target.value,
+                    })
+                  }
                 >
                   <option value="both">Both</option>
-                  <option value={true}>Billable</option>
-                  <option value={false}>Non-billable</option>
+                  <option value="true">Billable</option>
+                  <option value="false">Non-billable</option>
                 </Select>
               </Center>
             </Flex>
@@ -156,10 +198,15 @@ const Projects = () => {
               <Select
                 style={activeSelectStyle}
                 value={filterActive}
-                onChange={(e) => setFilterActive(e.target.value)}
+                onChange={(e) =>
+                  dispatch({
+                    type: "setFilterActive",
+                    data: e.target.value,
+                  })
+                }
               >
-                <option value={true}>Active</option>
-                <option value={false}>Non-Active</option>
+                <option value="true"> Active</option>
+                <option value="false">Non-Active</option>
                 <option value="both">Both</option>
               </Select>
             </Center>
@@ -193,19 +240,57 @@ const Projects = () => {
               >
                 Hours Logged
               </Text>
-              <Text
-                fontSize="xs"
-                casing="uppercase"
-                flex="2"
-                textAlign="center"
-              >
-                Due Date
-              </Text>
+              <Flex justify="center" align="start" flex="2">
+                <Text
+                  fontSize="xs"
+                  casing="uppercase"
+                  textAlign="center"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    dueDateSortedFirst
+                      ? dispatch({ type: "sortDueDateLast" })
+                      : dispatch({ type: "sortDueDateFirst" });
+                  }}
+                >
+                  Due Date
+                </Text>
+                {dueDateSortedFirst && dueDateSortedFirst !== "unsorted" && (
+                  <FontAwesomeIcon
+                    icon={faSortDown}
+                    style={{
+                      marginLeft: "3px",
+                      position: "relative",
+                      top: "-4px",
+                    }}
+                  />
+                )}
+                {!dueDateSortedFirst && (
+                  <FontAwesomeIcon
+                    icon={faSortUp}
+                    style={{
+                      marginLeft: "3px",
+                      position: "relative",
+                      top: "3px",
+                    }}
+                  />
+                )}
+              </Flex>
+              {/* Keep spacing the same */}
+              <FontAwesomeIcon icon={faTimes} color="transparent" />
             </Flex>
             {/* Cards */}
-            {filteredProjects.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
+            {projects.length === 0 && (
+              <Text p="15px 30px">No projects currently active</Text>
+            )}
+            {projects.length >= 1 && filteredProjects.length === 0 && (
+              <Text p="15px 30px">No projects match your search</Text>
+            )}
+            {filteredProjects.length >= 1 &&
+              filteredProjects.map((p) => {
+                return (
+                  <ProjectCard key={p.id} project={p} dispatch={dispatch} />
+                );
+              })}
           </Flex>
         </section>
       </Box>

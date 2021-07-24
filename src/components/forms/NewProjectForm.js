@@ -10,7 +10,6 @@ import {
   Select,
   Checkbox,
 } from "@chakra-ui/react";
-import { mockClients } from "../../data/mockData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDollarSign,
@@ -18,6 +17,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { inputFormattedToday } from "../../helpers/date";
+import { getClients, addClient, addProject } from "../../data/api";
 
 const NewProjectForm = ({ action, onClose }) => {
   const [name, setName] = React.useState("");
@@ -33,21 +33,17 @@ const NewProjectForm = ({ action, onClose }) => {
     e.preventDefault();
     // STATE UPDATE
     action({
-      id: Math.ceil(Math.random() * 9999), // TO REMOVE
-      hoursLogged: 0,
       name,
       color: projectColor,
-      client,
-      dueDate,
       billable,
-      active: true,
+      dueDate,
+      clientId: client,
     });
-    // TO DO - SEND TO API
   };
 
   // Load in clients on render
   React.useEffect(() => {
-    setClients([...mockClients]);
+    getClients().then((data) => setClients(data.clients));
   }, []);
 
   // Add client via form
@@ -119,10 +115,9 @@ const NewProjectForm = ({ action, onClose }) => {
                 bg="green.300"
                 m="0 5px"
                 onClick={() => {
-                  setClients([
-                    ...clients,
-                    { name: newClient, contact: null, email: null },
-                  ]);
+                  addClient({ name: newClient })
+                    .then((res) => setClients([...res.clients]))
+                    .catch((e) => console.warn(e));
                   setAddNewClient(false);
                   setClient(newClient);
                 }}
@@ -146,7 +141,7 @@ const NewProjectForm = ({ action, onClose }) => {
           onChange={(e) => setClient(e.target.value)}
         >
           {clients.map((c, index) => (
-            <option key={index} value={c.name}>
+            <option key={index} value={c.id}>
               {c.name}
             </option>
           ))}
