@@ -19,6 +19,7 @@ import PopoverContentButton from "../styled/PopoverContentButton";
 import { destroyClient, updateClient } from "../../data/api";
 import { cardStyle, ellipsisStyle } from "../../style/clients";
 import { clientCardReducer } from "../../data/reducers";
+import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 
 const ClientCard = ({ client, updateClients }) => {
   // ----- STATE -----
@@ -93,6 +94,7 @@ const ClientCard = ({ client, updateClients }) => {
         bg={active ? "#4ddda1" : "rgba(255, 0, 0, .4)"}
         borderLeftRadius="10px"
       ></Box>
+      {/* POPOVER */}
       <Popover
         isLazy
         placement="right-start"
@@ -121,13 +123,21 @@ const ClientCard = ({ client, updateClients }) => {
               >
                 {edit ? "Confirm" : "Edit"}
               </PopoverContentButton>
-              <PopoverContentButton
-                color="#ff8080"
-                hoverColor="#ffb3b3"
-                onClick={destroyCard}
-              >
-                Delete
-              </PopoverContentButton>
+              <ConfirmDestroyModal
+                trigger={
+                  <PopoverContentButton
+                    color="#ff8080"
+                    hoverColor="#ffb3b3"
+                    style={{ width: "100%" }}
+                  >
+                    Delete
+                  </PopoverContentButton>
+                }
+                action={destroyCard}
+                message={
+                  "Clicking confirm will permanently delete this client, and all projects associated with this client."
+                }
+              />
             </Flex>
           </PopoverBody>
         </PopoverContent>
@@ -139,6 +149,7 @@ const ClientCard = ({ client, updateClients }) => {
         m="10px"
         w="100%"
       >
+        {/* STANDARD APPEARANCE */}
         {!edit && (
           <>
             <Box>
@@ -185,6 +196,7 @@ const ClientCard = ({ client, updateClients }) => {
             </Box>
           </>
         )}
+        {/* EDITING APPEARANCE */}
         {edit && (
           <>
             <FormControl>

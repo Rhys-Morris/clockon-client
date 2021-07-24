@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import NewButton from "../styled/NewButton";
 
-const ConfirmDestroyModal = ({ trigger, action }) => {
+const ConfirmDestroyModal = ({ trigger, action, message }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -25,7 +25,9 @@ const ConfirmDestroyModal = ({ trigger, action }) => {
           <ModalCloseButton />
           <ModalBody>
             <Text mb="30px">
-              Clicking confirm will remove this entry permanently.
+              {message
+                ? message
+                : "Clicking confirm will remove this entry permanently."}
             </Text>
             <NewButton
               primary="rgba(255, 0, 0, .6)"
