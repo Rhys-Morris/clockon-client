@@ -3,6 +3,7 @@ import Dashboard from "./components/Dashboard";
 import Clients from "./components/Clients";
 import Work from "./components/Work";
 import Projects from "./components/Projects";
+import Project from "./components/Project";
 import Register from "./components/Register";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "@fontsource/raleway/400.css";
@@ -21,6 +22,7 @@ function App() {
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/clients" component={Clients} />
               <Route exact path="/projects" component={Projects} />
+              <Route exact path="/project/:id" component={Project} />
               <Route exact path="/time" component={Work} />
             </Switch>
           </Box>

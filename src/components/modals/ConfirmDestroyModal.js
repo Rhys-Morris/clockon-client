@@ -17,7 +17,7 @@ const ConfirmDestroyModal = ({ trigger, action, message }) => {
 
   return (
     <>
-      <Box children={trigger} onClick={onOpen} />
+      <Box children={trigger} onClick={onOpen} id="destroy" />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

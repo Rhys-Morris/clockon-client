@@ -1,17 +1,14 @@
 import React from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDollarSign,
-  faTimes,
-  faSortDown,
-  faSortUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faDollarSign, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { destroyProject } from "../../data/api";
+import { useHistory } from "react-router-dom";
 
 const ProjectCard = ({ project, dispatch }) => {
   const dueDate = project.due_date;
+  const history = useHistory();
 
   const destroyCard = () => {
     destroyProject(project.id).then((data) =>
@@ -26,6 +23,15 @@ const ProjectCard = ({ project, dispatch }) => {
       fontWeight="bold"
       boxShadow="0 1px 2px 0 rgba(0, 0,0, .2)"
       p="15px 30px"
+      _hover={{
+        transition: ".3s",
+        bg: "#eeffff",
+        cursor: "pointer",
+      }}
+      onClick={(e) => {
+        if (e.target.closest("div").id !== "destroy")
+          history.push(`/project/${project.id}`);
+      }}
     >
       <Flex flex="2" align="center" justifyContent="space-between">
         <Flex align="center">

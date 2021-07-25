@@ -63,6 +63,12 @@ const getProjects = () => {
     .then((res) => res.data);
 };
 
+const getProject = (id) => {
+  return axios
+    .get(`http://localhost:4000/projects/${id}`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
 const addProject = (projectDetails) => {
   const { name, color, billable, clientId, dueDate } = projectDetails;
   return axios
@@ -96,6 +102,7 @@ export {
   updateClient,
   addClient,
   getProjects,
+  getProject,
   addProject,
   destroyProject,
 };
