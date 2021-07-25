@@ -96,6 +96,27 @@ const destroyProject = (id) => {
     .then((res) => res.data);
 };
 
+const updateProject = (projectDetails) => {
+  const { id, name, color, billable, active, clientId, dueDate } =
+    projectDetails;
+  return axios
+    .put(
+      `http://localhost:4000/projects/${id}`,
+      {
+        project: {
+          name,
+          color,
+          billable,
+          active,
+          client_id: clientId,
+          due_date: dueDate,
+        },
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
 export {
   getClients,
   destroyClient,
@@ -105,4 +126,5 @@ export {
   getProject,
   addProject,
   destroyProject,
+  updateProject,
 };

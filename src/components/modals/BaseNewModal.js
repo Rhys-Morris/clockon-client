@@ -11,8 +11,8 @@ import {
 import NewButton from "../styled/NewButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import NewClientForm from "../forms/NewClientForm";
-import NewProjectForm from "../forms/NewProjectForm";
+import ClientForm from "../forms/ClientForm";
+import ProjectForm from "../forms/ProjectForm";
 
 const BaseModal = ({ type, action }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,9 +33,9 @@ const BaseModal = ({ type, action }) => {
           <ModalCloseButton />
           <ModalBody>
             {type === "Project" ? (
-              <NewProjectForm action={action} onClose={onClose} />
+              <ProjectForm type="Create" action={action} onClose={onClose} />
             ) : (
-              <NewClientForm action={action} onClose={onClose} />
+              <ClientForm type="Create" action={action} onClose={onClose} />
             )}
           </ModalBody>
         </ModalContent>

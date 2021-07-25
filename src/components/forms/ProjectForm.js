@@ -17,15 +17,21 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { inputFormattedToday } from "../../helpers/date";
-import { getClients, addClient, addProject } from "../../data/api";
+import { getClients, addClient } from "../../data/api";
 
-const NewProjectForm = ({ action, onClose }) => {
-  const [name, setName] = React.useState("");
-  const [projectColor, setProjectColor] = React.useState("#22ff55");
+const NewProjectForm = ({ action, onClose, type, project }) => {
+  const [name, setName] = React.useState(project?.name || "");
+  const [projectColor, setProjectColor] = React.useState(
+    project?.color || "#22ff55"
+  );
   const [clients, setClients] = React.useState([]);
-  const [client, setClient] = React.useState("");
-  const [billable, setBillable] = React.useState(true);
-  const [dueDate, setDueDate] = React.useState(inputFormattedToday());
+  const [client, setClient] = React.useState(project?.client_id || "");
+  const [billable, setBillable] = React.useState(
+    project?.billable !== undefined ? project.billable : true
+  );
+  const [dueDate, setDueDate] = React.useState(
+    project?.due_date || inputFormattedToday()
+  );
   const [addNewClient, setAddNewClient] = React.useState(false);
   const [newClient, setNewClient] = React.useState("");
 
@@ -33,11 +39,13 @@ const NewProjectForm = ({ action, onClose }) => {
     e.preventDefault();
     // STATE UPDATE
     action({
+      id: project?.id,
       name,
       color: projectColor,
       billable,
       dueDate,
       clientId: client,
+      active: project?.active ? project.active : true,
     });
   };
 
@@ -47,7 +55,6 @@ const NewProjectForm = ({ action, onClose }) => {
   }, []);
 
   // Add client via form
-
   return (
     <form onSubmit={submitForm}>
       <FormControl isRequired>
@@ -171,7 +178,7 @@ const NewProjectForm = ({ action, onClose }) => {
               Billable:
             </FormLabel>
             <Checkbox
-              defaultIsChecked
+              isChecked={billable}
               pl="20px"
               onChange={(e) => setBillable(e.target.checked)}
             />
@@ -180,7 +187,7 @@ const NewProjectForm = ({ action, onClose }) => {
       </Flex>
       <Center mt="15px">
         <Button onClick={onClose} type="submit">
-          Create Project
+          {type} Project
         </Button>
       </Center>
     </form>

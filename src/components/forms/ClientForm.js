@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { addClient } from "../../data/api";
 
-const NewClientForm = ({ action, onClose }) => {
+const NewClientForm = ({ action, onClose, type }) => {
   const [name, setName] = React.useState("");
   const [contact, setContact] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -59,7 +59,7 @@ const NewClientForm = ({ action, onClose }) => {
       </FormControl>
       <Center mt="15px">
         <Button onClick={onClose} type="submit">
-          Create Client
+          {type} Client
         </Button>
       </Center>
     </form>

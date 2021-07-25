@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Spinner,
-  Button,
   Link as ChakraLink,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -14,7 +13,8 @@ import { getProject } from "../data/api";
 import Sidebar from "./Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import NewButton from "./styled/NewButton";
+import BaseEditModal from "./modals/BaseEditModal";
+import { updateProject } from "../data/api";
 
 const projectReducer = (state, action) => {
   switch (action.type) {
@@ -42,7 +42,19 @@ const Project = () => {
   );
   const { loading, project, error } = projectStore;
 
-  console.log(project);
+  const update = (project) => {
+    updateProject(project)
+      .then((data) => {
+        if (data.project) dispatch({ type: "success", data: data.project });
+        if (data.error) dispatch({ type: "failure", data: data.error });
+        console.log(data);
+      })
+      .catch((e) => {
+        console.warn(e);
+        dispatch({ type: "failure", data: e });
+      });
+  };
+
   // ----- FETCH PROJECT -----
   React.useEffect(() => {
     dispatch({ type: "request" });
@@ -107,7 +119,7 @@ const Project = () => {
                 {project?.client}
               </Text>
             </Flex>
-            <NewButton>Edit Project</NewButton>
+            <BaseEditModal type={"Project"} action={update} entity={project} />
           </Flex>
         </section>
       </Box>
