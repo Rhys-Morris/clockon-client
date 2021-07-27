@@ -15,37 +15,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import BaseEditModal from "./modals/BaseEditModal";
 import { updateProject } from "../data/api";
-
-const projectReducer = (state, action) => {
-  switch (action.type) {
-    case "request":
-      return { ...state, loading: true, error: null };
-    case "success":
-      return { ...state, loading: false, project: action.data };
-    case "failure":
-      return { ...state, loading: false, error: action.data };
-    default:
-      return { ...state };
-  }
-};
+import Tasks from "./Tasks";
+import Expenses from "./Expenses";
+import { projectReducer } from "../data/reducers";
 
 const Project = () => {
   const initialState = {
     error: null,
     loading: false,
     project: null,
+    tasks: null,
+    expenses: null,
   };
   const { id } = useParams();
   const [projectStore, dispatch] = React.useReducer(
     projectReducer,
     initialState
   );
-  const { loading, project, error } = projectStore;
+  const { loading, project, tasks, expenses, error } = projectStore;
 
+  // ----- UPDATE THE PROJECT -----
   const update = (project) => {
     updateProject(project)
       .then((data) => {
-        if (data.project) dispatch({ type: "success", data: data.project });
+        if (data.project)
+          dispatch({
+            type: "success",
+            project: data.project,
+          });
         if (data.error) dispatch({ type: "failure", data: data.error });
         console.log(data);
       })
@@ -55,12 +52,28 @@ const Project = () => {
       });
   };
 
+  // ---- DISPATCH TASK STATE UPDATES -----
+  const updateTasks = (tasks) => {
+    dispatch({ type: "updateTasks", data: tasks });
+  };
+
+  // ---- DISPATCH EXPENSE STATE UPDATES -----
+  const updateExpenses = (expenses) => {
+    dispatch({ type: "updateExpenses", data: expenses });
+  };
+
   // ----- FETCH PROJECT -----
   React.useEffect(() => {
     dispatch({ type: "request" });
     getProject(id)
       .then((data) => {
-        if (data.project) dispatch({ type: "success", data: data.project });
+        if (data.project)
+          dispatch({
+            type: "success",
+            project: data.project,
+            tasks: data.tasks,
+            expenses: data.expenses,
+          });
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
@@ -120,6 +133,28 @@ const Project = () => {
               </Text>
             </Flex>
             <BaseEditModal type={"Project"} action={update} entity={project} />
+          </Flex>
+          <Flex mt="20px" minHeight="80vh">
+            <Flex flex="1" direction="column" p="20px">
+              <Heading>Overview</Heading>
+            </Flex>
+            {/* Tasks */}
+            <Flex flex="1" direction="column">
+              <Tasks
+                flex="1"
+                tasks={tasks}
+                action={updateTasks}
+                projectId={project?.id}
+              />
+              {/* Expenses */}
+              <Flex flex="1" direction="column">
+                <Expenses
+                  expenses={expenses}
+                  action={updateExpenses}
+                  projectId={project?.id}
+                />
+              </Flex>
+            </Flex>
           </Flex>
         </section>
       </Box>

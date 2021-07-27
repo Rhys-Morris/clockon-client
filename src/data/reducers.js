@@ -63,4 +63,27 @@ const projectsReducer = (state, action) => {
   }
 };
 
-export { clientCardReducer, projectsReducer };
+const projectReducer = (state, action) => {
+  switch (action.type) {
+    case "request":
+      return { ...state, loading: true, error: null };
+    case "success":
+      return {
+        ...state,
+        loading: false,
+        project: action.project,
+        tasks: action.tasks,
+        expenses: action.expenses,
+      };
+    case "failure":
+      return { ...state, loading: false, error: action.data };
+    case "updateTasks":
+      return { ...state, tasks: action.data };
+    case "updateExpenses":
+      return { ...state, expenses: action.data };
+    default:
+      return { ...state };
+  }
+};
+
+export { clientCardReducer, projectsReducer, projectReducer };

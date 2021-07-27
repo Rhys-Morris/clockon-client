@@ -11,8 +11,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NewButton from "../styled/NewButton";
+import applicationColors from "../../style/colors";
 
-const ConfirmDestroyModal = ({ trigger, action, message }) => {
+const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -30,14 +31,21 @@ const ConfirmDestroyModal = ({ trigger, action, message }) => {
                 : "Clicking confirm will remove this entry permanently."}
             </Text>
             <NewButton
-              primary="rgba(255, 0, 0, .6)"
-              hoverColor="rgba(255, 0, 0, .4)"
+              primary={applicationColors.ERROR_COLOR}
+              hoverColor={applicationColors.SOFT_ERROR_COLOR}
               style={{ marginRight: "10px" }}
               onClick={action}
             >
               Confirm
             </NewButton>
-            <NewButton onClick={onClose}>Return</NewButton>
+            <NewButton
+              onClick={() => {
+                onClose();
+                closePopover();
+              }}
+            >
+              Return
+            </NewButton>
           </ModalBody>
         </ModalContent>
       </Modal>

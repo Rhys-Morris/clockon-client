@@ -20,6 +20,7 @@ import { destroyClient, updateClient } from "../../data/api";
 import { cardStyle, ellipsisStyle } from "../../style/clients";
 import { clientCardReducer } from "../../data/reducers";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
+import applicationColors from "../../style/colors";
 
 const ClientCard = ({ client, updateClients }) => {
   // ----- STATE -----
@@ -91,7 +92,9 @@ const ClientCard = ({ client, updateClients }) => {
       <Box
         w="4px"
         h="100%"
-        bg={active ? "#4ddda1" : "rgba(255, 0, 0, .4)"}
+        bg={
+          active ? applicationColors.SOFT_GREEN : applicationColors.ERROR_COLOR
+        }
         borderLeftRadius="10px"
       ></Box>
       {/* POPOVER */}
@@ -111,8 +114,14 @@ const ClientCard = ({ client, updateClients }) => {
           <PopoverBody p="3px">
             <Flex direction="column">
               <PopoverContentButton
-                color={edit ? "#00ce78" : "#a5bee4"}
-                hoverColor={edit ? "#33d893" : "#bbceeb"}
+                color={
+                  edit ? applicationColors.GREEN : applicationColors.LIGHT_BLUE
+                }
+                hoverColor={
+                  edit
+                    ? applicationColors.SOFT_GREEN
+                    : applicationColors.SOFT_LIGHT_BLUE
+                }
                 onClick={() => {
                   if (edit) {
                     close();
@@ -126,8 +135,8 @@ const ClientCard = ({ client, updateClients }) => {
               <ConfirmDestroyModal
                 trigger={
                   <PopoverContentButton
-                    color="#ff8080"
-                    hoverColor="#ffb3b3"
+                    color={applicationColors.ERROR_COLOR}
+                    hoverColor={applicationColors.SOFT_ERROR_COLOR}
                     style={{ width: "100%" }}
                   >
                     Delete
@@ -191,7 +200,7 @@ const ClientCard = ({ client, updateClients }) => {
                 </Badge>
               </Flex>
               {error && (
-                <Text fontSize="xs" color="#ff8080">
+                <Text fontSize="xs" color={applicationColors.ERROR_COLOR}>
                   {error}
                 </Text>
               )}

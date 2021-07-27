@@ -5,6 +5,7 @@ import { faDollarSign, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { destroyProject } from "../../data/api";
 import { useHistory } from "react-router-dom";
+import applicationColors from "../../style/colors";
 
 const ProjectCard = ({ project, dispatch }) => {
   const dueDate = project.due_date;
@@ -25,7 +26,7 @@ const ProjectCard = ({ project, dispatch }) => {
       p="15px 30px"
       _hover={{
         transition: ".3s",
-        bg: "#eeffff",
+        bg: "#eeeeff",
         cursor: "pointer",
       }}
       onClick={(e) => {
@@ -63,7 +64,7 @@ const ProjectCard = ({ project, dispatch }) => {
         trigger={
           <FontAwesomeIcon
             icon={faTimes}
-            color="rgba(255, 0, 0, .4)"
+            color={applicationColors.SOFT_ERROR_COLOR}
             style={{ cursor: "pointer" }}
           />
         }

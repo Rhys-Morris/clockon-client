@@ -5,4 +5,5 @@ const theme = extendTheme({
     body: "Raleway",
   },
 });
+
 export default theme;

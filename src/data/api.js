@@ -117,6 +117,74 @@ const updateProject = (projectDetails) => {
     .then((res) => res.data);
 };
 
+const createTask = (task) => {
+  return axios
+    .post(
+      `http://localhost:4000/tasks/${task.project_id}`,
+      {
+        task: {
+          ...task,
+          completed: false,
+        },
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
+const updateTask = (task) => {
+  return axios
+    .put(
+      `http://localhost:4000/tasks/${task.project_id}/${task.id}`,
+      {
+        task: {
+          ...task,
+        },
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
+const destroyTask = (projectId, taskId) => {
+  return axios
+    .delete(`http://localhost:4000/tasks/${projectId}/${taskId}`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
+const createExpense = (expense) => {
+  return axios
+    .post(
+      `http://localhost:4000/expenses/${expense.project_id}`,
+      {
+        expense,
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
+const updateExpense = (expense) => {
+  return axios
+    .put(
+      `http://localhost:4000/expenses/${expense.project_id}/${expense.id}`,
+      {
+        expense,
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
+const destroyExpense = (projectId, taskId) => {
+  return axios
+    .delete(
+      `http://localhost:4000/expenses/${projectId}/${taskId}`,
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
 export {
   getClients,
   destroyClient,
@@ -127,4 +195,10 @@ export {
   addProject,
   destroyProject,
   updateProject,
+  createTask,
+  updateTask,
+  destroyTask,
+  createExpense,
+  updateExpense,
+  destroyExpense,
 };

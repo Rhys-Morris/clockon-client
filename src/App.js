@@ -7,7 +7,7 @@ import Project from "./components/Project";
 import Register from "./components/Register";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "@fontsource/raleway/400.css";
-import theme from "./theme";
+import theme from "./style/theme";
 import LandingPage from "./components/LandingPage";
 
 function App() {

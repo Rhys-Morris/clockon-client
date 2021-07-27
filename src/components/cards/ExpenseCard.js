@@ -13,13 +13,8 @@ import { faEllipsisV, faCheck } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import PopoverContentButton from "../styled/PopoverContentButton";
 import applicationColors from "../../style/colors";
-import { destroyTask, updateTask } from "../../data/api";
+import { destroyExpense } from "../../data/api";
 import BaseEditModal from "../modals/BaseEditModal";
-
-const completedStyle = {
-  textDecoration: "line-through",
-  color: "lightgray",
-};
 
 const popoverButtonStyle = {
   background: applicationColors.LIGHT_BLUE,
@@ -33,25 +28,17 @@ const popoverButtonStyle = {
   },
 };
 
-const TaskCard = ({ task, updateTasksForProject }) => {
-  const [completed, setCompleted] = React.useState(task.completed);
-
+const ExpenseCard = ({ expense, updateExpensesForProject }) => {
   // ----- POPOVER STATE -----
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
 
-  // ----- UPDATE COMPLETED STATUS -----
-  const toggleChecked = () => {
-    updateTask({ ...task, completed: !completed });
-    setCompleted(!completed);
-  };
-
   // ----- DESTROY TASK -----
   const destroy = () => {
-    destroyTask(task.project_id, task.id)
+    destroyExpense(expense.project_id, expense.id)
       .then((data) => {
-        if (data.tasks) updateTasksForProject(data.tasks);
+        if (data.expenses) updateExpensesForProject(data.expenses);
         if (data.error) console.warn(data.error);
       })
       .catch((e) => console.warn(e));
@@ -65,33 +52,15 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       borderBottom="1px solid rgba(0, 0,0, .2)"
       p="10px 20px"
     >
-      <Text fontSize="xs" flex="2" style={completed ? completedStyle : null}>
-        {task.title}
+      <Text fontSize="xs" flex="2">
+        {expense.name}
       </Text>
-      <Text
-        fontSize="xs"
-        flex="1"
-        textAlign="center"
-        style={completed ? completedStyle : null}
-      >
-        {task.due_date ? task.due_date : "Not specified"}
+      <Text fontSize="xs" flex="1" textAlign="center">
+        {expense.date}
       </Text>
-      <Text
-        fontSize="xs"
-        flex="1"
-        textAlign="center"
-        style={completed ? completedStyle : null}
-      >
-        {task.estimated_hours}
+      <Text fontSize="xs" flex="1" textAlign="center">
+        {expense.cost}
       </Text>
-      <div onClick={toggleChecked} style={{ flex: ".3" }}>
-        <FontAwesomeIcon
-          icon={faCheck}
-          color={applicationColors.GREEN}
-          size="1x"
-          style={{ cursor: "pointer" }}
-        />
-      </div>
       {/* POPOVER */}
       <Popover isLazy placement="left" isOpen={isOpen}>
         <PopoverTrigger>
@@ -110,9 +79,9 @@ const TaskCard = ({ task, updateTasksForProject }) => {
             <Flex direction="column">
               <BaseEditModal
                 buttonStyle={popoverButtonStyle}
-                type={"Task"}
-                action={updateTasksForProject}
-                entity={task}
+                type={"Expense"}
+                action={updateExpensesForProject}
+                entity={expense}
                 closePopover={close}
               />
               <ConfirmDestroyModal
@@ -125,7 +94,10 @@ const TaskCard = ({ task, updateTasksForProject }) => {
                     Delete
                   </PopoverContentButton>
                 }
-                action={() => destroy()}
+                action={() => {
+                  destroy();
+                  close();
+                }}
                 message={
                   "Clicking confirm will permanently delete this client, and all projects associated with this client."
                 }
@@ -138,4 +110,4 @@ const TaskCard = ({ task, updateTasksForProject }) => {
     </Flex>
   );
 };
-export default TaskCard;
+export default ExpenseCard;
