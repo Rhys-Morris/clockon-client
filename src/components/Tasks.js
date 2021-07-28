@@ -15,15 +15,15 @@ import applicationColors from "../style/colors";
 const Tasks = ({ projectId, tasks, action }) => {
   const [dueDateSorted, setDueDateSorted] = React.useState(null);
   const [hoursSorted, setHoursSorted] = React.useState(null);
-  const [showCompleted, setShowCompleted] = React.useState(true);
+  const [showCompleted, setShowCompleted] = React.useState(false);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
 
   // Prevent filtered tasks from improperly updating
   React.useEffect(() => {
-    setFilteredTasks(tasks);
+    setFilteredTasks(
+      showCompleted ? tasks : tasks?.filter((task) => task.completed === false)
+    );
   }, [tasks]);
-
-  console.log(tasks);
 
   return (
     <Flex
@@ -42,9 +42,14 @@ const Tasks = ({ projectId, tasks, action }) => {
             mr="20px"
             _hover={{ color: "gray.500", cursor: "pointer" }}
             onClick={() => {
-              setFilteredTasks(
-                tasks.filter((task) => task.completed === !showCompleted)
-              );
+              // Toggle to show all
+              if (showCompleted === false) setFilteredTasks(tasks);
+              // Toggle to show non-completed only
+              if (showCompleted === true) {
+                setFilteredTasks(
+                  tasks.filter((task) => task.completed === false)
+                );
+              }
               setShowCompleted(!showCompleted);
             }}
           >
@@ -167,7 +172,7 @@ const Tasks = ({ projectId, tasks, action }) => {
       )}
       {tasks?.length > 0 &&
         filteredTasks?.length > 0 &&
-        tasks.map((task) => (
+        filteredTasks.map((task) => (
           <TaskCard key={task.id} task={task} updateTasksForProject={action} />
         ))}
     </Flex>

@@ -43,7 +43,9 @@ const TaskCard = ({ task, updateTasksForProject }) => {
 
   // ----- UPDATE COMPLETED STATUS -----
   const toggleChecked = () => {
-    updateTask({ ...task, completed: !completed });
+    updateTask({ ...task, completed: !completed }).then((data) => {
+      if (data.tasks) updateTasksForProject(data.tasks);
+    });
     setCompleted(!completed);
   };
 
@@ -66,7 +68,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       p="10px 20px"
     >
       <Text fontSize="sm" flex="2" style={completed ? completedStyle : null}>
-        {task.title}
+        {task.title.length > 40 ? `${task.title.slice(0, 40)}...` : task.title}
       </Text>
       <Text
         fontSize="sm"
