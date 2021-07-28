@@ -1,4 +1,3 @@
-// Sort an array new to old by the due_date property
 const sortByDate = (array, direction, property) => {
   if (direction === "first") {
     return array.sort((a, b) =>
@@ -21,4 +20,6 @@ const sortByNumeric = (array, direction, property) => {
   }
 };
 
-export { sortByDate, sortByNumeric };
+const formatTimestamp = (date, time) => `${date} ${time}`;
+
+export { sortByDate, sortByNumeric, formatTimestamp };

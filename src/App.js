@@ -1,7 +1,7 @@
 import { ChakraProvider, Center, Box } from "@chakra-ui/react";
 import Dashboard from "./components/Dashboard";
 import Clients from "./components/Clients";
-import Work from "./components/Work";
+import Time from "./components/Time";
 import Projects from "./components/Projects";
 import Project from "./components/Project";
 import Register from "./components/Register";
@@ -23,7 +23,7 @@ function App() {
               <Route exact path="/clients" component={Clients} />
               <Route exact path="/projects" component={Projects} />
               <Route exact path="/project/:id" component={Project} />
-              <Route exact path="/time" component={Work} />
+              <Route exact path="/time" component={Time} />
             </Switch>
           </Box>
         </Center>

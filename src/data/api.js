@@ -185,6 +185,26 @@ const destroyExpense = (projectId, taskId) => {
     .then((res) => res.data);
 };
 
+//  WORK PERIODS
+
+const getWorkPeriods = () => {
+  return axios
+    .get("http://localhost:4000/work", AUTH_HEADER)
+    .then((res) => res.data);
+};
+
+const createWorkPeriod = (workPeriod) => {
+  return axios
+    .post(
+      `http://localhost:4000/work/${workPeriod.project_id}`,
+      {
+        work_period: workPeriod,
+      },
+      AUTH_HEADER
+    )
+    .then((res) => res.data);
+};
+
 export {
   getClients,
   destroyClient,
@@ -201,4 +221,6 @@ export {
   createExpense,
   updateExpense,
   destroyExpense,
+  getWorkPeriods,
+  createWorkPeriod,
 };
