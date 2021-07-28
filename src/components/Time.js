@@ -8,6 +8,7 @@ import {
   MILLISECONDS_IN_DAY,
   MILLISECONDS_IN_WEEK,
 } from "../helpers/date";
+import WorkPeriodCard from "./cards/WorkPeriodCard";
 
 const Work = () => {
   const [workPeriods, setWorkPeriods] = React.useState([]);
@@ -42,6 +43,7 @@ const Work = () => {
     );
   };
 
+  console.log(workPeriods);
   return (
     <Flex h="100%">
       <Box
@@ -63,29 +65,57 @@ const Work = () => {
           <Flex
             direction="column"
             justify="center"
-            align="center"
+            align="flex-start"
             mt="20px"
-            p="30px"
+            p="30px 100px"
           >
-            <Heading as="h2" size="lg" fontWeight="400" mb="10px">
+            <Heading
+              as="h2"
+              size="lg"
+              fontWeight="400"
+              mb="10px"
+              alignSelf="center"
+            >
               Add a new work period
             </Heading>
             <WorkPeriodForm updateCurrentView={updateCurrentView} />
-            <Heading as="h3">Recent Work</Heading>
+            <Heading as="h3" fontWeight="300" mt="50px" size="lg">
+              Recent Work
+            </Heading>
             {/* Today */}
-            <Heading as="h4">Today</Heading>
+            <Heading
+              as="h4"
+              fontWeight="300"
+              mt="10px"
+              size="md"
+              textTransform="uppercase"
+            >
+              Today
+            </Heading>
             {workPeriods?.length > 0 && today().length === 0 && (
               <Text>No work completed in the last 24 hours</Text>
             )}
             {workPeriods?.length > 0 &&
-              today().map((wp) => <p key={wp.id}>{wp.title}</p>)}
+              today().map((wp) => (
+                <WorkPeriodCard key={wp.id} workPeriod={wp} />
+              ))}
             {/* This Week */}
-            <Heading as="h4">This Week</Heading>
+            <Heading
+              as="h4"
+              fontWeight="300"
+              mt="30px"
+              size="md"
+              textTransform="uppercase"
+            >
+              This Week
+            </Heading>
             {workPeriods?.length > 0 && lastWeek().length === 0 && (
               <Text>No work completed in the last week</Text>
             )}
             {workPeriods?.length > 0 &&
-              lastWeek().map((wp) => <p key={wp.id}>{wp.title}</p>)}
+              lastWeek().map((wp) => (
+                <WorkPeriodCard key={wp.id} workPeriod={wp} />
+              ))}
           </Flex>
         </section>
       </Box>

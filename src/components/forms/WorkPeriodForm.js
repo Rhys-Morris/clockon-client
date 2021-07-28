@@ -13,6 +13,7 @@ import { getProjects, createWorkPeriod } from "../../data/api";
 import applicationColors from "../../style/colors";
 import { formatTimestamp } from "../../helpers/helper";
 import { msTimestamp } from "../../helpers/date";
+import NewButton from "../styled/NewButton";
 
 const WorkPeriodForm = ({ updateCurrentView }) => {
   const [projects, setProjects] = React.useState([]);
@@ -67,7 +68,8 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
     });
   };
 
-  const reset = () => {
+  const reset = (e) => {
+    e.preventDefault();
     setTitle("");
     setStartDate("");
     setStartTime("");
@@ -76,14 +78,14 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
   };
 
   return (
-    <Box w="80%">
+    <Box w="80%" alignSelf="center">
       <form onSubmit={onSubmit}>
         <Flex
           align="center"
           justify="center"
           width="100%"
-          p="30px"
-          border={`2px solid ${applicationColors.SOFT_LIGHT_BLUE}`}
+          p="50px"
+          border={`2px solid #eee`}
           borderRadius="10px"
         >
           <Flex direction="column" flex="3.2" mr="30px">
@@ -113,23 +115,21 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               </Select>
             </Flex>
           </Flex>
-          <Flex direction="column" flex="1" m="0 10px">
+          <Flex direction="column" m="0 10px">
             <FormControl>
-              <FormLabel size="xs" color="gray.400" m="0">
+              <FormLabel size="xs" color="gray.500" m="0">
                 Start Date:
               </FormLabel>
               <Input
-                flex="1"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
               <FormControl mt="10px">
-                <FormLabel size="xs" color="gray.400" m="0">
+                <FormLabel size="xs" color="gray.500" m="0">
                   Start Time:
                 </FormLabel>
                 <Input
-                  flex="1"
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
@@ -137,23 +137,21 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               </FormControl>
             </FormControl>
           </Flex>
-          <Flex direction="column" flex="1" m="0 10px">
+          <Flex direction="column" m="0 10px">
             <FormControl>
-              <FormLabel size="xs" color="gray.400" m="0">
+              <FormLabel size="xs" color="gray.500" m="0">
                 End Date:
               </FormLabel>
               <Input
-                flex="1"
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
               />
               <FormControl mt="10px">
-                <FormLabel size="xs" color="gray.400" m="0">
+                <FormLabel size="xs" color="gray.500" m="0">
                   End Time:
                 </FormLabel>
                 <Input
-                  flex="1"
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
@@ -161,11 +159,16 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               </FormControl>
             </FormControl>
           </Flex>
-          <Flex direction="column" ml="20px">
-            <Button type="submit" mb="10px">
+          <Flex direction="column" ml="20px" flex=".75">
+            <NewButton
+              type="submit"
+              style={{ marginBottom: "15px", textAlign: "center" }}
+            >
               Submit
-            </Button>
-            <Button onClick={reset}>Reset</Button>
+            </NewButton>
+            <NewButton style={{ textAlign: "center" }} onClick={reset}>
+              Reset
+            </NewButton>
           </Flex>
         </Flex>
       </form>
