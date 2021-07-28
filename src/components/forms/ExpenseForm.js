@@ -67,7 +67,7 @@ const ExpenseForm = ({
     const expenseDetails = {
       name,
       date,
-      cost,
+      cost: cost.toFixed(2), // Ensure to 2 decimal places
     };
     e.preventDefault();
     if (type === "Create") {

@@ -70,7 +70,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       </Text>
       <Text
         fontSize="sm"
-        flex="1"
+        flex="1.25"
         textAlign="center"
         style={completed ? completedStyle : null}
       >
@@ -78,7 +78,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       </Text>
       <Text
         fontSize="sm"
-        flex="1"
+        flex="1.25"
         textAlign="center"
         style={completed ? completedStyle : null}
       >
@@ -95,7 +95,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       {/* POPOVER */}
       <Popover isLazy placement="left" isOpen={isOpen}>
         <PopoverTrigger>
-          <div onClick={toggleOpen} class="popover-trigger">
+          <div onClick={toggleOpen}>
             <FontAwesomeIcon
               icon={faEllipsisV}
               color="gray"
@@ -104,7 +104,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent w="100px" class="inside">
+        <PopoverContent w="100px">
           <PopoverArrow />
           <PopoverBody p="3px">
             <Flex direction="column">

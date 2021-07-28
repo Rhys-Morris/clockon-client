@@ -17,7 +17,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
     task?.due_date || inputFormattedToday()
   );
   const [estimatedHours, setEstimatedHours] = React.useState(
-    task?.estimated_hours || ""
+    task?.estimated_hours || 0
   );
   const [error, setError] = React.useState(null);
 
@@ -60,7 +60,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
     const taskDetails = {
       title,
       due_date: dueDate,
-      estimated_hours: estimatedHours,
+      estimated_hours: Number.parseFloat(estimatedHours).toFixed(2),
     };
     e.preventDefault();
     if (type === "Create") {

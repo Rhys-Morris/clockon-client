@@ -55,16 +55,16 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
       <Text fontSize="sm" flex="2">
         {expense.name}
       </Text>
-      <Text fontSize="sm" flex="1" textAlign="center">
+      <Text fontSize="sm" flex="1.25" textAlign="center">
         {expense.date}
       </Text>
-      <Text fontSize="sm" flex="1" textAlign="center">
-        {expense.cost}
+      <Text fontSize="sm" flex="1.25" textAlign="center">
+        ${expense.cost}
       </Text>
       {/* POPOVER */}
       <Popover isLazy placement="left" isOpen={isOpen}>
         <PopoverTrigger>
-          <div onClick={toggleOpen} class="popover-trigger">
+          <div onClick={toggleOpen}>
             <FontAwesomeIcon
               icon={faEllipsisV}
               color="gray"
@@ -73,7 +73,7 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent w="100px" class="inside">
+        <PopoverContent w="100px">
           <PopoverArrow />
           <PopoverBody p="3px">
             <Flex direction="column">

@@ -12,13 +12,13 @@ const sortByDate = (array, direction, property) => {
   }
 };
 
-const sortByDueDateFirst = (array) =>
-  array.sort((a, b) =>
-    new Date(a.due_date).getTime() > new Date(b.due_date).getTime() ? 1 : -1
-  );
-const sortByDueDateLast = (array) =>
-  array.sort((a, b) =>
-    new Date(a.due_date).getTime() > new Date(b.due_date).getTime() ? -1 : 1
-  );
+const sortByNumeric = (array, direction, property) => {
+  if (direction === "first") {
+    return array.sort((a, b) => (a[property] > b[property] ? 1 : -1));
+  }
+  if (direction === "last") {
+    return array.sort((a, b) => (a[property] > b[property] ? -1 : 1));
+  }
+};
 
-export { sortByDate, sortByDueDateFirst, sortByDueDateLast };
+export { sortByDate, sortByNumeric };
