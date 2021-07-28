@@ -41,7 +41,7 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
             <NewButton
               onClick={() => {
                 onClose();
-                closePopover();
+                if (closePopover) closePopover();
               }}
             >
               Return

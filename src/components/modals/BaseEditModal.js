@@ -48,7 +48,7 @@ const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
   return (
     <>
       <NewButton style={buttonStyle} onClick={onOpen}>
-        Edit
+        Edit {type === "Project" ? type : null}
       </NewButton>
 
       <Modal

@@ -20,25 +20,7 @@ const LandingNav = () => {
           <Link mr="50px" fontSize="30" _hover={{ textDecoration: "none" }}>
             ClockOn
           </Link>
-          <Link
-            mr="50px"
-            fontSize="lg"
-            transition=".2s all"
-            borderBottom="2px solid transparent"
-            borderRadius="none"
-            _hover={{ borderBottom: "2px solid #eee" }}
-          >
-            Features
-          </Link>
-          <Link
-            transition=".2s all"
-            borderBottom="2px solid transparent"
-            borderRadius="none"
-            _hover={{ borderBottom: "2px solid #eee" }}
-            fontSize="lg"
-          >
-            About
-          </Link>
+          {/* Feature, About Links here if time */}
         </Flex>
         <Flex align="center">
           <LoginModal />

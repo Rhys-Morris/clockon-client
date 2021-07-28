@@ -51,7 +51,12 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
 
   // Load in clients on render
   React.useEffect(() => {
-    getClients().then((data) => setClients(data.clients));
+    getClients().then((data) => {
+      setClients(data.clients);
+      if (client === "") {
+        setClient(data.clients[0].id);
+      }
+    });
   }, []);
 
   // Add client via form
@@ -123,10 +128,12 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
                 m="0 5px"
                 onClick={() => {
                   addClient({ name: newClient })
-                    .then((res) => setClients([...res.clients]))
+                    .then((res) => {
+                      setClients([...res.clients]);
+                      setClient(res.clients[res.clients.length - 1].id);
+                    })
                     .catch((e) => console.warn(e));
                   setAddNewClient(false);
-                  setClient(newClient);
                 }}
               >
                 <FontAwesomeIcon icon={faCheck} />

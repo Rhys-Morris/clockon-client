@@ -20,7 +20,7 @@ const Hero = () => {
       direction="column"
       align="start"
       justify="center"
-      minHeight="85vh"
+      minHeight="100vh"
       style={{
         backgroundImage:
           "linear-gradient(to bottom, rgba(57, 70, 88, .5), rgba(57, 70, 88, .5))",

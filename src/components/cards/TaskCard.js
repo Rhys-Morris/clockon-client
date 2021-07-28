@@ -65,11 +65,11 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       borderBottom="1px solid rgba(0, 0,0, .2)"
       p="10px 20px"
     >
-      <Text fontSize="xs" flex="2" style={completed ? completedStyle : null}>
+      <Text fontSize="sm" flex="2" style={completed ? completedStyle : null}>
         {task.title}
       </Text>
       <Text
-        fontSize="xs"
+        fontSize="sm"
         flex="1"
         textAlign="center"
         style={completed ? completedStyle : null}
@@ -77,7 +77,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
         {task.due_date ? task.due_date : "Not specified"}
       </Text>
       <Text
-        fontSize="xs"
+        fontSize="sm"
         flex="1"
         textAlign="center"
         style={completed ? completedStyle : null}

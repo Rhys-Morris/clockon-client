@@ -30,7 +30,6 @@ import { projectsReducer } from "../data/reducers";
 
 const Projects = () => {
   // ----- STATE -----
-
   const initialState = {
     loading: false,
     error: null,
@@ -47,8 +46,6 @@ const Projects = () => {
     initialState
   );
   const {
-    loading,
-    error,
     projects,
     filteredProjects,
     filterClient,
@@ -107,9 +104,9 @@ const Projects = () => {
 
   // ----- ADD PROJECT -----
   const addNewProject = (project) => {
-    addProject(project).then((data) =>
-      dispatch({ type: "setProjects", data: data.projects })
-    );
+    addProject(project).then((data) => {
+      dispatch({ type: "setProjects", data: data.projects });
+    });
   };
 
   return (

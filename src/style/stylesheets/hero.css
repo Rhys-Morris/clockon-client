@@ -1,7 +1,7 @@
 #video-bg {
     object-fit: cover;
     width: 100vw;
-    height: 85vh;
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;

@@ -52,13 +52,13 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
       borderBottom="1px solid rgba(0, 0,0, .2)"
       p="10px 20px"
     >
-      <Text fontSize="xs" flex="2">
+      <Text fontSize="sm" flex="2">
         {expense.name}
       </Text>
-      <Text fontSize="xs" flex="1" textAlign="center">
+      <Text fontSize="sm" flex="1" textAlign="center">
         {expense.date}
       </Text>
-      <Text fontSize="xs" flex="1" textAlign="center">
+      <Text fontSize="sm" flex="1" textAlign="center">
         {expense.cost}
       </Text>
       {/* POPOVER */}

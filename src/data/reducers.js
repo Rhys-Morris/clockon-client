@@ -1,4 +1,4 @@
-import { sortByDueDateFirst, sortByDueDateLast } from "../helpers/helper";
+import { sortByDate } from "../helpers/helper";
 
 const clientCardReducer = (state, action) => {
   switch (action.type) {
@@ -49,13 +49,11 @@ const projectsReducer = (state, action) => {
       return { ...state, filterActive: action.data };
     }
     case "sortDueDateFirst": {
-      const sortedProjects = sortByDueDateFirst(state.projects);
-      console.log(sortedProjects);
+      const sortedProjects = sortByDate(state.projects, "first", "due_date");
       return { ...state, projects: sortedProjects, dueDateSortedFirst: true };
     }
     case "sortDueDateLast": {
-      const sortedProjects = sortByDueDateLast(state.projects);
-      console.log(sortedProjects);
+      const sortedProjects = sortByDate(state.projects, "last", "due_date");
       return { ...state, projects: sortedProjects, dueDateSortedFirst: false };
     }
     default:

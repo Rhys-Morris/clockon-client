@@ -135,8 +135,8 @@ const Project = () => {
             <BaseEditModal type={"Project"} action={update} entity={project} />
           </Flex>
           <Flex mt="20px" minHeight="80vh">
-            <Flex flex="1" direction="column" p="20px">
-              <Heading>Overview</Heading>
+            <Flex flex="1" direction="column" p="10px 20px">
+              <Heading color="gray.700">Overview</Heading>
             </Flex>
             {/* Tasks */}
             <Flex flex="1" direction="column">

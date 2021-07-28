@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faCheck } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./cards/TaskCard";
 import BaseNewModal from "./modals/BaseNewModal";
+import { sortByDate } from "../helpers/helper";
 
 const Tasks = ({ projectId, tasks, action }) => {
+  const [dueDateSorted, setDueDateSorted] = React.useState(null);
   return (
     <Flex
       flex="1"
@@ -36,7 +38,21 @@ const Tasks = ({ projectId, tasks, action }) => {
         <Text fontSize="14px" casing="uppercase" flex="2">
           Task
         </Text>
-        <Text fontSize="sm" casing="uppercase" flex="1" textAlign="center">
+        <Text
+          fontSize="sm"
+          casing="uppercase"
+          flex="1"
+          textAlign="center"
+          // Sort by due date
+          onClick={() => {
+            const sortedTasks =
+              dueDateSorted === "first"
+                ? sortByDate(tasks, "last", "due_date")
+                : sortByDate(tasks, "first", "due_date");
+            setDueDateSorted(dueDateSorted !== "first" ? "first" : "last");
+            action(sortedTasks);
+          }}
+        >
           Due date
         </Text>
         <Text fontSize="sm" casing="uppercase" flex="1" textAlign="center">
