@@ -29,7 +29,6 @@ const Register = () => {
         email,
         password,
       })
-      .then((res) => console.log(res))
       .catch((err) => console.error(err));
   };
   return (

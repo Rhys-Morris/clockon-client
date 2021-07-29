@@ -70,7 +70,8 @@ const getProject = (id) => {
 };
 
 const addProject = (projectDetails) => {
-  const { name, color, billable, clientId, dueDate } = projectDetails;
+  const { name, color, billable, clientId, dueDate, billableRate } =
+    projectDetails;
   return axios
     .post(
       "http://localhost:4000/projects",
@@ -83,6 +84,7 @@ const addProject = (projectDetails) => {
           active: true,
           client_id: clientId,
           due_date: dueDate,
+          billable_rate: billableRate,
         },
       },
       AUTH_HEADER
@@ -97,7 +99,7 @@ const destroyProject = (id) => {
 };
 
 const updateProject = (projectDetails) => {
-  const { id, name, color, billable, active, clientId, dueDate } =
+  const { id, name, color, billable, active, clientId, dueDate, billableRate } =
     projectDetails;
   return axios
     .put(
@@ -110,6 +112,7 @@ const updateProject = (projectDetails) => {
           active,
           client_id: clientId,
           due_date: dueDate,
+          billable_rate: billableRate,
         },
       },
       AUTH_HEADER
@@ -198,7 +201,7 @@ const createWorkPeriod = (workPeriod) => {
     .post(
       `http://localhost:4000/work/${workPeriod.project_id}`,
       {
-        work_period: workPeriod,
+        work_period: { ...workPeriod, invoiced: false },
       },
       AUTH_HEADER
     )
@@ -208,6 +211,12 @@ const createWorkPeriod = (workPeriod) => {
 const destroyWorkPeriod = (projectId, id) => {
   return axios
     .delete(`http://localhost:4000/work/${projectId}/${id}`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
+const getUser = () => {
+  return axios
+    .get(`http://localhost:4000/user`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
@@ -230,4 +239,5 @@ export {
   getWorkPeriods,
   createWorkPeriod,
   destroyWorkPeriod,
+  getUser,
 };

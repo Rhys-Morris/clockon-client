@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import SidebarLink from "./styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,12 +13,28 @@ import {
 import { destroySession } from "../helpers/helper";
 import SettingsModal from "./modals/SettingsModal";
 import { WageConsumer } from "../contexts/hourlyRate";
+import { getUser } from "../data/api";
 
 const linkActive = {
   color: "#031424",
 };
 
 const Sidebar = () => {
+  const [user, setUser] = React.useState(null);
+  let history = useHistory();
+
+  React.useEffect(() => {
+    getUser()
+      .then((data) => {
+        if (data.user) setUser(data.user);
+      })
+      .catch((e) => {
+        if (e?.response?.status === 401) {
+          history.push("/401");
+        }
+      });
+  }, []);
+
   return (
     <Flex direction="column" h="100%" justify="space-between">
       <Flex direction="column">
@@ -73,8 +89,8 @@ const Sidebar = () => {
             Log Out
           </SidebarLink>
         </NavLink>
-        <Text>Rhys Morris</Text>
-        <Text fontSize="xs">rhysmorris08@gmail.com</Text>
+        <Text>{user?.name}</Text>
+        <Text fontSize="xs">{user?.email}</Text>
       </Box>
     </Flex>
   );

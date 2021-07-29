@@ -30,7 +30,6 @@ const Login = () => {
       })
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         if (data.error === "Invalid username or password") {
           setLoading(false);
           setError("Invalid username or password");

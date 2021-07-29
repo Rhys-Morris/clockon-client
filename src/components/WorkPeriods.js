@@ -4,7 +4,6 @@ import { Link as RouterLink } from "react-router-dom";
 import WorkPeriodRow from "./cards/WorkPeriodRow";
 
 const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
-  console.log(workPeriods);
   return (
     <Flex
       flex="1"

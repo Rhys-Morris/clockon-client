@@ -56,7 +56,6 @@ const Project = () => {
             project: data.project,
           });
         if (data.error) dispatch({ type: "failure", data: data.error });
-        console.log(data);
       })
       .catch((e) => {
         console.warn(e);
@@ -106,7 +105,6 @@ const Project = () => {
       });
   }, []);
 
-  console.log(project);
   return (
     <Flex h="100%">
       <Box

@@ -65,7 +65,6 @@ const ExpenseForm = ({
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log("submitting form");
     const expenseDetails = {
       name,
       date,

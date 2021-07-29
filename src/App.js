@@ -16,8 +16,6 @@ import { WageProvider, WageConsumer } from "./contexts/hourlyRate";
 function App() {
   const [hourlyRate, setHourlyRate] = React.useState(35.0);
 
-  console.log(typeof hourlyRate);
-
   const updateHourlyRate = (wage) => setHourlyRate(wage);
   return (
     <WageProvider value={{ hourlyRate, updateHourlyRate }}>

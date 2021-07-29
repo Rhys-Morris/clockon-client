@@ -51,7 +51,6 @@ const Work = () => {
     );
   };
 
-  console.log(workPeriods);
   return (
     <Flex h="100%">
       <Box

@@ -18,8 +18,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { inputFormattedToday } from "../../helpers/date";
 import { getClients, addClient } from "../../data/api";
+import WageContext from "../../contexts/hourlyRate";
 
 const NewProjectForm = ({ action, onClose, type, project }) => {
+  const globalHourlyRate = React.useContext(WageContext);
   const [name, setName] = React.useState(project?.name || "");
   const [projectColor, setProjectColor] = React.useState(
     project?.color || "#22ff55"
@@ -34,19 +36,25 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
   );
   const [addNewClient, setAddNewClient] = React.useState(false);
   const [newClient, setNewClient] = React.useState("");
+  const [billableRate, setBillableRate] = React.useState(
+    project?.billableRate || globalHourlyRate
+  );
 
   const submitForm = (e) => {
     e.preventDefault();
+    // TO DO - VALIDATION && ERROR HANDLING REQUIRED
     // STATE UPDATE
     action({
       id: project?.id,
       name,
       color: projectColor,
       billable,
+      billableRate,
       dueDate,
       clientId: client,
       active: project?.active ? project.active : true,
     });
+    onClose();
   };
 
   // Load in clients on render
@@ -161,6 +169,20 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
           ))}
         </Select>
       </FormControl>
+      <FormControl mb="15px">
+        <Flex direction="column">
+          <FormLabel fontSize="sm" m="0">
+            Billable Rate:
+          </FormLabel>
+          <Input
+            type="number"
+            mt="5px"
+            value={billableRate}
+            onChange={(e) => setBillableRate(e.target.value)}
+            placeholder="Leave blank to use base hourly rate"
+          />
+        </Flex>
+      </FormControl>
       <Flex align="start">
         <FormControl mb="15px">
           <FormLabel fontSize="sm" m="0">
@@ -193,9 +215,7 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
         </FormControl>
       </Flex>
       <Center mt="15px">
-        <Button onClick={onClose} type="submit">
-          {type} Project
-        </Button>
+        <Button type="submit">{type} Project</Button>
       </Center>
     </form>
   );
