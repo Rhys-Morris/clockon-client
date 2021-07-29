@@ -86,11 +86,11 @@ const Tasks = ({ projectId, tasks, action }) => {
             onClick={() => {
               const sortedTasks =
                 dueDateSorted === "first"
-                  ? sortByDate(tasks, "last", "due_date")
-                  : sortByDate(tasks, "first", "due_date");
+                  ? sortByDate(filteredTasks, "last", "due_date")
+                  : sortByDate(filteredTasks, "first", "due_date");
+              setFilteredTasks(sortedTasks);
               setDueDateSorted(dueDateSorted !== "first" ? "first" : "last");
               setHoursSorted(null);
-              action(sortedTasks);
             }}
           >
             Due date
@@ -127,11 +127,11 @@ const Tasks = ({ projectId, tasks, action }) => {
             onClick={() => {
               const sortedTasks =
                 hoursSorted === "first"
-                  ? sortByNumeric(tasks, "last", "estimated_hours")
-                  : sortByNumeric(tasks, "first", "estimated_hours");
+                  ? sortByNumeric(filteredTasks, "last", "estimated_hours")
+                  : sortByNumeric(filteredTasks, "first", "estimated_hours");
+              setFilteredTasks(sortedTasks);
               setHoursSorted(hoursSorted === "first" ? "last" : "first");
               setDueDateSorted(null);
-              action(sortedTasks);
             }}
           >
             Hour Estimate

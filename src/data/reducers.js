@@ -48,14 +48,6 @@ const projectsReducer = (state, action) => {
     case "setFilterActive": {
       return { ...state, filterActive: action.data };
     }
-    case "sortDueDateFirst": {
-      const sortedProjects = sortByDate(state.projects, "first", "due_date");
-      return { ...state, projects: sortedProjects, dueDateSortedFirst: true };
-    }
-    case "sortDueDateLast": {
-      const sortedProjects = sortByDate(state.projects, "last", "due_date");
-      return { ...state, projects: sortedProjects, dueDateSortedFirst: false };
-    }
     default:
       return { ...state };
   }
@@ -72,6 +64,7 @@ const projectReducer = (state, action) => {
         project: action.project,
         tasks: action.tasks,
         expenses: action.expenses,
+        workPeriods: action.workPeriods,
       };
     case "failure":
       return { ...state, loading: false, error: action.data };
@@ -79,6 +72,8 @@ const projectReducer = (state, action) => {
       return { ...state, tasks: action.data };
     case "updateExpenses":
       return { ...state, expenses: action.data };
+    case "updateWorkPeriods":
+      return { ...state, workPeriods: action.data };
     default:
       return { ...state };
   }

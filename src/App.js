@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider, Center, Box } from "@chakra-ui/react";
 import Dashboard from "./components/Dashboard";
 import Clients from "./components/Clients";
-import Time from "./components/Time";
+import Work from "./components/Work";
 import Projects from "./components/Projects";
 import Project from "./components/Project";
 import Register from "./components/Register";
@@ -13,7 +13,6 @@ import LandingPage from "./components/LandingPage";
 import Unauthorised from "./components/errorPages/401";
 import NoContent from "./components/errorPages/404";
 import { WageProvider, WageConsumer } from "./contexts/hourlyRate";
-
 function App() {
   const [hourlyRate, setHourlyRate] = React.useState(35.0);
 
@@ -39,7 +38,7 @@ function App() {
                     <WageConsumer>{() => <Project />}</WageConsumer>
                   )}
                 />
-                <Route exact path="/time" component={Time} />
+                <Route exact path="/work" component={Work} />
                 <Route exact path="/401" component={Unauthorised} />
                 <Route component={NoContent} />
               </Switch>

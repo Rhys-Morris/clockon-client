@@ -78,14 +78,14 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
   };
 
   return (
-    <Box w="80%" alignSelf="center">
+    <Box w="90%" alignSelf="center">
       <form onSubmit={onSubmit}>
         <Flex
           align="center"
           justify="center"
           width="100%"
           p="50px"
-          border={`2px solid #eee`}
+          border={`2px solid #dde`}
           borderRadius="10px"
         >
           <Flex direction="column" flex="3.2" mr="30px">
@@ -115,7 +115,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               </Select>
             </Flex>
           </Flex>
-          <Flex direction="column" m="0 10px">
+          <Flex direction="column" m="0 10px" width="200px">
             <FormControl>
               <FormLabel size="xs" color="gray.500" m="0">
                 Start Date:
@@ -137,7 +137,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               </FormControl>
             </FormControl>
           </Flex>
-          <Flex direction="column" m="0 10px">
+          <Flex direction="column" m="0 10px" width="200px">
             <FormControl>
               <FormLabel size="xs" color="gray.500" m="0">
                 End Date:

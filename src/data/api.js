@@ -205,6 +205,12 @@ const createWorkPeriod = (workPeriod) => {
     .then((res) => res.data);
 };
 
+const destroyWorkPeriod = (projectId, id) => {
+  return axios
+    .delete(`http://localhost:4000/work/${projectId}/${id}`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
 export {
   getClients,
   destroyClient,
@@ -223,4 +229,5 @@ export {
   destroyExpense,
   getWorkPeriods,
   createWorkPeriod,
+  destroyWorkPeriod,
 };
