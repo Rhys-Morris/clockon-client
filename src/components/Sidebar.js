@@ -52,10 +52,10 @@ const Sidebar = () => {
             Projects
           </SidebarLink>
         </NavLink>
-        <NavLink to="/time" activeStyle={linkActive}>
+        <NavLink to="/work" activeStyle={linkActive}>
           <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
             <FontAwesomeIcon icon={faClock} style={{ margin: "0 5px" }} />
-            Time
+            Work
           </SidebarLink>
         </NavLink>
         <Text fontSize="xs" casing="uppercase" mt="30px" mb="5px">
