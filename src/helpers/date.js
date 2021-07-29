@@ -42,6 +42,7 @@ const msToFormattedTime = (ms) => {
 };
 
 const MILLISECONDS_IN_DAY = 86400000;
+const MILLISECONDS_IN_HOUR = 3600000;
 const MILLISECONDS_IN_WEEK = 604800000;
 
 export {
@@ -50,4 +51,5 @@ export {
   msToFormattedTime,
   MILLISECONDS_IN_DAY,
   MILLISECONDS_IN_WEEK,
+  MILLISECONDS_IN_HOUR,
 };

@@ -64,12 +64,13 @@ const ExpenseForm = ({
   };
 
   const submitForm = (e) => {
+    e.preventDefault();
+    console.log("submitting form");
     const expenseDetails = {
       name,
       date,
-      cost: cost.toFixed(2), // Ensure to 2 decimal places
+      cost: Number.parseFloat(cost).toFixed(2), // Ensure to 2 decimal places
     };
-    e.preventDefault();
     if (type === "Create") {
       create({ ...expenseDetails, project_id: projectId });
     } else if (type === "Edit") {

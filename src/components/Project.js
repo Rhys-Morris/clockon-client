@@ -18,6 +18,12 @@ import { updateProject } from "../data/api";
 import Tasks from "./Tasks";
 import Expenses from "./Expenses";
 import { projectReducer } from "../data/reducers";
+import {
+  convertWorkToHours,
+  formattedWorkPeriodDuration,
+  sum,
+} from "../helpers/helper";
+import WageContext from "../contexts/hourlyRate";
 
 const Project = () => {
   const initialState = {
@@ -34,6 +40,7 @@ const Project = () => {
   );
   let history = useHistory();
   const { loading, project, tasks, expenses, error } = projectStore;
+  const wage = React.useContext(WageContext);
 
   // ----- UPDATE THE PROJECT -----
   const update = (project) => {
@@ -78,7 +85,7 @@ const Project = () => {
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
-        if (e.response.status === 401) {
+        if (e?.response?.status === 401) {
           history.push("/401");
         }
         console.warn(e);
@@ -139,8 +146,34 @@ const Project = () => {
             <BaseEditModal type={"Project"} action={update} entity={project} />
           </Flex>
           <Flex mt="20px" minHeight="80vh">
+            {/* Overview */}
             <Flex flex="1" direction="column" p="10px">
               <Heading color="gray.700">Overview</Heading>
+              <Flex direction="column">
+                <Heading as="h3">Total Time</Heading>
+                <Text>
+                  {formattedWorkPeriodDuration(project?.work_periods)}
+                </Text>
+              </Flex>
+              <Flex direction="column">
+                <Heading as="h3">Total Earnings</Heading>
+                <Text>
+                  {!project?.work_periods ||
+                  sum(convertWorkToHours(project.work_periods)) === 0
+                    ? "No current earnings"
+                    : `$${(
+                        sum(convertWorkToHours(project.work_periods)) * wage
+                      ).toFixed(2)}`}
+                </Text>
+              </Flex>
+              <Flex direction="column">
+                <Heading as="h3">Total Expense Cost</Heading>
+                <Text>
+                  {!expenses || sum(expenses.map((exp) => exp.cost)) === 0
+                    ? "No expenses"
+                    : `$${sum(expenses.map((exp) => exp.cost)).toFixed(2)}`}
+                </Text>
+              </Flex>
             </Flex>
             {/* Tasks */}
             <Flex flex="1" direction="column">

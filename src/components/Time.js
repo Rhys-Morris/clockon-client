@@ -94,11 +94,12 @@ const Work = () => {
             <Heading
               as="h4"
               fontWeight="300"
-              mt="10px"
+              mt="30px"
+              mb="10px"
               size="md"
               textTransform="uppercase"
             >
-              Today
+              Last 24 Hours
             </Heading>
             {workPeriods?.length > 0 && today().length === 0 && (
               <Text>No work completed in the last 24 hours</Text>
@@ -112,6 +113,7 @@ const Work = () => {
               as="h4"
               fontWeight="300"
               mt="30px"
+              mb="10px"
               size="md"
               textTransform="uppercase"
             >
