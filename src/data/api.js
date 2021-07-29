@@ -8,9 +8,9 @@ const AUTH_HEADER = {
 };
 
 const getClients = () => {
-  return axios
-    .get("http://localhost:4000/clients", AUTH_HEADER)
-    .then((res) => res.data);
+  return axios.get("http://localhost:4000/clients", AUTH_HEADER).then((res) => {
+    return res.data;
+  });
 };
 
 const destroyClient = (id) => {

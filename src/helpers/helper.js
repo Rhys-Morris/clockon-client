@@ -22,4 +22,8 @@ const sortByNumeric = (array, direction, property) => {
 
 const formatTimestamp = (date, time) => `${date} ${time}`;
 
-export { sortByDate, sortByNumeric, formatTimestamp };
+const destroySession = () => {
+  sessionStorage.clear();
+};
+
+export { sortByDate, sortByNumeric, formatTimestamp, destroySession };

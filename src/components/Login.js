@@ -22,6 +22,7 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     axios
       .post("http://localhost:4000/login", {
         email,
@@ -76,7 +77,6 @@ const Login = () => {
         type="submit"
         mt="15px"
         w="100%"
-        onClick={() => setLoading(true)}
       >
         {loading ? <Spinner /> : "Log in"}
       </Button>

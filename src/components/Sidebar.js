@@ -10,6 +10,7 @@ import {
   faClipboardList,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { destroySession } from "../helpers/helper";
 
 const linkActive = {
   color: "#031424",
@@ -57,13 +58,15 @@ const Sidebar = () => {
         </NavLink>
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
-        <SidebarLink
-          style={{ width: "100%", margin: "5px 0" }}
-          primary={"#CF6766"}
-        >
-          <FontAwesomeIcon icon={faSignOutAlt} style={{ margin: "0 5px" }} />
-          Log Out
-        </SidebarLink>
+        <NavLink to="/" onClick={destroySession}>
+          <SidebarLink
+            style={{ width: "100%", margin: "5px 0" }}
+            primary={"#CF6766"}
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} style={{ margin: "0 5px" }} />
+            Log Out
+          </SidebarLink>
+        </NavLink>
         <Text>Rhys Morris</Text>
         <Text fontSize="xs">rhysmorris08@gmail.com</Text>
       </Box>

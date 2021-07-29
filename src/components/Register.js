@@ -94,12 +94,6 @@ const Register = () => {
           >
             Register
           </Button>
-          <Text sz="xs" mt="10px">
-            Already have an account?{" "}
-            <Link to="/dashboard" style={{ textDecoration: "underline" }}>
-              Login
-            </Link>
-          </Text>
         </form>
         <Image
           ml="30px"

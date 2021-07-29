@@ -9,6 +9,8 @@ import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "@fontsource/raleway/400.css";
 import theme from "./style/theme";
 import LandingPage from "./components/LandingPage";
+import Unauthorised from "./components/errorPages/401";
+import NoContent from "./components/errorPages/404";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
               <Route exact path="/projects" component={Projects} />
               <Route exact path="/project/:id" component={Project} />
               <Route exact path="/time" component={Time} />
+              <Route exact path="/401" component={Unauthorised} />
+              <Route component={NoContent} />
             </Switch>
           </Box>
         </Center>

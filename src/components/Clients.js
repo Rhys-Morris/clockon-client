@@ -14,12 +14,14 @@ import ClientCard from "./cards/ClientCard";
 import BaseNewModal from "./modals/BaseNewModal";
 import Sidebar from "./Sidebar";
 import { getClients } from "../data/api";
+import { useHistory } from "react-router-dom";
 
 const Clients = () => {
   const [clients, setClients] = React.useState([]);
   const [filteredClients, setFilteredClients] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
   const [activeFilter, setActiveFilter] = React.useState("active");
+  let history = useHistory();
 
   //   On load get clients
   React.useEffect(() => {
@@ -29,7 +31,7 @@ const Clients = () => {
         setFilteredClients([...data.clients]);
       })
       .catch((e) => {
-        console.error(e);
+        if (e.response.status === 401) history.push("/401");
       });
     // TO DO - move to dispatch
   }, []);

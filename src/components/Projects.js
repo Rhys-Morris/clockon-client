@@ -27,6 +27,7 @@ import {
 } from "../style/projects";
 import { getProjects, addProject } from "../data/api";
 import { projectsReducer } from "../data/reducers";
+import { useHistory } from "react-router";
 
 const Projects = () => {
   // ----- STATE -----
@@ -54,12 +55,17 @@ const Projects = () => {
     filterActive,
     dueDateSortedFirst,
   } = projectsState;
+  let history = useHistory();
 
   // ---- SET PROJECTS ON RENDER -----
   React.useEffect(() => {
-    getProjects().then((data) =>
-      dispatch({ type: "setProjects", data: data.projects })
-    );
+    getProjects()
+      .then((data) => dispatch({ type: "setProjects", data: data.projects }))
+      .catch((e) => {
+        if (e.response.status === 401) {
+          history.push("/401");
+        }
+      });
   }, []);
 
   // ----- FILTER PROJECTS ----

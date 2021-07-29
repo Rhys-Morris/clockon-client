@@ -7,7 +7,7 @@ import {
   Spinner,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import { getProject } from "../data/api";
 import Sidebar from "./Sidebar";
@@ -32,6 +32,7 @@ const Project = () => {
     projectReducer,
     initialState
   );
+  let history = useHistory();
   const { loading, project, tasks, expenses, error } = projectStore;
 
   // ----- UPDATE THE PROJECT -----
@@ -77,6 +78,9 @@ const Project = () => {
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
+        if (e.response.status === 401) {
+          history.push("/401");
+        }
         console.warn(e);
         dispatch({
           type: "failure",

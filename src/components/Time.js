@@ -9,18 +9,26 @@ import {
   MILLISECONDS_IN_WEEK,
 } from "../helpers/date";
 import WorkPeriodCard from "./cards/WorkPeriodCard";
+import { useHistory } from "react-router-dom";
 
 const Work = () => {
   const [workPeriods, setWorkPeriods] = React.useState([]);
+  let history = useHistory();
 
   // GET WORK PERIODS ON RENDER
   React.useEffect(() => {
-    getWorkPeriods().then((data) => {
-      if (data.work_periods) {
-        setWorkPeriods(data.work_periods);
-      }
-      // ERROR HANDLING
-    });
+    getWorkPeriods()
+      .then((data) => {
+        if (data.work_periods) {
+          setWorkPeriods(data.work_periods);
+        }
+        // ERROR HANDLING
+      })
+      .catch((e) => {
+        if (e.response.status === 401) {
+          history.push("/401");
+        }
+      });
   }, []);
 
   // SET WORK PERIODS WHEN ALTERED DOWNSTREAM
