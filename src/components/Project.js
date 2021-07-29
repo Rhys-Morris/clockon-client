@@ -40,7 +40,7 @@ const Project = () => {
   );
   let history = useHistory();
   const { loading, project, tasks, expenses, error } = projectStore;
-  const wage = React.useContext(WageContext);
+  const { hourlyRate } = React.useContext(WageContext);
 
   // ----- UPDATE THE PROJECT -----
   const update = (project) => {
@@ -162,7 +162,8 @@ const Project = () => {
                   sum(convertWorkToHours(project.work_periods)) === 0
                     ? "No current earnings"
                     : `$${(
-                        sum(convertWorkToHours(project.work_periods)) * wage
+                        sum(convertWorkToHours(project.work_periods)) *
+                        hourlyRate
                       ).toFixed(2)}`}
                 </Text>
               </Flex>

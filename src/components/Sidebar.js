@@ -11,6 +11,8 @@ import {
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { destroySession } from "../helpers/helper";
+import SettingsModal from "./modals/SettingsModal";
+import { WageConsumer } from "../contexts/hourlyRate";
 
 const linkActive = {
   color: "#031424",
@@ -56,6 +58,10 @@ const Sidebar = () => {
             Time
           </SidebarLink>
         </NavLink>
+        <Text fontSize="xs" casing="uppercase" mt="30px" mb="5px">
+          Settings
+        </Text>
+        <WageConsumer>{() => <SettingsModal />}</WageConsumer>
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
         <NavLink to="/" onClick={destroySession}>
