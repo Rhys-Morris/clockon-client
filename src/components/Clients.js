@@ -31,7 +31,7 @@ const Clients = () => {
         setFilteredClients([...data.clients]);
       })
       .catch((e) => {
-        if (e.response.status === 401) history.push("/401");
+        if (e?.response?.status === 401) history.push("/401");
       });
     // TO DO - move to dispatch
   }, []);

@@ -25,7 +25,7 @@ const Work = () => {
         // ERROR HANDLING
       })
       .catch((e) => {
-        if (e.response.status === 401) {
+        if (e?.response?.status === 401) {
           history.push("/401");
         }
       });

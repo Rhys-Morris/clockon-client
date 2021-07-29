@@ -62,7 +62,7 @@ const Projects = () => {
     getProjects()
       .then((data) => dispatch({ type: "setProjects", data: data.projects }))
       .catch((e) => {
-        if (e.response.status === 401) {
+        if (e?.response?.status === 401) {
           history.push("/401");
         }
       });
