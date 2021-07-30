@@ -15,20 +15,27 @@ const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
         <Heading as="h3" fontWeight="bold" fontSize="2xl" color="gray.500">
           Recent Work Completed
         </Heading>
-        <Link as={RouterLink} to="/work">
+        <Link
+          as={RouterLink}
+          to="/work"
+          color="gray.600"
+          fontSize="lg"
+          _hover={{ textDecoration: "none", color: "gray.400" }}
+        >
           Add a new work period
         </Link>
       </Flex>
-      {workPeriods.length === 0 && (
+      {workPeriods?.length === 0 && (
         <Text m="10px 25px">No work currently undertaken</Text>
       )}
-      {workPeriods.map((wp) => (
-        <WorkPeriodRow
-          key={wp.id}
-          workPeriod={wp}
-          updateWorkPeriods={updateWorkPeriods}
-        />
-      ))}
+      {workPeriods &&
+        workPeriods.map((wp) => (
+          <WorkPeriodRow
+            key={wp.id}
+            workPeriod={wp}
+            updateWorkPeriods={updateWorkPeriods}
+          />
+        ))}
     </Flex>
   );
 };

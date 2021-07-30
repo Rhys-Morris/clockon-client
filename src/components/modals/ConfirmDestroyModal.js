@@ -34,7 +34,10 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
               primary={applicationColors.ERROR_COLOR}
               hoverColor={applicationColors.SOFT_ERROR_COLOR}
               style={{ marginRight: "10px" }}
-              onClick={action}
+              onClick={() => {
+                action();
+                onClose();
+              }}
             >
               Confirm
             </NewButton>

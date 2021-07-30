@@ -27,16 +27,16 @@ const msToFormattedTime = (ms) => {
   }
   let formatted = "";
   if (time.hours !== 0) {
-    formatted += time.hours === 1 ? "1 hour" : `${time.hours} hours`;
+    formatted += time.hours === 1 ? "1 hr" : `${time.hours} hrs`;
   }
   if (time.mins !== 0) {
     if (formatted && time.secs === 0) formatted += " and ";
     if (formatted && time.secs > 0) formatted += ", ";
-    formatted += time.mins === 1 ? "1 minute" : `${time.mins} minutes`;
+    formatted += time.mins === 1 ? "1 min" : `${time.mins} mins`;
   }
   if (time.secs !== 0) {
     if (formatted) formatted += " and ";
-    formatted += time.secs === 1 ? "1 second" : `${time.secs} seconds`;
+    formatted += time.secs === 1 ? "1 sec" : `${time.secs} secs`;
   }
   return formatted;
 };

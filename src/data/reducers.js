@@ -95,6 +95,8 @@ const projectReducer = (state, action) => {
       return { ...state, expenses: action.data };
     case "updateWorkPeriods":
       return { ...state, workPeriods: action.data };
+    case "setError":
+      return { ...state, error: action.data };
     default:
       return { ...state };
   }

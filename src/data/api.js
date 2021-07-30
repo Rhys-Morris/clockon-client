@@ -223,6 +223,12 @@ const destroyWorkPeriod = (projectId, id) => {
     .then((res) => res.data);
 };
 
+const invoiceWorkPeriods = (projectId) => {
+  return axios
+    .get(`${URL}/work/${projectId}/invoice`, AUTH_HEADER)
+    .then((res) => res.data);
+};
+
 export {
   register,
   getClients,
@@ -244,4 +250,5 @@ export {
   createWorkPeriod,
   destroyWorkPeriod,
   getUser,
+  invoiceWorkPeriods,
 };

@@ -14,7 +14,7 @@ import Sidebar from "./Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import BaseEditModal from "./modals/BaseEditModal";
-import { updateProject } from "../data/api";
+import { updateProject, invoiceWorkPeriods } from "../data/api";
 import Tasks from "./Tasks";
 import Expenses from "./Expenses";
 import WorkPeriods from "./WorkPeriods";
@@ -26,6 +26,8 @@ import {
 } from "../helpers/helper";
 import WageContext from "../contexts/hourlyRate";
 import applicationColors from "../style/colors";
+import NewButton from "./styled/NewButton";
+import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
 
 const Project = () => {
   const initialState = {
@@ -50,10 +52,14 @@ const Project = () => {
   const update = (project) => {
     updateProject(project)
       .then((data) => {
+        console.log(data);
         if (data.project)
           dispatch({
             type: "success",
             project: data.project,
+            expenses: data.expenses,
+            tasks: data.tasks,
+            workPeriods: data.project.work_periods,
           });
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
@@ -78,7 +84,22 @@ const Project = () => {
     dispatch({ type: "updateWorkPeriods", data: workPeriods });
   };
 
-  console.log(project);
+  // ----- UPDATE WORK PERIODS AS INVOICED -----
+  const markAsInvoiced = () => {
+    invoiceWorkPeriods(project.id)
+      .then((data) => {
+        console.log(data);
+        if (data.work_periods)
+          dispatch({ type: "updateWorkPeriods", data: data.work_periods });
+        if (data.error) {
+          dispatch({ type: "setError", data: data.error });
+          console.warn(data.error);
+        }
+      })
+      .catch((e) => {
+        console.warn(e);
+      });
+  };
 
   // ----- FETCH PROJECT -----
   React.useEffect(() => {
@@ -107,7 +128,6 @@ const Project = () => {
       });
   }, []);
 
-  console.log(project);
   return (
     <Flex h="100%">
       <Box
@@ -160,33 +180,39 @@ const Project = () => {
           <Flex mt="20px" minHeight="80vh">
             <Flex direction="column" flex="1">
               {/* Overview */}
-              <Box flex="1">
+              <Box flex="1.25">
                 <Flex height="100%" direction="column" p="10px 20px">
                   <Flex
                     align="center"
                     justify="space-between"
-                    p="5px"
-                    bg={applicationColors.SOFT_LIGHT_BLUE}
+                    p="5px 10px"
+                    borderRadius="5px"
+                    bgGradient={`linear(to-r, ${applicationColors.DARK_LIGHT_BLUE}, ${applicationColors.NAVY})`}
                   >
                     <Heading color="#fff">Overview</Heading>
-                    <Text color="#222" mr="10px" fontSize="lg">
+                    <Text
+                      color="#fff"
+                      mr="10px"
+                      fontSize="lg"
+                      fontWeight="bold"
+                    >
                       Hourly Rate: ${project?.billable_rate || hourlyRate}
                     </Text>
                   </Flex>
                   <Flex height="80%" direction="column" justify="space-around">
                     <Flex direction="column">
-                      <Heading as="h3" size="lg" color="gray.700">
+                      <Heading as="h3" size="md" color="gray.700">
                         Total Time
                       </Heading>
-                      <Text fontSize="4xl" color="gray.400">
+                      <Text fontSize="3xl" color="gray.400">
                         {formattedWorkPeriodDuration(workPeriods)}
                       </Text>
                     </Flex>
                     <Flex direction="column">
-                      <Heading as="h3" size="lg" color="gray.700">
+                      <Heading as="h3" size="md" color="gray.700">
                         Total Earnings
                       </Heading>
-                      <Text fontSize="4xl" color="gray.400">
+                      <Text fontSize="3xl" color="gray.400">
                         {!project?.billable
                           ? "Project non-billable"
                           : !workPeriods ||
@@ -201,10 +227,26 @@ const Project = () => {
                       </Text>
                     </Flex>
                     <Flex direction="column">
-                      <Heading as="h3" size="lg" color="gray.700">
+                      <Heading as="h3" size="md" color="gray.700">
+                        Uninvoiced
+                      </Heading>
+                      {project?.billable && (
+                        <Text fontSize="3xl" color="gray.400">
+                          {`$${(
+                            sum(
+                              convertWorkToHours(
+                                workPeriods.filter((wp) => !wp.invoiced)
+                              )
+                            ) * (project.billable_rate || hourlyRate)
+                          ).toFixed(2)}`}
+                        </Text>
+                      )}
+                    </Flex>
+                    <Flex direction="column">
+                      <Heading as="h3" size="md" color="gray.700">
                         Total Expenses
                       </Heading>
-                      <Text fontSize="4xl" color="gray.400">
+                      <Text fontSize="3xl" color="gray.400">
                         {!expenses || sum(expenses.map((exp) => exp.cost)) === 0
                           ? "No expenses"
                           : `$${sum(expenses.map((exp) => exp.cost)).toFixed(
@@ -213,16 +255,43 @@ const Project = () => {
                       </Text>
                     </Flex>
                   </Flex>
+                  <Flex align="center" justify="flex-end">
+                    <NewButton
+                      style={{
+                        textAlign: "center",
+                        padding: "15px",
+                        marginRight: "20px",
+                      }}
+                    >
+                      Generate Invoice
+                    </NewButton>
+                    <ConfirmDestroyModal
+                      action={markAsInvoiced}
+                      message={
+                        "Clicking confirm will set all previously uninvoiced work for this project to invoiced."
+                      }
+                      trigger={
+                        <NewButton
+                          primary={applicationColors.NAVY}
+                          hoverColor={applicationColors.LIGHT_NAVY}
+                          style={{
+                            textAlign: "center",
+                            padding: "15px",
+                          }}
+                        >
+                          Mark as Invoiced
+                        </NewButton>
+                      }
+                    />
+                  </Flex>
                 </Flex>
               </Box>
               {/* Work Periods */}
               <Box flex="1">
-                {workPeriods && (
-                  <WorkPeriods
-                    workPeriods={workPeriods}
-                    updateWorkPeriods={updateWorkPeriods}
-                  />
-                )}
+                <WorkPeriods
+                  workPeriods={workPeriods}
+                  updateWorkPeriods={updateWorkPeriods}
+                />
               </Box>
             </Flex>
             {/* Tasks */}

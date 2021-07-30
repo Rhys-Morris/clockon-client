@@ -55,7 +55,7 @@ const ProjectCard = ({ project, dispatch }) => {
         {project.client}
       </Text>
       <Text fontSize="sm" casing="uppercase" flex="1.5" textAlign="center">
-        {project.work_periods.toFixed(1)}
+        {project.work_periods ? project.work_periods.toFixed(1) : 0}
       </Text>
       <Text fontSize="sm" casing="uppercase" flex="2" textAlign="center">
         {dueDate}
