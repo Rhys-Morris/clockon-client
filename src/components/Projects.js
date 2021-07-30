@@ -61,7 +61,6 @@ const Projects = () => {
   React.useEffect(() => {
     getProjects()
       .then((data) => {
-        console.log(data);
         dispatch({ type: "setProjects", data: data.projects });
       })
       .catch((e) => {
@@ -117,8 +116,6 @@ const Projects = () => {
       dispatch({ type: "setProjects", data: data.projects });
     });
   };
-
-  console.log(projects);
 
   return (
     <Flex h="100%">

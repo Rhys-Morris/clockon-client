@@ -45,7 +45,7 @@ const ProjectCard = ({ project, dispatch }) => {
               marginRight: "10px",
             }}
           ></Box>
-          <Text fontSize="xs" casing="uppercase">
+          <Text fontSize="sm" casing="uppercase">
             {project.name}
           </Text>
         </Flex>
@@ -54,10 +54,10 @@ const ProjectCard = ({ project, dispatch }) => {
       <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
         {project.client}
       </Text>
-      <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
-        {project.hours}
+      <Text fontSize="sm" casing="uppercase" flex="1.5" textAlign="center">
+        {project.work_periods.toFixed(1)}
       </Text>
-      <Text fontSize="xs" casing="uppercase" flex="2" textAlign="center">
+      <Text fontSize="sm" casing="uppercase" flex="2" textAlign="center">
         {dueDate}
       </Text>
       <ConfirmDestroyModal

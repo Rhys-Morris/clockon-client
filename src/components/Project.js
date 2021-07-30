@@ -78,6 +78,8 @@ const Project = () => {
     dispatch({ type: "updateWorkPeriods", data: workPeriods });
   };
 
+  console.log(project);
+
   // ----- FETCH PROJECT -----
   React.useEffect(() => {
     dispatch({ type: "request" });

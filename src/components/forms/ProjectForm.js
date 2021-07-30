@@ -9,6 +9,7 @@ import {
   Box,
   Select,
   Checkbox,
+  Text,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +20,7 @@ import {
 import { inputFormattedToday } from "../../helpers/date";
 import { getClients, addClient } from "../../data/api";
 import WageContext from "../../contexts/hourlyRate";
+import applicationColors from "../../style/colors";
 
 const NewProjectForm = ({ action, onClose, type, project }) => {
   const { hourlyRate } = React.useContext(WageContext);
@@ -39,29 +41,42 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
   const [billableRate, setBillableRate] = React.useState(
     project?.billableRate || ""
   );
+  const [error, setError] = React.useState(null);
+
+  const validateInput = () => {
+    if (name.length > 40) return [false, "Name must not exceed 40 characters"];
+    if (billableRate <= 0)
+      return [false, "Billable rate must be greater than 0"];
+    if (billableRate > 9999)
+      return [false, "Billable rate must be less than 10000"];
+    return [true];
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
-    // TO DO - VALIDATION && ERROR HANDLING REQUIRED
-    // STATE UPDATE
-    action({
-      id: project?.id,
-      name,
-      color: projectColor,
-      billable,
-      billableRate: billableRate ? billableRate : hourlyRate,
-      dueDate,
-      clientId: client,
-      active: project?.active ? project.active : true,
-    });
-    if (onClose) onClose();
+    const [valid, errorMessage] = validateInput();
+    if (valid) {
+      action({
+        id: project?.id,
+        name,
+        color: projectColor,
+        billable,
+        billableRate: billableRate ? billableRate : hourlyRate,
+        dueDate,
+        clientId: client,
+        active: project?.active ? project.active : true,
+      });
+      onClose();
+    } else {
+      setError(errorMessage);
+    }
   };
 
-  // Load in clients on render
+  // ----- RENDER -----
   React.useEffect(() => {
     getClients().then((data) => {
       setClients(data.clients);
-      if (client === "") {
+      if (!client) {
         setClient(data.clients[0].id);
       }
     });
@@ -214,6 +229,11 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
           </Flex>
         </FormControl>
       </Flex>
+      {error && (
+        <Text color={applicationColors.ERROR_COLOR} mt="15px">
+          {error}
+        </Text>
+      )}
       <Center mt="15px">
         <Button type="submit">{type} Project</Button>
       </Center>
