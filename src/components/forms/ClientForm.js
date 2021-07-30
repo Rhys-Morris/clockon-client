@@ -5,24 +5,42 @@ import {
   Input,
   Button,
   Center,
+  Text,
 } from "@chakra-ui/react";
 import { addClient } from "../../data/api";
+import { validateEmail } from "../../helpers/helper";
+import applicationColors from "../../style/colors";
 
 const ClientForm = ({ action, onClose, type }) => {
   const [name, setName] = React.useState("");
   const [contact, setContact] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [error, setError] = React.useState(null);
+
+  const validateInput = () => {
+    if (name.length > 40) return [false, "Name must be < 40 chars"];
+    if (email.length > 40) return [false, "Email must be < 40 chars"];
+    if (contact.length > 40) return [false, "Contact must be < 40 chars"];
+    if (!validateEmail(email)) return [false, "Email is an invalid format"];
+    return [true];
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
     const clientDetails = { name, contact, email };
-    addClient(clientDetails)
-      .then((data) => {
-        if (data.clients) action(data.clients);
-      })
-      .catch((e) => {
-        console.warn(e);
-      });
+    const [valid, errorMessage] = validateInput();
+    if (valid) {
+      addClient(clientDetails)
+        .then((data) => {
+          if (data.clients) action(data.clients);
+          onClose();
+        })
+        .catch((e) => {
+          console.warn(e);
+        });
+    } else {
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -57,10 +75,13 @@ const ClientForm = ({ action, onClose, type }) => {
           onChange={(e) => setEmail(e.target.value)}
         ></Input>
       </FormControl>
+      {error && (
+        <Text mt="15px" color={applicationColors.ERROR_COLOR}>
+          {error}
+        </Text>
+      )}
       <Center mt="15px">
-        <Button onClick={onClose} type="submit">
-          {type} Client
-        </Button>
+        <Button type="submit">{type} Client</Button>
       </Center>
     </form>
   );

@@ -95,7 +95,7 @@ const ExpenseForm = ({
       </FormControl>
       <FormControl m="15px 0 " isRequired>
         <FormLabel fontSize="sm" m="0">
-          Due Date:
+          Date
         </FormLabel>
         <Input
           type="date"

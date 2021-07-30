@@ -3,7 +3,6 @@ import { Flex, Heading, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisV,
-  faCheck,
   faSortDown,
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +11,7 @@ import BaseNewModal from "./modals/BaseNewModal";
 import { sortByDate, sortByNumeric } from "../helpers/helper";
 
 const Expenses = ({ projectId, expenses, action }) => {
+  // ----- STATE -----
   const [dateSorted, setDateSorted] = React.useState(null);
   const [costSorted, setCostSorted] = React.useState(null);
 

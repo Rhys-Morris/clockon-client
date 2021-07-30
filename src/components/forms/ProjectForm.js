@@ -21,7 +21,7 @@ import { getClients, addClient } from "../../data/api";
 import WageContext from "../../contexts/hourlyRate";
 
 const NewProjectForm = ({ action, onClose, type, project }) => {
-  const globalHourlyRate = React.useContext(WageContext);
+  const { hourlyRate } = React.useContext(WageContext);
   const [name, setName] = React.useState(project?.name || "");
   const [projectColor, setProjectColor] = React.useState(
     project?.color || "#22ff55"
@@ -37,7 +37,7 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
   const [addNewClient, setAddNewClient] = React.useState(false);
   const [newClient, setNewClient] = React.useState("");
   const [billableRate, setBillableRate] = React.useState(
-    project?.billableRate || globalHourlyRate
+    project?.billableRate || ""
   );
 
   const submitForm = (e) => {
@@ -49,12 +49,12 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
       name,
       color: projectColor,
       billable,
-      billableRate,
+      billableRate: billableRate ? billableRate : hourlyRate,
       dueDate,
       clientId: client,
       active: project?.active ? project.active : true,
     });
-    onClose();
+    if (onClose) onClose();
   };
 
   // Load in clients on render

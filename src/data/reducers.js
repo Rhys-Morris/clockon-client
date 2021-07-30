@@ -1,5 +1,3 @@
-import { sortByDate } from "../helpers/helper";
-
 const clientCardReducer = (state, action) => {
   switch (action.type) {
     case "setName":
@@ -18,6 +16,29 @@ const clientCardReducer = (state, action) => {
       return { ...state, error: action.data, loading: false };
     case "resetCard":
       return { ...state, ...action.data };
+    default:
+      return { ...state };
+  }
+};
+
+const clientsReducer = (state, action) => {
+  switch (action.type) {
+    case "request":
+      return { ...state, loading: true, error: null };
+    case "success":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        clients: action.data,
+        filteredClients: action.data,
+      };
+    case "failure":
+      return { ...state, loading: false, error: action.data };
+    case "setClients":
+      return { ...state, clients: action.data };
+    case "setFiltered":
+      return { ...state, filteredClients: action.data };
     default:
       return { ...state };
   }
@@ -79,4 +100,4 @@ const projectReducer = (state, action) => {
   }
 };
 
-export { clientCardReducer, projectsReducer, projectReducer };
+export { clientCardReducer, clientsReducer, projectsReducer, projectReducer };

@@ -60,7 +60,10 @@ const Projects = () => {
   // ---- SET PROJECTS ON RENDER -----
   React.useEffect(() => {
     getProjects()
-      .then((data) => dispatch({ type: "setProjects", data: data.projects }))
+      .then((data) => {
+        console.log(data);
+        dispatch({ type: "setProjects", data: data.projects });
+      })
       .catch((e) => {
         if (e?.response?.status === 401) {
           history.push("/401");
@@ -114,6 +117,8 @@ const Projects = () => {
       dispatch({ type: "setProjects", data: data.projects });
     });
   };
+
+  console.log(projects);
 
   return (
     <Flex h="100%">

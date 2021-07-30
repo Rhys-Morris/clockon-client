@@ -8,26 +8,41 @@ import {
   Heading,
   Image,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { register } from "../data/api";
+import applicationColors from "../style/colors";
 
 const Register = () => {
   let history = useHistory();
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:4000/register", {
-        name,
-        email,
-        password,
+    setLoading(true);
+    setError(null);
+    register({ name, email, password })
+      .then((data) => {
+        if (data.token) {
+          // Set token and redirect
+          sessionStorage.setItem("token", data.token);
+          setTimeout(() => {
+            history.push("/dashboard");
+          }, 1000);
+        }
+        if (data.error) {
+          // Display errors
+          setError(data.error);
+          setLoading(false);
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -91,8 +106,32 @@ const Register = () => {
             mt="15px"
             w="100%"
           >
-            Register
+            {loading ? <Spinner /> : "Register"}
           </Button>
+          {/* Single error */}
+          {error && error.length === 1 && (
+            <Text mt="10px" color={applicationColors.ERROR_COLOR}>
+              {/* Display more meaningful error message if name validation fails */}
+              {error[0] === "Name is invalid"
+                ? "Name can only contain alphabet characters"
+                : error[0]}
+            </Text>
+          )}
+          {/* Multiple errors */}
+          {error && error.length > 1 && (
+            <ul style={{ marginTop: "10px" }}>
+              {error.map((e, index) => (
+                <li
+                  key={e.index}
+                  style={{ color: applicationColors.ERROR_COLOR }}
+                >
+                  {e === "Name is invalid"
+                    ? "Name can only contain alphabet characters"
+                    : e}
+                </li>
+              ))}
+            </ul>
+          )}
         </form>
         <Image
           ml="30px"

@@ -1,8 +1,27 @@
 import React from "react";
-import { Box, Flex, Grid, GridItem, Center, Heading } from "@chakra-ui/react";
+import { Box, Flex, Center, Heading } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
+import { getUser } from "../data/api";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
+  // ----- STATE -----
+  let history = useHistory();
+
+  // ----- RENDER -----
+  React.useEffect(() => {
+    // Handle no token
+    if (!sessionStorage.getItem("token")) history.push("/401");
+    getUser()
+      .then((data) => {
+        if (data.user) console.log("received");
+        if (data.error) console.warn(data.error);
+      })
+      .catch((e) => {
+        if (e?.response?.status === 401) history.push("/401");
+      });
+  }, [history]);
+
   return (
     <>
       <Flex h="100%">
@@ -27,22 +46,6 @@ const Dashboard = () => {
                 Good Morning, <strong>User!</strong>
               </Heading>
             </Center>
-            <Grid
-              templateRows="repeat(2, 1fr)"
-              templateColumns="repeat(2, 1 fr)"
-              color="grey"
-              flex="1"
-            >
-              <GridItem rowSpan={1} colSpan={1}>
-                <Center> Active Projects</Center>
-              </GridItem>
-              <GridItem rowSpan={1} colSpan={1}>
-                <Center>Graphical Information</Center>
-              </GridItem>
-              <GridItem rowSpan={1} colSpan={2}>
-                <Center>Tasks</Center>
-              </GridItem>
-            </Grid>
           </Flex>
         </Box>
       </Flex>

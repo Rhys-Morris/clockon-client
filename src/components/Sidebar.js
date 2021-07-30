@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SidebarLink from "./styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,24 +15,19 @@ import SettingsModal from "./modals/SettingsModal";
 import { WageConsumer } from "../contexts/hourlyRate";
 import { getUser } from "../data/api";
 
-const linkActive = {
-  color: "#031424",
-};
+// ----- COMPONENT STYLES -----
+const linkActive = { color: "#031424" };
+const sideBarLinkStyle = { width: "100%", margin: "5px 0" };
+const iconStyle = { margin: "0 5px" };
 
 const Sidebar = () => {
   const [user, setUser] = React.useState(null);
-  let history = useHistory();
 
+  // ----- RENDER -----
   React.useEffect(() => {
-    getUser()
-      .then((data) => {
-        if (data.user) setUser(data.user);
-      })
-      .catch((e) => {
-        if (e?.response?.status === 401) {
-          history.push("/401");
-        }
-      });
+    getUser().then((data) => {
+      if (data.user) setUser(data.user); // Set user name and email
+    });
   }, []);
 
   return (
@@ -46,7 +41,7 @@ const Sidebar = () => {
         </Text>
         <NavLink to="/dashboard" activeStyle={linkActive}>
           <SidebarLink style={{ width: "100%" }}>
-            <FontAwesomeIcon icon={faHome} style={{ margin: "0 5px" }} />
+            <FontAwesomeIcon icon={faHome} style={iconStyle} />
             Dashboard
           </SidebarLink>
         </NavLink>
@@ -54,23 +49,20 @@ const Sidebar = () => {
           Manage
         </Text>
         <NavLink to="/clients" activeStyle={linkActive}>
-          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
-            <FontAwesomeIcon icon={faUserFriends} style={{ margin: "0 5px" }} />
+          <SidebarLink style={sideBarLinkStyle}>
+            <FontAwesomeIcon icon={faUserFriends} style={iconStyle} />
             Clients
           </SidebarLink>
         </NavLink>
         <NavLink to="/projects" activeStyle={linkActive}>
-          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
-            <FontAwesomeIcon
-              icon={faClipboardList}
-              style={{ margin: "0 5px" }}
-            />
+          <SidebarLink style={sideBarLinkStyle}>
+            <FontAwesomeIcon icon={faClipboardList} style={iconStyle} />
             Projects
           </SidebarLink>
         </NavLink>
         <NavLink to="/work" activeStyle={linkActive}>
-          <SidebarLink style={{ width: "100%", margin: "5px 0" }}>
-            <FontAwesomeIcon icon={faClock} style={{ margin: "0 5px" }} />
+          <SidebarLink style={sideBarLinkStyle}>
+            <FontAwesomeIcon icon={faClock} style={iconStyle} />
             Work
           </SidebarLink>
         </NavLink>
@@ -81,11 +73,8 @@ const Sidebar = () => {
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
         <NavLink to="/" onClick={destroySession}>
-          <SidebarLink
-            style={{ width: "100%", margin: "5px 0" }}
-            primary={"#CF6766"}
-          >
-            <FontAwesomeIcon icon={faSignOutAlt} style={{ margin: "0 5px" }} />
+          <SidebarLink style={sideBarLinkStyle} primary={"#CF6766"}>
+            <FontAwesomeIcon icon={faSignOutAlt} style={iconStyle} />
             Log Out
           </SidebarLink>
         </NavLink>

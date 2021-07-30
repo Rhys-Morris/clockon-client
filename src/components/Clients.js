@@ -8,6 +8,7 @@ import {
   Text,
   Box,
   Select,
+  Spinner,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import ClientCard from "./cards/ClientCard";
@@ -15,26 +16,46 @@ import BaseNewModal from "./modals/BaseNewModal";
 import Sidebar from "./Sidebar";
 import { getClients } from "../data/api";
 import { useHistory } from "react-router-dom";
+import applicationColors from "../style/colors";
+import { clientsReducer } from "../data/reducers";
 
 const Clients = () => {
-  const [clients, setClients] = React.useState([]);
-  const [filteredClients, setFilteredClients] = React.useState([]);
+  // ----- STATE -----
+  const initialState = {
+    loading: false,
+    error: null,
+    clients: [],
+    filteredClients: [],
+  };
+
   const [searchValue, setSearchValue] = React.useState("");
   const [activeFilter, setActiveFilter] = React.useState("active");
+
+  const [clientsStore, dispatch] = React.useReducer(
+    clientsReducer,
+    initialState
+  );
+  const { loading, error, clients, filteredClients } = clientsStore;
   let history = useHistory();
 
-  //   On load get clients
+  // ----- RENDER -----
   React.useEffect(() => {
+    // Check for token
+    if (!sessionStorage.getItem("token")) {
+      history.push("/401");
+    }
+    dispatch({ type: "request" });
     getClients()
       .then((data) => {
-        setClients([...data.clients]);
-        setFilteredClients([...data.clients]);
+        if (data.clients) dispatch({ type: "success", data: data.clients });
+        if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
+        // Redirect unauthorised
         if (e?.response?.status === 401) history.push("/401");
+        dispatch({ type: "failure", data: e });
       });
-    // TO DO - move to dispatch
-  }, []);
+  }, [history]);
 
   // ----- FILTER CLIENTS ----
   React.useEffect(() => {
@@ -49,12 +70,12 @@ const Clients = () => {
       if (activeFilter === "inactive" && !client.active) return true;
       return false;
     });
-    setFilteredClients(filtered);
+    dispatch({ type: "setFiltered", data: filtered });
   }, [searchValue, clients, activeFilter]);
 
-  // ----- UPDATE CLIENTS - ADDITION / DELETION -----
+  // ----- UPDATE CLIENTS  -----
   const updateClients = (updatedClients) => {
-    setClients([...updatedClients]);
+    dispatch({ type: "setClients", data: updatedClients });
     setSearchValue("");
   };
 
@@ -116,20 +137,41 @@ const Clients = () => {
             <BaseNewModal type={"Client"} action={updateClients} />
           </Flex>
           {/* Client Cards */}
-          <Flex p="30px" wrap="wrap">
-            {clients.length === 0 && <Text>No clients currently active</Text>}
-            {clients.length >= 1 && filteredClients.length === 0 && (
-              <Text>No clients match your search</Text>
-            )}
-            {filteredClients.length >= 1 &&
-              filteredClients.map((client) => (
-                <ClientCard
-                  key={client.id}
-                  client={client}
-                  updateClients={updateClients}
-                />
-              ))}
-          </Flex>
+          {loading && (
+            <Spinner
+              h="100px"
+              w="100px"
+              ml="100px"
+              mt="50px"
+              color={applicationColors.DARK_LIGHT_BLUE}
+            />
+          )}
+          {error && (
+            <Text
+              ml="50px"
+              mt="50px"
+              fontSize="4xl"
+              color={applicationColors.ERROR_COLOR}
+            >
+              {error}
+            </Text>
+          )}
+          {!loading && !error && (
+            <Flex p="30px" wrap="wrap">
+              {clients.length === 0 && <Text>No clients currently active</Text>}
+              {clients.length >= 1 && filteredClients.length === 0 && (
+                <Text>No clients match your search</Text>
+              )}
+              {filteredClients.length >= 1 &&
+                filteredClients.map((client) => (
+                  <ClientCard
+                    key={client.id}
+                    client={client}
+                    updateClients={updateClients}
+                  />
+                ))}
+            </Flex>
+          )}
         </section>
       </Box>
     </Flex>

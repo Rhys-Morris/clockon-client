@@ -19,7 +19,14 @@ const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
   const formSwitch = (type) => {
     switch (type) {
       case "Project":
-        return <ProjectForm type={"Edit"} action={action} project={entity} />;
+        return (
+          <ProjectForm
+            type={"Edit"}
+            action={action}
+            onClose={onClose}
+            project={entity}
+          />
+        );
       case "Task":
         return (
           <TaskForm
@@ -55,7 +62,7 @@ const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
         isOpen={isOpen}
         onClose={() => {
           onClose();
-          closePopover();
+          if (closePopover) closePopover();
         }}
         isCentered
       >

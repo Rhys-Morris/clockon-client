@@ -3,6 +3,7 @@ import { Flex, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import PillButton from "./styled/PillButton";
 import LoginModal from "./modals/LoginModal";
+import applicationColors from "../style/colors";
 
 const LandingNav = () => {
   return (
@@ -23,9 +24,25 @@ const LandingNav = () => {
           {/* Feature, About Links here if time */}
         </Flex>
         <Flex align="center">
-          <LoginModal />
-          <Link as={RouterLink} to="/register" ml="50px">
-            <PillButton primary="#031424">Register</PillButton>
+          {sessionStorage.getItem("token") ? (
+            <Link
+              as={RouterLink}
+              to="/dashboard"
+              fontSize="lg"
+              _hover={{ textDecoration: "none", color: applicationColors.NAVY }}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <LoginModal />
+          )}
+          <Link as={RouterLink} to="/register" ml="50px" fontSize="lg">
+            <PillButton
+              bg={applicationColors.NAVY}
+              bgHover={applicationColors.LIGHT_NAVY}
+            >
+              Register
+            </PillButton>
           </Link>
         </Flex>
       </Flex>

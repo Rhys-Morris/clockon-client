@@ -1,21 +1,33 @@
 import axios from "axios";
 
-// ------ CLIENTS ------
 const AUTH_HEADER = {
   headers: {
     Authorization: "Bearer " + sessionStorage.getItem("token"),
   },
 };
+const URL = "http://localhost:4000";
+
+// ----- USERS -----
+
+const register = (newUser) => {
+  return axios
+    .post(`${URL}/register`, { user: newUser })
+    .then((res) => res.data);
+};
+
+const getUser = () => {
+  return axios.get(`${URL}/user`, AUTH_HEADER).then((res) => res.data);
+};
+
+// ----- CLIENTS -----
 
 const getClients = () => {
-  return axios.get("http://localhost:4000/clients", AUTH_HEADER).then((res) => {
-    return res.data;
-  });
+  return axios.get(`${URL}/clients`, AUTH_HEADER).then((res) => res.data);
 };
 
 const destroyClient = (id) => {
   return axios
-    .delete(`http://localhost:4000/clients/${id}`, AUTH_HEADER)
+    .delete(`${URL}/clients/${id}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
@@ -23,7 +35,7 @@ const addClient = (clientDetails) => {
   const { name, contact, email } = clientDetails;
   return axios
     .post(
-      "http://localhost:4000/clients",
+      `${URL}/clients`,
       {
         client: {
           name,
@@ -41,7 +53,7 @@ const updateClient = (clientDetails) => {
   const { id, name, contact, email, active } = clientDetails;
   return axios
     .put(
-      `http://localhost:4000/clients/${id}`,
+      `${URL}/clients/${id}`,
       {
         client: {
           name,
@@ -58,14 +70,12 @@ const updateClient = (clientDetails) => {
 // ----- PROJECTS -----
 
 const getProjects = () => {
-  return axios
-    .get("http://localhost:4000/projects", AUTH_HEADER)
-    .then((res) => res.data);
+  return axios.get(`${URL}/projects`, AUTH_HEADER).then((res) => res.data);
 };
 
 const getProject = (id) => {
   return axios
-    .get(`http://localhost:4000/projects/${id}`, AUTH_HEADER)
+    .get(`${URL}/projects/${id}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
@@ -74,7 +84,7 @@ const addProject = (projectDetails) => {
     projectDetails;
   return axios
     .post(
-      "http://localhost:4000/projects",
+      `${URL}/projects`,
       {
         project: {
           name,
@@ -94,7 +104,7 @@ const addProject = (projectDetails) => {
 
 const destroyProject = (id) => {
   return axios
-    .delete(`http://localhost:4000/projects/${id}`, AUTH_HEADER)
+    .delete(`${URL}/projects/${id}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
@@ -103,7 +113,7 @@ const updateProject = (projectDetails) => {
     projectDetails;
   return axios
     .put(
-      `http://localhost:4000/projects/${id}`,
+      `${URL}/projects/${id}`,
       {
         project: {
           name,
@@ -120,10 +130,12 @@ const updateProject = (projectDetails) => {
     .then((res) => res.data);
 };
 
+// ----- TASKS -----
+
 const createTask = (task) => {
   return axios
     .post(
-      `http://localhost:4000/tasks/${task.project_id}`,
+      `${URL}/tasks/${task.project_id}`,
       {
         task: {
           ...task,
@@ -138,7 +150,7 @@ const createTask = (task) => {
 const updateTask = (task) => {
   return axios
     .put(
-      `http://localhost:4000/tasks/${task.project_id}/${task.id}`,
+      `${URL}/tasks/${task.project_id}/${task.id}`,
       {
         task: {
           ...task,
@@ -151,14 +163,14 @@ const updateTask = (task) => {
 
 const destroyTask = (projectId, taskId) => {
   return axios
-    .delete(`http://localhost:4000/tasks/${projectId}/${taskId}`, AUTH_HEADER)
+    .delete(`${URL}/tasks/${projectId}/${taskId}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
 const createExpense = (expense) => {
   return axios
     .post(
-      `http://localhost:4000/expenses/${expense.project_id}`,
+      `${URL}/expenses/${expense.project_id}`,
       {
         expense,
       },
@@ -167,10 +179,12 @@ const createExpense = (expense) => {
     .then((res) => res.data);
 };
 
+// ----- EXPENSES -----
+
 const updateExpense = (expense) => {
   return axios
     .put(
-      `http://localhost:4000/expenses/${expense.project_id}/${expense.id}`,
+      `${URL}/expenses/${expense.project_id}/${expense.id}`,
       {
         expense,
       },
@@ -181,25 +195,20 @@ const updateExpense = (expense) => {
 
 const destroyExpense = (projectId, taskId) => {
   return axios
-    .delete(
-      `http://localhost:4000/expenses/${projectId}/${taskId}`,
-      AUTH_HEADER
-    )
+    .delete(`${URL}/expenses/${projectId}/${taskId}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
-//  WORK PERIODS
+//  ----- WORK PERIODS -----
 
 const getWorkPeriods = () => {
-  return axios
-    .get("http://localhost:4000/work", AUTH_HEADER)
-    .then((res) => res.data);
+  return axios.get(`${URL}/work`, AUTH_HEADER).then((res) => res.data);
 };
 
 const createWorkPeriod = (workPeriod) => {
   return axios
     .post(
-      `http://localhost:4000/work/${workPeriod.project_id}`,
+      `${URL}/work/${workPeriod.project_id}`,
       {
         work_period: { ...workPeriod, invoiced: false },
       },
@@ -210,17 +219,12 @@ const createWorkPeriod = (workPeriod) => {
 
 const destroyWorkPeriod = (projectId, id) => {
   return axios
-    .delete(`http://localhost:4000/work/${projectId}/${id}`, AUTH_HEADER)
-    .then((res) => res.data);
-};
-
-const getUser = () => {
-  return axios
-    .get(`http://localhost:4000/user`, AUTH_HEADER)
+    .delete(`${URL}/work/${projectId}/${id}`, AUTH_HEADER)
     .then((res) => res.data);
 };
 
 export {
+  register,
   getClients,
   destroyClient,
   updateClient,

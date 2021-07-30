@@ -39,8 +39,7 @@ const ClientCard = ({ client, updateClients }) => {
     initialState
   );
   const { id, project_count: projectCount } = client;
-  const { edit, name, email, contact, active, loading, error } =
-    clientCardState;
+  const { edit, name, email, contact, active, error } = clientCardState;
 
   // ----- POPOVER STATE -----
   const [isOpen, setIsOpen] = React.useState(false);

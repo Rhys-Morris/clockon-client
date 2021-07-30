@@ -105,6 +105,7 @@ const Project = () => {
       });
   }, []);
 
+  console.log(project);
   return (
     <Flex h="100%">
       <Box
@@ -158,47 +159,50 @@ const Project = () => {
             <Flex direction="column" flex="1">
               {/* Overview */}
               <Box flex="1">
-                <Flex height="100%" direction="column" p="10px">
-                  <Heading color="gray.700">Overview</Heading>
+                <Flex height="100%" direction="column" p="10px 20px">
+                  <Flex
+                    align="center"
+                    justify="space-between"
+                    p="5px"
+                    bg={applicationColors.SOFT_LIGHT_BLUE}
+                  >
+                    <Heading color="#fff">Overview</Heading>
+                    <Text color="#222" mr="10px" fontSize="lg">
+                      Hourly Rate: ${project?.billable_rate || hourlyRate}
+                    </Text>
+                  </Flex>
                   <Flex height="80%" direction="column" justify="space-around">
                     <Flex direction="column">
-                      <Heading
-                        as="h3"
-                        size="lg"
-                        color={applicationColors.LIGHT_BLUE}
-                      >
+                      <Heading as="h3" size="lg" color="gray.700">
                         Total Time
                       </Heading>
-                      <Text fontSize="4xl" color="gray.600">
+                      <Text fontSize="4xl" color="gray.400">
                         {formattedWorkPeriodDuration(workPeriods)}
                       </Text>
                     </Flex>
                     <Flex direction="column">
-                      <Heading
-                        as="h3"
-                        size="lg"
-                        color={applicationColors.LIGHT_BLUE}
-                      >
+                      <Heading as="h3" size="lg" color="gray.700">
                         Total Earnings
                       </Heading>
-                      <Text fontSize="4xl" color="gray.600">
-                        {!workPeriods ||
-                        sum(convertWorkToHours(workPeriods)) === 0
+                      <Text fontSize="4xl" color="gray.400">
+                        {!project?.billable
+                          ? "Project non-billable"
+                          : !workPeriods ||
+                            sum(convertWorkToHours(workPeriods)) === 0
                           ? "No current earnings"
                           : `$${(
-                              sum(convertWorkToHours(workPeriods)) * hourlyRate
+                              sum(convertWorkToHours(workPeriods)) *
+                              (project?.billable_rate
+                                ? project.billable_rate
+                                : hourlyRate)
                             ).toFixed(2)}`}
                       </Text>
                     </Flex>
                     <Flex direction="column">
-                      <Heading
-                        as="h3"
-                        size="lg"
-                        color={applicationColors.LIGHT_BLUE}
-                      >
+                      <Heading as="h3" size="lg" color="gray.700">
                         Total Expenses
                       </Heading>
-                      <Text fontSize="4xl" color="gray.600">
+                      <Text fontSize="4xl" color="gray.400">
                         {!expenses || sum(expenses.map((exp) => exp.cost)) === 0
                           ? "No expenses"
                           : `$${sum(expenses.map((exp) => exp.cost)).toFixed(

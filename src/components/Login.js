@@ -35,7 +35,7 @@ const Login = () => {
           setError("Invalid username or password");
         } else {
           sessionStorage.setItem("token", data.token);
-          history.push("/dashboard");
+          setTimeout(() => history.push("/dashboard"), 1000);
         }
       })
       .catch((err) => {
