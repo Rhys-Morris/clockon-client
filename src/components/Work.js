@@ -43,6 +43,8 @@ const Work = () => {
     setWorkPeriods(workPeriods);
   };
 
+  console.log(workPeriods);
+
   // WORK FROM LAST 24 HOURS
   const today = () => {
     return workPeriods.filter(
@@ -172,12 +174,17 @@ const Work = () => {
             >
               Last 24 Hours
             </Heading>
-            {workPeriods?.length > 0 && today().length === 0 && (
+            {(workPeriods?.length === 0 ||
+              (workPeriods?.length > 0 && today().length === 0)) && (
               <Text>No work completed in the last 24 hours</Text>
             )}
             {workPeriods?.length > 0 &&
               today().map((wp) => (
-                <WorkPeriodCard key={wp.id} workPeriod={wp} />
+                <WorkPeriodCard
+                  key={wp.id}
+                  updateCurrentView={updateCurrentView}
+                  workPeriod={wp}
+                />
               ))}
             {/* This Week */}
             <Heading
@@ -190,12 +197,17 @@ const Work = () => {
             >
               This Week
             </Heading>
-            {workPeriods?.length > 0 && lastWeek().length === 0 && (
+            {(workPeriods?.length === 0 ||
+              (workPeriods?.length > 0 && lastWeek().length === 0)) && (
               <Text>No work completed in the last week</Text>
             )}
             {workPeriods?.length > 0 &&
               lastWeek().map((wp) => (
-                <WorkPeriodCard key={wp.id} workPeriod={wp} />
+                <WorkPeriodCard
+                  key={wp.id}
+                  updateCurrentView={updateCurrentView}
+                  workPeriod={wp}
+                />
               ))}
             {/* Over 1 week */}
             <Heading
@@ -208,12 +220,17 @@ const Work = () => {
             >
               PREVIOUS WORK
             </Heading>
-            {workPeriods?.length > 0 && remaining().length === 0 && (
-              <Text>No work completed in the last week</Text>
+            {(workPeriods?.length === 0 ||
+              (workPeriods?.length > 0 && remaining().length === 0)) && (
+              <Text>No work to display</Text>
             )}
             {workPeriods?.length > 0 &&
               remaining().map((wp) => (
-                <WorkPeriodCard key={wp.id} workPeriod={wp} />
+                <WorkPeriodCard
+                  key={wp.id}
+                  updateCurrentView={updateCurrentView}
+                  workPeriod={wp}
+                />
               ))}
           </Flex>
         </section>

@@ -1,12 +1,31 @@
 import React from "react";
-import { Flex, Box, Link } from "@chakra-ui/react";
+import { Flex, Box, Link, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { msToFormattedTime, msTimestamp } from "../../helpers/date";
+import { destroyWorkPeriod } from "../../data/api";
+import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import applicationColors from "../../style/colors";
 
-const WorkPeriodCard = ({ workPeriod }) => {
+const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
+  const destroy = () => {
+    destroyWorkPeriod(workPeriod.project_id, workPeriod.id).then((data) => {
+      if (data.work_periods) {
+        updateCurrentView(data.work_periods);
+      }
+    });
+  };
+
   return (
-    <Flex m="5px 0">
-      <Box fontSize="lg">
+    <Flex
+      m="5px 0"
+      align="center"
+      justify="space-between"
+      w="100%"
+      maxWidth="1000px"
+    >
+      <Flex align="center">
         <Box
           display="inline-block"
           mr="5px"
@@ -27,22 +46,33 @@ const WorkPeriodCard = ({ workPeriod }) => {
           to={`/project/${workPeriod.project_id}`}
         >
           {workPeriod.project}
-        </Link>{" "}
+        </Link>
+      </Flex>
+      <Text style={{ overflow: "hidden", textOverflow: "wrap" }}>
         {workPeriod.title}
-        <span
-          style={{
-            display: "inline",
-            color: "#bbb",
-            fontStyle: "italic",
-            marginLeft: "50px",
-          }}
-        >
-          {msToFormattedTime(
-            msTimestamp(workPeriod.end_time) -
-              msTimestamp(workPeriod.start_time)
-          )}
-        </span>
-      </Box>
+      </Text>
+      <Text
+        w="20%"
+        display="inline"
+        color="#bbb"
+        fontStyle="italic"
+        margin="0 30px"
+      >
+        {msToFormattedTime(
+          msTimestamp(workPeriod.end_time) - msTimestamp(workPeriod.start_time)
+        )}
+      </Text>
+      <ConfirmDestroyModal
+        trigger={
+          <FontAwesomeIcon
+            icon={faTimes}
+            color={applicationColors.ERROR_COLOR}
+            cursor="pointer"
+            size="lg"
+          />
+        }
+        action={destroy}
+      />
     </Flex>
   );
 };

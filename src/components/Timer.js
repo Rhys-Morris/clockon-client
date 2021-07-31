@@ -1,11 +1,11 @@
 import React from "react";
-import { Flex, Text, Input, Select } from "@chakra-ui/react";
+import { Flex, Text, Input, Select, Box } from "@chakra-ui/react";
 import NewButton from "./styled/NewButton";
 import applicationColors from "../style/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { getProjects, createWorkPeriod } from "../data/api";
-import { inputFormattedTimestamp } from "../helpers/date";
+import { msToFormattedTime } from "../helpers/date";
 
 const Timer = ({ updateCurrentView }) => {
   const [projects, setProjects] = React.useState([]);
@@ -13,6 +13,8 @@ const Timer = ({ updateCurrentView }) => {
   const [playing, setPlaying] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [startTime, setStartTime] = React.useState(null);
+  const [timerDisplayed, setTimerDisplayed] = React.useState(false);
+  const [timer, setTimer] = React.useState(null);
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
@@ -31,9 +33,43 @@ const Timer = ({ updateCurrentView }) => {
     setProjectId(projects[0]?.id);
   };
 
+  React.useEffect(() => {
+    let interval;
+    if (playing) {
+      // Start timer
+      setTimerDisplayed(true);
+      const timer = Date.now() - startTime;
+      setTimer(msToFormattedTime(timer));
+      // Update every second
+      interval = window.setInterval(() => {
+        const timer = Date.now() - startTime;
+        setTimer(msToFormattedTime(timer));
+      }, 1000);
+    }
+    if (!playing) {
+      setTimer(null);
+      setTimerDisplayed(false);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [playing]);
+
   return (
     <>
-      <Flex align="center" w="100%" maxWidth="1000px" mb="30px">
+      {timerDisplayed && (
+        <Box alignSelf="center">
+          <Text color="gray.700" fontSize="3xl">
+            {timer}
+          </Text>
+        </Box>
+      )}
+      <Flex
+        alignSelf="center"
+        align="center"
+        w="100%"
+        maxWidth="1000px"
+        mb="30px"
+      >
         {/* Play button */}
         <Flex
           align="center"

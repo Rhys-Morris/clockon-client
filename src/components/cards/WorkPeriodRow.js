@@ -1,20 +1,8 @@
 import React from "react";
-import { Flex, Text, Box } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { msToFormattedTime, msTimestamp } from "../../helpers/date";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import applicationColors from "../../style/colors";
-import { destroyWorkPeriod } from "../../data/api";
-import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 
-const WorkPeriodRow = ({ workPeriod, updateWorkPeriods }) => {
-  const destroy = () => {
-    destroyWorkPeriod(workPeriod.project_id, workPeriod.id).then((data) => {
-      if (data.work_periods) {
-        updateWorkPeriods(data.work_periods);
-      }
-    });
-  };
+const WorkPeriodRow = ({ workPeriod }) => {
   return (
     <Flex
       justify="space-between"
@@ -37,16 +25,6 @@ const WorkPeriodRow = ({ workPeriod, updateWorkPeriods }) => {
               msTimestamp(workPeriod.start_time)
           )}
         </Text>
-        <ConfirmDestroyModal
-          trigger={
-            <FontAwesomeIcon
-              icon={faTimes}
-              color={applicationColors.ERROR_COLOR}
-              cursor="pointer"
-            />
-          }
-          action={destroy}
-        />
       </Flex>
     </Flex>
   );
