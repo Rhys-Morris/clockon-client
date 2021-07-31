@@ -30,7 +30,7 @@ const msToFormattedTime = (ms) => {
     formatted += time.hours === 1 ? "1 hr" : `${time.hours} hrs`;
   }
   if (time.mins !== 0) {
-    if (formatted && time.secs === 0) formatted += " and ";
+    if (formatted && time.secs === 0) formatted += " & ";
     if (formatted && time.secs > 0) formatted += ", ";
     formatted += time.mins === 1 ? "1 min" : `${time.mins} mins`;
   }

@@ -67,8 +67,16 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       borderBottom="1px solid rgba(0, 0,0, .2)"
       p="10px 20px"
     >
-      <Text fontSize="sm" flex="2" style={completed ? completedStyle : null}>
-        {task.title.length > 40 ? `${task.title.slice(0, 40)}...` : task.title}
+      <Text
+        fontSize="sm"
+        flex="2"
+        style={
+          completed
+            ? { ...completedStyle, overflow: "hidden", textOverflow: "wrap" }
+            : { overflow: "hidden", textOverflow: "wrap" }
+        }
+      >
+        {task.title}
       </Text>
       <Text
         fontSize="sm"

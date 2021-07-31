@@ -10,9 +10,11 @@ import {
 } from "../helpers/date";
 import WorkPeriodCard from "./cards/WorkPeriodCard";
 import { useHistory } from "react-router-dom";
+import NewButton from "./styled/NewButton";
 
 const Work = () => {
   const [workPeriods, setWorkPeriods] = React.useState([]);
+  const [showForm, setShowForm] = React.useState(false);
   let history = useHistory();
 
   // GET WORK PERIODS ON RENDER
@@ -66,7 +68,7 @@ const Work = () => {
           {/* HEADER */}
           <Box p="30px 35px" w="100%" boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)">
             <Heading color="gray.800" fontSize="xl">
-              Time
+              Manage Your Work
             </Heading>
           </Box>
           <Flex
@@ -76,16 +78,26 @@ const Work = () => {
             mt="20px"
             p="30px 100px"
           >
-            <Heading
-              as="h2"
-              size="lg"
-              fontWeight="400"
-              mb="10px"
-              alignSelf="center"
+            {!showForm && (
+              <Heading
+                as="h2"
+                size="lg"
+                fontWeight="400"
+                mb="10px"
+                alignSelf="center"
+              >
+                Add a new work period
+              </Heading>
+            )}
+            <NewButton
+              style={{ alignSelf: "center", justifySelf: "center" }}
+              onClick={() => setShowForm(!showForm)}
             >
-              Add a new work period
-            </Heading>
-            <WorkPeriodForm updateCurrentView={updateCurrentView} />
+              Show Form
+            </NewButton>
+            {showForm && (
+              <WorkPeriodForm updateCurrentView={updateCurrentView} />
+            )}
             <Heading as="h3" fontWeight="300" mt="50px" size="lg">
               Recent Work
             </Heading>

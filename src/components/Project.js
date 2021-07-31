@@ -178,7 +178,7 @@ const Project = () => {
             <BaseEditModal type={"Project"} action={update} entity={project} />
           </Flex>
           <Flex mt="20px" minHeight="80vh">
-            <Flex direction="column" flex="1">
+            <Flex direction="column" flex="0.9">
               {/* Overview */}
               <Box flex="1.25">
                 <Flex height="100%" direction="column" p="10px 20px">

@@ -36,6 +36,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
 
   // Check validity of input
   const checkTimeValidity = () => {
+    console.log(startTime, startDate, endTime, endDate);
     if (!startDate || !startTime || !endDate || !endTime) {
       setError("All time related fields must be filled out");
       return false;
@@ -76,18 +77,11 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
     setEndDate("");
     setEndTime("");
   };
-
+  console.log(endDate);
   return (
-    <Box w="90%" alignSelf="center">
+    <Box w="100%" alignSelf="center">
       <form onSubmit={onSubmit}>
-        <Flex
-          align="center"
-          justify="center"
-          width="100%"
-          p="50px"
-          border={`2px solid #dde`}
-          borderRadius="10px"
-        >
+        <Flex align="center" justify="center" width="100%" p="50px">
           <Flex direction="column" flex="3.2" mr="30px">
             <Input
               placeholder="What did you work on?"
@@ -123,7 +117,12 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
               <Input
                 type="date"
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  setEndDate(
+                    e.target.value > endDate ? e.target.value : endDate
+                  );
+                }}
               />
               <FormControl mt="10px">
                 <FormLabel size="xs" color="gray.500" m="0">
@@ -143,6 +142,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
                 End Date:
               </FormLabel>
               <Input
+                min={startDate}
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}

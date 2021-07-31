@@ -155,17 +155,6 @@ const Projects = () => {
                 Filter by:
               </Text>
               <Center mr="10px">
-                <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
-                <Input
-                  placeholder="Client name"
-                  style={inputStyle}
-                  value={filterClient}
-                  onChange={(e) =>
-                    dispatch({ type: "setFilterClient", data: e.target.value })
-                  }
-                />
-              </Center>
-              <Center mr="10px">
                 <FontAwesomeIcon
                   icon={faClipboardList}
                   style={iconMarginRight}
@@ -179,6 +168,17 @@ const Projects = () => {
                       type: "setFilterProjectName",
                       data: e.target.value,
                     })
+                  }
+                />
+              </Center>
+              <Center mr="10px">
+                <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
+                <Input
+                  placeholder="Client name"
+                  style={inputStyle}
+                  value={filterClient}
+                  onChange={(e) =>
+                    dispatch({ type: "setFilterClient", data: e.target.value })
                   }
                 />
               </Center>

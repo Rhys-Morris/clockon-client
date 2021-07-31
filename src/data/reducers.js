@@ -1,3 +1,5 @@
+import { sortByDate } from "../helpers/helper";
+
 const clientCardReducer = (state, action) => {
   switch (action.type) {
     case "setName":
@@ -68,6 +70,14 @@ const projectsReducer = (state, action) => {
     }
     case "setFilterActive": {
       return { ...state, filterActive: action.data };
+    }
+    case "sortDueDateFirst": {
+      const sortedProjects = sortByDate(state.projects, "first", "due_date");
+      return { ...state, projects: sortedProjects, dueDateSortedFirst: true };
+    }
+    case "sortDueDateLast": {
+      const sortedProjects = sortByDate(state.projects, "last", "due_date");
+      return { ...state, projects: sortedProjects, dueDateSortedFirst: false };
     }
     default:
       return { ...state };

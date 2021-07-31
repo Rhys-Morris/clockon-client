@@ -6,35 +6,87 @@ import {
   faCheck,
   faSortDown,
   faSortUp,
+  faChevronRight,
+  faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./cards/TaskCard";
 import BaseNewModal from "./modals/BaseNewModal";
 import { sortByDate, sortByNumeric } from "../helpers/helper";
 import applicationColors from "../style/colors";
+import NewButton from "./styled/NewButton";
 
 const Tasks = ({ projectId, tasks, action }) => {
   const [dueDateSorted, setDueDateSorted] = React.useState(null);
   const [hoursSorted, setHoursSorted] = React.useState(null);
   const [showCompleted, setShowCompleted] = React.useState(false);
-  const [filteredTasks, setFilteredTasks] = React.useState([]);
+  const [filteredTasks, setFilteredTasks] = React.useState(tasks);
+  const [paginatedTasks, setPaginatedTasks] = React.useState(tasks);
+  const [page, setPage] = React.useState(1);
 
   // Prevent filtered tasks from improperly updating
   React.useEffect(() => {
-    setFilteredTasks(
-      showCompleted ? tasks : tasks?.filter((task) => task.completed === false)
-    );
-  }, [tasks]);
+    // Filter by completed state
+    const filteredByCompleted = showCompleted
+      ? tasks
+      : tasks?.filter((task) => task.completed === false);
+    // Sort by due date state
+    if (dueDateSorted) {
+      const sortedTasks =
+        dueDateSorted === "first"
+          ? sortByDate(filteredByCompleted, "last", "due_date")
+          : sortByDate(filteredByCompleted, "first", "due_date");
+    }
+    // Sort by hours start
+    if (hoursSorted) {
+      const sortedTasks =
+        hoursSorted === "first"
+          ? sortByNumeric(filteredByCompleted, "last", "estimated_hours")
+          : sortByNumeric(filteredByCompleted, "first", "estimated_hours");
+    }
+    // Set filtered Tasks
+    setFilteredTasks(filteredByCompleted || []);
+    // Paginate based on current page
+    setPaginatedTasks(filteredByCompleted?.slice(page * 6 - 6, page * 6 || []));
+  }, [tasks, showCompleted, dueDateSorted, hoursSorted]);
+
+  // ----- Pagination controls
+  const nextPage = () => {
+    const endSlice = (page + 1) * 6;
+    const startSlice = (page + 1) * 6 - 6;
+    setPaginatedTasks(filteredTasks.slice(startSlice, endSlice));
+    setPage(page + 1);
+  };
+
+  const previousPage = () => {
+    const endSlice = (page - 1) * 6;
+    const startSlice = (page - 1) * 6 - 6;
+    setPaginatedTasks(filteredTasks.slice(startSlice, endSlice));
+    setPage(page - 1);
+  };
+
+  // ----- Toggle sorted by due date -----
+  const sortDueDate = () => {
+    setDueDateSorted(dueDateSorted !== "first" ? "first" : "last");
+    setHoursSorted(null);
+  };
+
+  // ----- Toggle sorted by hours -----
+  const sortHours = () => {
+    setHoursSorted(hoursSorted === "first" ? "last" : "first");
+    setDueDateSorted(null);
+  };
 
   return (
     <Flex
       flex="1"
       direction="column"
       style={{ borderLeft: "1px solid rgba(0,0,0,.12)" }}
+      position="relative"
     >
       {/* Heading */}
       <Flex justify="space-between" align="center" p="10px 20px">
         <Heading as="h3" fontWeight="300" fontSize="xl" color="gray.500">
-          Project Tasks
+          Task Tracker
         </Heading>
         <Flex align="center">
           <Text
@@ -83,15 +135,7 @@ const Tasks = ({ projectId, tasks, action }) => {
             textAlign="center"
             cursor="pointer"
             // Sort by due date
-            onClick={() => {
-              const sortedTasks =
-                dueDateSorted === "first"
-                  ? sortByDate(filteredTasks, "last", "due_date")
-                  : sortByDate(filteredTasks, "first", "due_date");
-              setFilteredTasks(sortedTasks);
-              setDueDateSorted(dueDateSorted !== "first" ? "first" : "last");
-              setHoursSorted(null);
-            }}
+            onClick={sortDueDate}
           >
             Due date
           </Text>
@@ -124,15 +168,7 @@ const Tasks = ({ projectId, tasks, action }) => {
             textAlign="center"
             cursor="pointer"
             // Sort by hours
-            onClick={() => {
-              const sortedTasks =
-                hoursSorted === "first"
-                  ? sortByNumeric(filteredTasks, "last", "estimated_hours")
-                  : sortByNumeric(filteredTasks, "first", "estimated_hours");
-              setFilteredTasks(sortedTasks);
-              setHoursSorted(hoursSorted === "first" ? "last" : "first");
-              setDueDateSorted(null);
-            }}
+            onClick={sortHours}
           >
             Hour Estimate
           </Text>
@@ -172,9 +208,41 @@ const Tasks = ({ projectId, tasks, action }) => {
       )}
       {tasks?.length > 0 &&
         filteredTasks?.length > 0 &&
-        filteredTasks.map((task) => (
+        paginatedTasks.map((task) => (
           <TaskCard key={task.id} task={task} updateTasksForProject={action} />
         ))}
+      {/* Pagination */}
+      <Flex
+        position="absolute"
+        right="10"
+        bottom="10"
+        justify="space-between"
+        align="center"
+        width="60px"
+      >
+        {/* Previous */}
+        {page !== 1 && (
+          <NewButton
+            onClick={previousPage}
+            style={{
+              marginRight: "10px",
+              padding: "5px 10px",
+              position: "relative",
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} size="sm" color="white" />
+          </NewButton>
+        )}
+        {/* Next */}
+        {(filteredTasks?.length > page * 6 || page === 1) && (
+          <NewButton
+            onClick={nextPage}
+            style={{ padding: "5px 10px", position: "relative" }}
+          >
+            <FontAwesomeIcon icon={faChevronRight} size="sm" color="white" />
+          </NewButton>
+        )}
+      </Flex>
     </Flex>
   );
 };
