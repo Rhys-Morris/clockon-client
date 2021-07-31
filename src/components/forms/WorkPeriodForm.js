@@ -6,7 +6,6 @@ import {
   FormControl,
   FormLabel,
   Text,
-  Button,
   Box,
 } from "@chakra-ui/react";
 import { getProjects, createWorkPeriod } from "../../data/api";
@@ -54,7 +53,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!checkTimeValidity()) {
-      setTimeout(() => setError(""), 8000);
+      setTimeout(() => setError(null), 8000);
       return;
     }
     createWorkPeriod({

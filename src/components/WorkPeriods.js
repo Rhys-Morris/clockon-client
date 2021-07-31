@@ -22,7 +22,7 @@ const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
           fontSize="lg"
           _hover={{ textDecoration: "none", color: "gray.400" }}
         >
-          Add a new work period
+          Add work period
         </Link>
       </Flex>
       {workPeriods?.length === 0 && (

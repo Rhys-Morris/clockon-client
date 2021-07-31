@@ -8,6 +8,18 @@ const inputFormattedToday = () => {
   return `${year}-${month}-${day}`;
 };
 
+const inputFormattedTimestamp = (timeStamp) => {
+  const dateObj = new Date(timeStamp);
+  let day = dateObj.getDate();
+  let month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+  if (day < 10) day = "0" + day;
+  if (month < 10) month = "0" + month;
+  const hour = dateObj.getHours() + 1;
+  const minute = dateObj.getMinutes() + 1;
+  return `${year}-${month}-${day} ${hour}:${minute}`;
+};
+
 const msTimestamp = (date) => new Date(date).getTime();
 
 const msToFormattedTime = (ms) => {
@@ -47,6 +59,7 @@ const MILLISECONDS_IN_WEEK = 604800000;
 
 export {
   inputFormattedToday,
+  inputFormattedTimestamp,
   msTimestamp,
   msToFormattedTime,
   MILLISECONDS_IN_DAY,
