@@ -1,4 +1,10 @@
-import { MILLISECONDS_IN_HOUR, msTimestamp, msToFormattedTime } from "./date";
+import {
+  MILLISECONDS_IN_FORTNIGHT,
+  MILLISECONDS_IN_HOUR,
+  MILLISECONDS_IN_WEEK,
+  msTimestamp,
+  msToFormattedTime,
+} from "./date";
 
 const sortByDate = (array, direction, property) => {
   if (direction === "first") {
@@ -57,6 +63,21 @@ const validateEmail = (email) => {
   return re.test(String(email).toLowerCase());
 };
 
+const fortnightTimestamp = (num = 1) => {
+  return Date.now() - MILLISECONDS_IN_FORTNIGHT * num;
+};
+
+const weekTimestamp = (num = 1) => {
+  return Date.now() - MILLISECONDS_IN_WEEK * num;
+};
+
+const workPeriodsBetweenTimestamps = (workPeriods, start, end) => {
+  if (!workPeriods) return [];
+  return workPeriods.filter((wp) => {
+    return msTimestamp(wp.end_time) > start && msTimestamp(wp.end_time) < end;
+  });
+};
+
 export {
   sortByDate,
   sortByNumeric,
@@ -66,4 +87,7 @@ export {
   sum,
   convertWorkToHours,
   validateEmail,
+  fortnightTimestamp,
+  weekTimestamp,
+  workPeriodsBetweenTimestamps,
 };

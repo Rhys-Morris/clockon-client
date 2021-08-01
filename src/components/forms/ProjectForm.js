@@ -45,8 +45,6 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
 
   const validateInput = () => {
     if (name.length > 40) return [false, "Name must not exceed 40 characters"];
-    if (billableRate <= 0)
-      return [false, "Billable rate must be greater than 0"];
     if (billableRate > 9999)
       return [false, "Billable rate must be less than 10000"];
     return [true];

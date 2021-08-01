@@ -23,7 +23,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
       align="center"
       justify="space-between"
       w="100%"
-      maxWidth="1000px"
+      maxWidth="1200px"
     >
       <Flex align="center">
         <Box
@@ -51,13 +51,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
       <Text style={{ overflow: "hidden", textOverflow: "wrap" }}>
         {workPeriod.title}
       </Text>
-      <Text
-        w="20%"
-        display="inline"
-        color="#bbb"
-        fontStyle="italic"
-        margin="0 30px"
-      >
+      <Text display="inline" color="#bbb" fontStyle="italic">
         {msToFormattedTime(
           msTimestamp(workPeriod.end_time) - msTimestamp(workPeriod.start_time)
         )}

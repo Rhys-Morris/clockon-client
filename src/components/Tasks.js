@@ -234,7 +234,8 @@ const Tasks = ({ projectId, tasks, action }) => {
           </NewButton>
         )}
         {/* Next */}
-        {(filteredTasks?.length > page * 6 || page === 1) && (
+        {(filteredTasks?.length > page * 6 ||
+          (page === 1 && tasks?.length > 6)) && (
           <NewButton
             onClick={nextPage}
             style={{ padding: "5px 10px", position: "relative" }}

@@ -5,9 +5,9 @@ import applicationColors from "../style/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { getProjects, createWorkPeriod } from "../data/api";
-import { msToFormattedTime } from "../helpers/date";
+import { msToTimer } from "../helpers/date";
 
-const Timer = ({ updateCurrentView }) => {
+const Timer = ({ updateCurrentView, setShowTimer }) => {
   const [projects, setProjects] = React.useState([]);
   const [projectId, setProjectId] = React.useState(0);
   const [playing, setPlaying] = React.useState(false);
@@ -39,11 +39,11 @@ const Timer = ({ updateCurrentView }) => {
       // Start timer
       setTimerDisplayed(true);
       const timer = Date.now() - startTime;
-      setTimer(msToFormattedTime(timer));
+      setTimer(msToTimer(timer));
       // Update every second
       interval = window.setInterval(() => {
         const timer = Date.now() - startTime;
-        setTimer(msToFormattedTime(timer));
+        setTimer(msToTimer(timer));
       }, 1000);
     }
     if (!playing) {
@@ -69,6 +69,7 @@ const Timer = ({ updateCurrentView }) => {
         w="100%"
         maxWidth="1000px"
         mb="30px"
+        mt="30px"
       >
         {/* Play button */}
         <Flex
@@ -95,6 +96,7 @@ const Timer = ({ updateCurrentView }) => {
                 if (data.work_periods) {
                   updateCurrentView(data.work_periods);
                 }
+                setShowTimer(false);
               });
             }
             setPlaying(!playing);

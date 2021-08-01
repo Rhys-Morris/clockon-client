@@ -28,6 +28,7 @@ import WageContext from "../contexts/hourlyRate";
 import applicationColors from "../style/colors";
 import NewButton from "./styled/NewButton";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
+import ProjectChart from "./charts/projectChart";
 
 const Project = () => {
   const initialState = {
@@ -178,9 +179,9 @@ const Project = () => {
             <BaseEditModal type={"Project"} action={update} entity={project} />
           </Flex>
           <Flex mt="20px" minHeight="80vh">
-            <Flex direction="column" flex="0.9">
+            <Flex direction="column" flex="1">
               {/* Overview */}
-              <Box flex="1.25">
+              <Box flex="1.5">
                 <Flex height="100%" direction="column" p="10px 20px">
                   <Flex
                     align="center"
@@ -199,63 +200,91 @@ const Project = () => {
                       Hourly Rate: ${project?.billable_rate || hourlyRate}
                     </Text>
                   </Flex>
-                  <Flex height="80%" direction="column" justify="space-around">
-                    <Flex direction="column">
-                      <Heading as="h3" size="md" color="gray.700">
-                        Total Time
-                      </Heading>
-                      <Text fontSize="3xl" color="gray.400">
-                        {formattedWorkPeriodDuration(workPeriods)}
-                      </Text>
-                    </Flex>
-                    <Flex direction="column">
-                      <Heading as="h3" size="md" color="gray.700">
-                        Total Earnings
-                      </Heading>
-                      <Text fontSize="3xl" color="gray.400">
-                        {!project?.billable
-                          ? "Project non-billable"
-                          : !workPeriods ||
-                            sum(convertWorkToHours(workPeriods)) === 0
-                          ? "No current earnings"
-                          : `$${(
-                              sum(convertWorkToHours(workPeriods)) *
-                              (project?.billable_rate
-                                ? project.billable_rate
-                                : hourlyRate)
-                            ).toFixed(2)}`}
-                      </Text>
-                    </Flex>
-                    <Flex direction="column">
-                      <Heading as="h3" size="md" color="gray.700">
-                        Uninvoiced
-                      </Heading>
-                      {project?.billable && (
+                  {/* GRAPH AND NUMERIC */}
+                  <Flex
+                    align="flex-start"
+                    h="100%"
+                    mt="20px"
+                    justify="space-between"
+                  >
+                    {/* NUMERIC */}
+                    <Flex
+                      direction="column"
+                      mr="30px"
+                      h="90%"
+                      justify="space-evenly"
+                    >
+                      <Flex direction="column">
+                        <Heading as="h3" size="md" color="gray.700">
+                          Total Time
+                        </Heading>
                         <Text fontSize="3xl" color="gray.400">
-                          {`$${(
-                            sum(
-                              convertWorkToHours(
-                                workPeriods.filter((wp) => !wp.invoiced)
-                              )
-                            ) * (project.billable_rate || hourlyRate)
-                          ).toFixed(2)}`}
+                          {formattedWorkPeriodDuration(workPeriods)}
                         </Text>
-                      )}
+                      </Flex>
+                      <Flex direction="column">
+                        <Heading as="h3" size="md" color="gray.700">
+                          Total Earnings
+                        </Heading>
+                        <Text fontSize="3xl" color="gray.400">
+                          {!project?.billable
+                            ? "Project non-billable"
+                            : !workPeriods ||
+                              sum(convertWorkToHours(workPeriods)) === 0
+                            ? "No current earnings"
+                            : `$${(
+                                sum(convertWorkToHours(workPeriods)) *
+                                (project?.billable_rate
+                                  ? project.billable_rate
+                                  : hourlyRate)
+                              ).toFixed(2)}`}
+                        </Text>
+                      </Flex>
+                      <Flex direction="column">
+                        <Heading as="h3" size="md" color="gray.700">
+                          Uninvoiced
+                        </Heading>
+                        {project?.billable && (
+                          <Text fontSize="3xl" color="gray.400">
+                            {`$${(
+                              sum(
+                                convertWorkToHours(
+                                  workPeriods.filter((wp) => !wp.invoiced)
+                                )
+                              ) * (project.billable_rate || hourlyRate)
+                            ).toFixed(2)}`}
+                          </Text>
+                        )}
+                      </Flex>
+                      <Flex direction="column">
+                        <Heading as="h3" size="md" color="gray.700">
+                          Total Expenses
+                        </Heading>
+                        <Text fontSize="3xl" color="gray.400">
+                          {!expenses ||
+                          sum(expenses.map((exp) => exp.cost)) === 0
+                            ? "No expenses"
+                            : `$${sum(expenses.map((exp) => exp.cost)).toFixed(
+                                2
+                              )}`}
+                        </Text>
+                      </Flex>
                     </Flex>
-                    <Flex direction="column">
-                      <Heading as="h3" size="md" color="gray.700">
-                        Total Expenses
+                    {/* GRAPH */}
+                    <Flex
+                      direction="column"
+                      align="center"
+                      alignSelf="center"
+                      mr="30px"
+                    >
+                      <Heading as="h3" size="md" mb="25px" color="gray.700">
+                        Hours By Week
                       </Heading>
-                      <Text fontSize="3xl" color="gray.400">
-                        {!expenses || sum(expenses.map((exp) => exp.cost)) === 0
-                          ? "No expenses"
-                          : `$${sum(expenses.map((exp) => exp.cost)).toFixed(
-                              2
-                            )}`}
-                      </Text>
+                      <ProjectChart workPeriods={workPeriods} />
                     </Flex>
                   </Flex>
-                  <Flex align="center" justify="flex-end">
+                  {/* BUTTONS */}
+                  <Flex align="center" justify="flex-start">
                     <NewButton
                       style={{
                         textAlign: "center",

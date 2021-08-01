@@ -19,6 +19,12 @@ const getUser = () => {
   return axios.get(`${URL}/user`, AUTH_HEADER).then((res) => res.data);
 };
 
+// ----- DASHBOARD -----
+
+const getDash = () => {
+  return axios.get(`${URL}/dash`, AUTH_HEADER).then((res) => res.data);
+};
+
 // ----- CLIENTS -----
 
 const getClients = () => {
@@ -231,6 +237,7 @@ const invoiceWorkPeriods = (projectId) => {
 
 export {
   register,
+  getDash,
   getClients,
   destroyClient,
   updateClient,

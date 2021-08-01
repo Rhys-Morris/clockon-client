@@ -14,7 +14,7 @@ import { formatTimestamp } from "../../helpers/helper";
 import { msTimestamp } from "../../helpers/date";
 import NewButton from "../styled/NewButton";
 
-const WorkPeriodForm = ({ updateCurrentView }) => {
+const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
   const [projects, setProjects] = React.useState([]);
   const [projectId, setProjectId] = React.useState(0);
   const [title, setTitle] = React.useState("");
@@ -65,6 +65,7 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
       if (data.work_periods) {
         updateCurrentView(data.work_periods);
       }
+      setShowForm(false);
     });
   };
 
@@ -76,9 +77,8 @@ const WorkPeriodForm = ({ updateCurrentView }) => {
     setEndDate("");
     setEndTime("");
   };
-  console.log(endDate);
   return (
-    <Box w="100%" alignSelf="center">
+    <Box w="100%" maxWidth="1200px" alignSelf="center">
       <form onSubmit={onSubmit}>
         <Flex align="center" justify="center" width="100%" p="50px">
           <Flex direction="column" flex="3.2" mr="30px">

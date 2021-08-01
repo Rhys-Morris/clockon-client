@@ -29,13 +29,16 @@ const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
         <Text m="10px 25px">No work currently undertaken</Text>
       )}
       {workPeriods &&
-        workPeriods.map((wp) => (
-          <WorkPeriodRow
-            key={wp.id}
-            workPeriod={wp}
-            updateWorkPeriods={updateWorkPeriods}
-          />
-        ))}
+        workPeriods
+          .reverse()
+          .slice(0, 8)
+          .map((wp) => (
+            <WorkPeriodRow
+              key={wp.id}
+              workPeriod={wp}
+              updateWorkPeriods={updateWorkPeriods}
+            />
+          ))}
     </Flex>
   );
 };

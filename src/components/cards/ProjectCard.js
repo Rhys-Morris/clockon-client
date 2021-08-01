@@ -45,7 +45,7 @@ const ProjectCard = ({ project, dispatch }) => {
               marginRight: "10px",
             }}
           ></Box>
-          <Text fontSize="sm" casing="uppercase">
+          <Text fontSize="xs" casing="uppercase">
             {project.name}
           </Text>
         </Flex>
