@@ -271,17 +271,19 @@ const Project = () => {
                       </Flex>
                     </Flex>
                     {/* GRAPH */}
-                    <Flex
-                      direction="column"
-                      align="center"
-                      alignSelf="center"
-                      mr="30px"
-                    >
-                      <Heading as="h3" size="md" mb="25px" color="gray.700">
-                        Hours By Week
-                      </Heading>
-                      <ProjectChart workPeriods={workPeriods} />
-                    </Flex>
+                    {workPeriods && workPeriods?.length !== 0 && (
+                      <Flex
+                        direction="column"
+                        align="center"
+                        alignSelf="center"
+                        mr="30px"
+                      >
+                        <Heading as="h3" size="md" mb="25px" color="gray.700">
+                          Hours By Week
+                        </Heading>
+                        <ProjectChart workPeriods={workPeriods} />
+                      </Flex>
+                    )}
                   </Flex>
                   {/* BUTTONS */}
                   <Flex align="center" justify="flex-start">

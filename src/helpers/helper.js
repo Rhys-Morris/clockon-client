@@ -30,9 +30,9 @@ const sortByNumeric = (array, direction, property) => {
 
 const formatTimestamp = (date, time) => `${date} ${time}`;
 
-const destroySession = () => {
-  sessionStorage.clear();
-};
+const destroySession = () => sessionStorage.clear();
+
+const getToken = () => sessionStorage.getItem("token");
 
 const formattedWorkPeriodDuration = (array) => {
   if (!array) return null;
@@ -82,6 +82,7 @@ export {
   sortByDate,
   sortByNumeric,
   formatTimestamp,
+  getToken,
   destroySession,
   formattedWorkPeriodDuration,
   sum,

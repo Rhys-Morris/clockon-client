@@ -16,9 +16,19 @@ const inputFormattedTimestamp = (timeStamp, dateOnly = false) => {
   if (day < 10) day = "0" + day;
   if (month < 10) month = "0" + month;
   if (dateOnly) return `${year}-${month}-${day}`;
-  const hour = dateObj.getHours() + 1;
-  const minute = dateObj.getMinutes() + 1;
+  const hour = dateObj.getHours();
+  const minute = dateObj.getMinutes();
   return `${year}-${month}-${day} ${hour}:${minute}`;
+};
+
+const formattedTaskDate = (taskDate) => {
+  return new Date(taskDate)
+    .toUTCString()
+    .split(" ")
+    .slice(0, 3)
+    .join(" ")
+    .replace(",", "")
+    .toUpperCase();
 };
 
 const msTimestamp = (date) => new Date(date).getTime();
@@ -87,6 +97,7 @@ export {
   msTimestamp,
   msToFormattedTime,
   msToTimer,
+  formattedTaskDate,
   MILLISECONDS_IN_DAY,
   MILLISECONDS_IN_WEEK,
   MILLISECONDS_IN_HOUR,

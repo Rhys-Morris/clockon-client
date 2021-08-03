@@ -1,8 +1,22 @@
 import React from "react";
-import { Box, Flex, Center, Heading, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Center,
+  Heading,
+  Spinner,
+  Text,
+  TabList,
+} from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import { getDash } from "../data/api";
 import { useHistory } from "react-router-dom";
+import {
+  formattedTaskDate,
+  MILLISECONDS_IN_DAY,
+  msTimestamp,
+} from "../helpers/date";
+import applicationColors from "../style/colors";
 
 const dashReducer = (state, action) => {
   switch (action.type) {
@@ -72,20 +86,79 @@ const Dashboard = () => {
         </Box>
         <Box flex="1" color="gray.400">
           <Flex h="100%" direction="column">
-            <Center h="100px">
-              {loading && <Spinner />}
-              {!loading && (
-                <Heading
-                  as="h2"
-                  size="2xl"
-                  p="20px"
-                  style={{ fontWeight: 300 }}
-                  color="#031424"
-                >
-                  {greeting()}, <strong>{user?.name}!</strong>
-                </Heading>
-              )}
-            </Center>
+            {loading && (
+              <Center>
+                <Spinner />
+              </Center>
+            )}
+            {!loading && (
+              <>
+                <Center h="100px">
+                  {/* GREETING */}
+
+                  <Heading
+                    as="h2"
+                    size="2xl"
+                    p="20px"
+                    style={{ fontWeight: 300 }}
+                    color="#031424"
+                  >
+                    {greeting()}, <strong>{user?.name}!</strong>
+                  </Heading>
+                </Center>
+                {/* TASKS */}
+                <Flex direction="column">
+                  <Heading as="h3" mb="20px" color="gray.600" size="lg">
+                    Priority Tasks
+                  </Heading>
+                  {tasks?.map((task) => {
+                    return (
+                      <Flex
+                        key={task.id}
+                        align="center"
+                        color="gray.600"
+                        p="3px"
+                        w="50%"
+                        bg={
+                          msTimestamp(Date.now()) > msTimestamp(task.due_date)
+                            ? applicationColors.SOFT_ERROR_COLOR
+                            : null
+                        }
+                      >
+                        <Text w="110px">
+                          {formattedTaskDate(task.due_date)}
+                        </Text>
+                        <Box
+                          bg={task.project_color}
+                          mr="5px"
+                          ml="10px"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+                          }}
+                        ></Box>
+                        <Text
+                          w="120px"
+                          mr="10px"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {task.project}
+                        </Text>
+                        <Text
+                          w="150px"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {task.title}
+                        </Text>
+                      </Flex>
+                    );
+                  })}
+                </Flex>
+              </>
+            )}
           </Flex>
         </Box>
       </Flex>
