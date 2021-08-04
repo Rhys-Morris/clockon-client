@@ -1,0 +1,17 @@
+#video-bg {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -99;
+}
+
+
+@media only screen and (max-width: 767px) {
+    #video-bg {
+        display: none;
+    }
+    /* Add static image here for mobiles */
+}
