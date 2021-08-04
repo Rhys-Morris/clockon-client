@@ -32,7 +32,7 @@ function App() {
                 <Route
                   exact
                   path="/project/:id"
-                  render={(props) => (
+                  render={() => (
                     <WageConsumer>{() => <Project />}</WageConsumer>
                   )}
                 />

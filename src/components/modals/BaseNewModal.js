@@ -15,8 +15,15 @@ import ClientForm from "../forms/ClientForm";
 import ProjectForm from "../forms/ProjectForm";
 import TaskForm from "../forms/TaskForm";
 import ExpenseForm from "../forms/ExpenseForm";
+import PropTypes from "prop-types";
 
-const BaseModal = ({ type, action, buttonProps, buttonStyle, projectId }) => {
+const BaseNewModal = ({
+  type,
+  action,
+  buttonProps,
+  buttonStyle,
+  projectId,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const headerSwitch = (type) => {
@@ -84,4 +91,12 @@ const BaseModal = ({ type, action, buttonProps, buttonStyle, projectId }) => {
   );
 };
 
-export default BaseModal;
+BaseNewModal.propTypes = {
+  type: PropTypes.string,
+  action: PropTypes.func,
+  buttonProps: PropTypes.func,
+  buttonStyle: PropTypes.object,
+  projectId: PropTypes.number,
+};
+
+export default BaseNewModal;

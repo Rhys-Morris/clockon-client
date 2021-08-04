@@ -10,6 +10,7 @@ import {
 import { addClient } from "../../data/api";
 import { validateEmail } from "../../helpers/helper";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const ClientForm = ({ action, onClose, type }) => {
   const [name, setName] = React.useState("");
@@ -44,7 +45,7 @@ const ClientForm = ({ action, onClose, type }) => {
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={submitForm} data-testid="form">
       <FormControl isRequired>
         <FormLabel fontSize="sm" casing="uppercase">
           Client Name
@@ -85,6 +86,12 @@ const ClientForm = ({ action, onClose, type }) => {
       </Center>
     </form>
   );
+};
+
+ClientForm.propTypes = {
+  action: PropTypes.func,
+  onClose: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default ClientForm;

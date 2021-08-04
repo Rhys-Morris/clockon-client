@@ -9,12 +9,13 @@ import {
   PopoverTrigger,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import PopoverContentButton from "../styled/PopoverContentButton";
 import applicationColors from "../../style/colors";
 import { destroyExpense } from "../../data/api";
 import BaseEditModal from "../modals/BaseEditModal";
+import PropTypes from "prop-types";
 
 const popoverButtonStyle = {
   background: applicationColors.LIGHT_BLUE,
@@ -110,4 +111,10 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
     </Flex>
   );
 };
+
+ExpenseCard.propTypes = {
+  expense: PropTypes.object,
+  updateExpensesForProject: PropTypes.func,
+};
+
 export default ExpenseCard;

@@ -15,6 +15,7 @@ import PopoverContentButton from "../styled/PopoverContentButton";
 import applicationColors from "../../style/colors";
 import { destroyTask, updateTask } from "../../data/api";
 import BaseEditModal from "../modals/BaseEditModal";
+import PropTypes from "prop-types";
 
 const completedStyle = {
   textDecoration: "line-through",
@@ -148,4 +149,10 @@ const TaskCard = ({ task, updateTasksForProject }) => {
     </Flex>
   );
 };
+
+TaskCard.propTypes = {
+  task: PropTypes.object,
+  updateTasksForProject: PropTypes.func,
+};
+
 export default TaskCard;

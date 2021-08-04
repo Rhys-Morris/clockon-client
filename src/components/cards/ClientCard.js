@@ -21,6 +21,7 @@ import { cardStyle, ellipsisStyle } from "../../style/clients";
 import { clientCardReducer } from "../../data/reducers";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const ClientCard = ({ client, updateClients }) => {
   // ----- STATE -----
@@ -270,6 +271,11 @@ const ClientCard = ({ client, updateClients }) => {
       </Flex>
     </Flex>
   );
+};
+
+ClientCard.propTypes = {
+  client: PropTypes.object,
+  updateClients: PropTypes.func,
 };
 
 export default ClientCard;

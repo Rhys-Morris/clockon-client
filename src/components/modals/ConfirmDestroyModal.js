@@ -12,13 +12,16 @@ import {
 } from "@chakra-ui/react";
 import NewButton from "../styled/NewButton";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Box children={trigger} onClick={onOpen} id="destroy" />
+      <Box onClick={onOpen} id="destroy">
+        {trigger}
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -54,6 +57,13 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
       </Modal>
     </>
   );
+};
+
+ConfirmDestroyModal.propTypes = {
+  trigger: PropTypes.func,
+  action: PropTypes.func,
+  message: PropTypes.string,
+  closePopover: PropTypes.func,
 };
 
 export default ConfirmDestroyModal;

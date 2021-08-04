@@ -1,21 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Center,
-  Heading,
-  Spinner,
-  Text,
-  TabList,
-} from "@chakra-ui/react";
+import { Box, Flex, Center, Heading, Spinner, Text } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import { getDash } from "../data/api";
 import { useHistory } from "react-router-dom";
-import {
-  formattedTaskDate,
-  MILLISECONDS_IN_DAY,
-  msTimestamp,
-} from "../helpers/date";
+import { formattedTaskDate, msTimestamp } from "../helpers/date";
 import applicationColors from "../style/colors";
 
 const dashReducer = (state, action) => {
@@ -47,7 +35,7 @@ const Dashboard = () => {
     tasks: null,
   };
   const [dashState, dispatch] = React.useReducer(dashReducer, initialState);
-  const { user, tasks, loading, error } = dashState;
+  const { user, tasks, loading } = dashState;
 
   // ----- RENDER -----
   React.useEffect(() => {

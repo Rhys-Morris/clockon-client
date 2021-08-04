@@ -72,7 +72,7 @@ const Register = () => {
             }}
           />
         </Link>
-        <form onSubmit={onSubmit} flex="1" p="30px">
+        <form onSubmit={onSubmit} flex="1" p="30px" data-testid="form">
           <Heading as="h1" size="lg" mb="30px">
             Get Started
           </Heading>
@@ -122,7 +122,7 @@ const Register = () => {
             <ul style={{ marginTop: "10px" }}>
               {error.map((e, index) => (
                 <li
-                  key={e.index}
+                  key={index}
                   style={{ color: applicationColors.ERROR_COLOR }}
                 >
                   {e === "Name is invalid"

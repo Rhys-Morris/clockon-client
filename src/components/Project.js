@@ -45,8 +45,7 @@ const Project = () => {
     initialState
   );
   let history = useHistory();
-  const { loading, project, tasks, expenses, workPeriods, error } =
-    projectStore;
+  const { loading, project, tasks, expenses, workPeriods } = projectStore;
   const { hourlyRate } = React.useContext(WageContext);
 
   // ----- UPDATE THE PROJECT -----

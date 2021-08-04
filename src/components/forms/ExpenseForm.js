@@ -12,6 +12,7 @@ import { inputFormattedToday } from "../../helpers/date";
 import applicationColors from "../../style/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 
 const ExpenseForm = ({
   action,
@@ -127,6 +128,15 @@ const ExpenseForm = ({
       </Center>
     </form>
   );
+};
+
+ExpenseForm.propTypes = {
+  action: PropTypes.func,
+  onClose: PropTypes.func,
+  type: PropTypes.string,
+  expense: PropTypes.object,
+  projectId: PropTypes.number,
+  closePopover: PropTypes.func,
 };
 
 export default ExpenseForm;

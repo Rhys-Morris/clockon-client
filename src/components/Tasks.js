@@ -14,6 +14,7 @@ import BaseNewModal from "./modals/BaseNewModal";
 import { sortByDate, sortByNumeric } from "../helpers/helper";
 import applicationColors from "../style/colors";
 import NewButton from "./styled/NewButton";
+import PropTypes from "prop-types";
 
 const Tasks = ({ projectId, tasks, action }) => {
   const [dueDateSorted, setDueDateSorted] = React.useState(null);
@@ -31,17 +32,15 @@ const Tasks = ({ projectId, tasks, action }) => {
       : tasks?.filter((task) => task.completed === false);
     // Sort by due date state
     if (dueDateSorted) {
-      const sortedTasks =
-        dueDateSorted === "first"
-          ? sortByDate(filteredByCompleted, "last", "due_date")
-          : sortByDate(filteredByCompleted, "first", "due_date");
+      dueDateSorted === "first"
+        ? sortByDate(filteredByCompleted, "last", "due_date")
+        : sortByDate(filteredByCompleted, "first", "due_date");
     }
     // Sort by hours start
     if (hoursSorted) {
-      const sortedTasks =
-        hoursSorted === "first"
-          ? sortByNumeric(filteredByCompleted, "last", "estimated_hours")
-          : sortByNumeric(filteredByCompleted, "first", "estimated_hours");
+      hoursSorted === "first"
+        ? sortByNumeric(filteredByCompleted, "last", "estimated_hours")
+        : sortByNumeric(filteredByCompleted, "first", "estimated_hours");
     }
     // Set filtered Tasks
     setFilteredTasks(filteredByCompleted || []);
@@ -246,6 +245,12 @@ const Tasks = ({ projectId, tasks, action }) => {
       </Flex>
     </Flex>
   );
+};
+
+Tasks.propTypes = {
+  projectId: PropTypes.number,
+  tasks: PropTypes.array,
+  action: PropTypes.func,
 };
 
 export default Tasks;

@@ -2,6 +2,7 @@ import React from "react";
 import { Flex, Heading, Text, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import WorkPeriodRow from "./cards/WorkPeriodRow";
+import PropTypes from "prop-types";
 
 const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
   return (
@@ -41,6 +42,11 @@ const WorkPeriods = ({ workPeriods, updateWorkPeriods }) => {
           ))}
     </Flex>
   );
+};
+
+WorkPeriods.propTypes = {
+  workPeriods: PropTypes.array,
+  updateWorkPeriods: PropTypes.func,
 };
 
 export default WorkPeriods;

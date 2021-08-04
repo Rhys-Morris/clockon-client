@@ -7,6 +7,7 @@ import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
   const destroy = () => {
@@ -69,6 +70,11 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
       />
     </Flex>
   );
+};
+
+WorkPeriodCard.propTypes = {
+  workPeriod: PropTypes.object,
+  updateCurrentView: PropTypes.func,
 };
 
 export default WorkPeriodCard;

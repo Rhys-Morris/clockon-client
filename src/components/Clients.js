@@ -108,13 +108,10 @@ const Clients = () => {
                 Clients
               </Heading>
               <InputGroup>
-                <InputLeftElement
-                  children={
-                    <SearchIcon
-                      style={{ position: "relative", left: "30px" }}
-                    />
-                  }
-                />
+                <InputLeftElement>
+                  <SearchIcon style={{ position: "relative", left: "30px" }} />
+                </InputLeftElement>
+
                 <Input
                   placeholder="Find a client"
                   value={searchValue}

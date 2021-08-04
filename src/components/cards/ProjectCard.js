@@ -6,6 +6,7 @@ import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { destroyProject } from "../../data/api";
 import { useHistory } from "react-router-dom";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const ProjectCard = ({ project, dispatch }) => {
   const dueDate = project.due_date;
@@ -73,4 +74,10 @@ const ProjectCard = ({ project, dispatch }) => {
     </Flex>
   );
 };
+
+ProjectCard.propTypes = {
+  project: PropTypes.object,
+  dispatch: PropTypes.func,
+};
+
 export default ProjectCard;

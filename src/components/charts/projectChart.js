@@ -7,6 +7,7 @@ import {
   weekTimestamp,
   workPeriodsBetweenTimestamps,
 } from "../../helpers/helper";
+import PropTypes from "prop-types";
 
 const ProjectChart = ({ workPeriods }) => {
   const [chartData, setChartData] = React.useState({});
@@ -83,6 +84,10 @@ const ProjectChart = ({ workPeriods }) => {
       />
     </Box>
   );
+};
+
+ProjectChart.propTypes = {
+  workPeriods: PropTypes.object,
 };
 
 export default ProjectChart;

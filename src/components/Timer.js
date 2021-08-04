@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { getProjects, createWorkPeriod } from "../data/api";
 import { msToTimer } from "../helpers/date";
+import PropTypes from "prop-types";
 
 const Timer = ({ updateCurrentView, setShowTimer }) => {
   const [projects, setProjects] = React.useState([]);
@@ -15,7 +16,6 @@ const Timer = ({ updateCurrentView, setShowTimer }) => {
   const [startTime, setStartTime] = React.useState(null);
   const [timerDisplayed, setTimerDisplayed] = React.useState(false);
   const [timer, setTimer] = React.useState(null);
-  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
     getProjects().then((data) => {
@@ -134,13 +134,13 @@ const Timer = ({ updateCurrentView, setShowTimer }) => {
           </NewButton>
         </Flex>
       </Flex>
-      {error && (
-        <Text mb="30px" mt="30px" color={applicationColors.ERROR_COLOR}>
-          {error}
-        </Text>
-      )}
     </>
   );
+};
+
+Timer.propTypes = {
+  updateCurrentView: PropTypes.func,
+  setShowTimer: PropTypes.func,
 };
 
 export default Timer;

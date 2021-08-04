@@ -9,6 +9,9 @@
     "@emotion/styled": "^11",
     "@fontsource/open-sans": "^4.5.0",
     "@fontsource/raleway": "^4.5.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -47,8 +50,9 @@
     ]
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@fortawesome/react-fontawesome": "^0.1.14"
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest-dom": "^3.9.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-testing-library": "^4.10.1"
   }
 }

@@ -12,6 +12,7 @@ import ExpenseCard from "./cards/ExpenseCard";
 import BaseNewModal from "./modals/BaseNewModal";
 import { sortByDate, sortByNumeric } from "../helpers/helper";
 import NewButton from "./styled/NewButton";
+import PropTypes from "prop-types";
 
 const Expenses = ({ projectId, expenses, action }) => {
   // ----- STATE -----
@@ -216,6 +217,12 @@ const Expenses = ({ projectId, expenses, action }) => {
       </Flex>
     </Flex>
   );
+};
+
+Expenses.propTypes = {
+  projectId: PropTypes.number,
+  expenses: PropTypes.array,
+  action: PropTypes.func,
 };
 
 export default Expenses;

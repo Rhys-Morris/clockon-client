@@ -5,6 +5,7 @@ import {
   msTimestamp,
   inputFormattedTimestamp,
 } from "../../helpers/date";
+import PropTypes from "prop-types";
 
 const WorkPeriodRow = ({ workPeriod }) => {
   return (
@@ -30,6 +31,10 @@ const WorkPeriodRow = ({ workPeriod }) => {
       </Text>
     </Flex>
   );
+};
+
+WorkPeriodRow.propTypes = {
+  workPeriod: PropTypes.object,
 };
 
 export default WorkPeriodRow;

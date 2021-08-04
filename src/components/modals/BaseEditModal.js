@@ -12,6 +12,7 @@ import NewButton from "../styled/NewButton";
 import ProjectForm from "../forms/ProjectForm";
 import TaskForm from "../forms/TaskForm";
 import ExpenseForm from "../forms/ExpenseForm";
+import PropTypes from "prop-types";
 
 const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,6 +76,14 @@ const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
       </Modal>
     </>
   );
+};
+
+BaseEditModal.propTypes = {
+  type: PropTypes.string,
+  action: PropTypes.func,
+  entity: PropTypes.object,
+  buttonStyle: PropTypes.object,
+  closePopover: PropTypes.func,
 };
 
 export default BaseEditModal;

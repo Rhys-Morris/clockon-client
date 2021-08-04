@@ -10,6 +10,7 @@ import {
 import { createTask, updateTask } from "../../data/api";
 import { inputFormattedToday } from "../../helpers/date";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
 const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
   const [title, setTitle] = React.useState(task?.title || "");
@@ -116,6 +117,15 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
       </Center>
     </form>
   );
+};
+
+TaskForm.propTypes = {
+  action: PropTypes.func,
+  onClose: PropTypes.func,
+  type: PropTypes.string,
+  task: PropTypes.object,
+  projectId: PropTypes.number,
+  closePopover: PropTypes.func,
 };
 
 export default TaskForm;

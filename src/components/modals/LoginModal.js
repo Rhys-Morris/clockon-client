@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Login from "../Login";
 
-const BaseModal = ({ type, action }) => {
+const LoginModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -41,4 +41,4 @@ const BaseModal = ({ type, action }) => {
   );
 };
 
-export default BaseModal;
+export default LoginModal;

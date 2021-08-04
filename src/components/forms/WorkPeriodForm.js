@@ -13,6 +13,7 @@ import applicationColors from "../../style/colors";
 import { formatTimestamp } from "../../helpers/helper";
 import { msTimestamp } from "../../helpers/date";
 import NewButton from "../styled/NewButton";
+import PropTypes from "prop-types";
 
 const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
   const [projects, setProjects] = React.useState([]);
@@ -183,6 +184,11 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
       )}
     </Box>
   );
+};
+
+WorkPeriodForm.propTypes = {
+  updateCurrentView: PropTypes.func,
+  setShowForm: PropTypes.func,
 };
 
 export default WorkPeriodForm;

@@ -21,8 +21,9 @@ import { inputFormattedToday } from "../../helpers/date";
 import { getClients, addClient } from "../../data/api";
 import WageContext from "../../contexts/hourlyRate";
 import applicationColors from "../../style/colors";
+import PropTypes from "prop-types";
 
-const NewProjectForm = ({ action, onClose, type, project }) => {
+const ProjectForm = ({ action, onClose, type, project }) => {
   const { hourlyRate } = React.useContext(WageContext);
   const [name, setName] = React.useState(project?.name || "");
   const [projectColor, setProjectColor] = React.useState(
@@ -239,4 +240,11 @@ const NewProjectForm = ({ action, onClose, type, project }) => {
   );
 };
 
-export default NewProjectForm;
+ProjectForm.propTypes = {
+  action: PropTypes.func,
+  onClose: PropTypes.func,
+  type: PropTypes.string,
+  project: PropTypes.object,
+};
+
+export default ProjectForm;
