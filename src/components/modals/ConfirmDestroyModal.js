@@ -19,7 +19,7 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
 
   return (
     <>
-      <Box onClick={onOpen} id="destroy">
+      <Box onClick={onOpen} id="destroy" data-testid="destroy-modal">
         {trigger}
       </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -60,7 +60,7 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
 };
 
 ConfirmDestroyModal.propTypes = {
-  trigger: PropTypes.func,
+  trigger: PropTypes.object,
   action: PropTypes.func,
   message: PropTypes.string,
   closePopover: PropTypes.func,

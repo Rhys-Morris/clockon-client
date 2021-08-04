@@ -105,7 +105,11 @@ const ClientCard = ({ client, updateClients }) => {
         isOpen={isOpen}
       >
         <PopoverTrigger>
-          <div style={ellipsisStyle} onClick={toggleOpen}>
+          <div
+            style={ellipsisStyle}
+            onClick={toggleOpen}
+            data-testid="popover-trigger"
+          >
             <FontAwesomeIcon icon={faEllipsisV} color="lightgrey" size="1x" />
           </div>
         </PopoverTrigger>
@@ -114,6 +118,7 @@ const ClientCard = ({ client, updateClients }) => {
           <PopoverBody p="3px">
             <Flex direction="column">
               <PopoverContentButton
+                data-testid="edit-button"
                 color={
                   edit ? applicationColors.GREEN : applicationColors.LIGHT_BLUE
                 }
@@ -135,6 +140,7 @@ const ClientCard = ({ client, updateClients }) => {
               <ConfirmDestroyModal
                 trigger={
                   <PopoverContentButton
+                    data-testid="delete-button"
                     color={applicationColors.ERROR_COLOR}
                     hoverColor={applicationColors.SOFT_ERROR_COLOR}
                     style={{ width: "100%" }}
@@ -212,7 +218,7 @@ const ClientCard = ({ client, updateClients }) => {
           <>
             <FormControl>
               <Flex align="center">
-                <FormLabel htmlFor="name" flex=".8" fontSize="sm">
+                <FormLabel flex=".8" fontSize="sm">
                   Name:{" "}
                 </FormLabel>
                 <Input
@@ -231,7 +237,7 @@ const ClientCard = ({ client, updateClients }) => {
             </FormControl>
             <FormControl>
               <Flex align="center">
-                <FormLabel htmlFor="contact" flex=".8" fontSize="sm">
+                <FormLabel flex=".8" fontSize="sm">
                   Contact:
                 </FormLabel>
                 <Input
@@ -249,7 +255,7 @@ const ClientCard = ({ client, updateClients }) => {
             </FormControl>
             <FormControl>
               <Flex align="center">
-                <FormLabel htmlFor="email" flex=".8" fontSize="sm">
+                <FormLabel flex=".8" fontSize="sm">
                   Email:
                 </FormLabel>
                 <Input

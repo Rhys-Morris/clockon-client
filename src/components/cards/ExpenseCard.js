@@ -34,6 +34,7 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
+  const { name, date, cost } = expense;
 
   // ----- DESTROY TASK -----
   const destroy = () => {
@@ -54,18 +55,18 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
       p="10px 20px"
     >
       <Text fontSize="sm" flex="2">
-        {expense.name}
+        {name}
       </Text>
       <Text fontSize="sm" flex="1.25" textAlign="center">
-        {expense.date}
+        {date}
       </Text>
       <Text fontSize="sm" flex="1.25" textAlign="center">
-        ${expense.cost}
+        ${cost}
       </Text>
       {/* POPOVER */}
       <Popover isLazy placement="left" isOpen={isOpen}>
         <PopoverTrigger>
-          <div onClick={toggleOpen}>
+          <div onClick={toggleOpen} data-testid="popover-trigger">
             <FontAwesomeIcon
               icon={faEllipsisV}
               color="gray"
