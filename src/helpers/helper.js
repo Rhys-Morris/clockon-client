@@ -1,4 +1,5 @@
 import {
+  MILLISECONDS_IN_DAY,
   MILLISECONDS_IN_FORTNIGHT,
   MILLISECONDS_IN_HOUR,
   MILLISECONDS_IN_WEEK,
@@ -44,12 +45,48 @@ const formattedWorkPeriodDuration = (array) => {
   );
 };
 
-const convertWorkToHours = (work) => {
-  return work.map(
-    (wp) =>
-      (msTimestamp(wp.end_time) - msTimestamp(wp.start_time)) /
-      MILLISECONDS_IN_HOUR
+const convertWorkToHours = (work, projectName = false) => {
+  return !projectName
+    ? work.map(
+        (wp) =>
+          (msTimestamp(wp.end_time) - msTimestamp(wp.start_time)) /
+          MILLISECONDS_IN_HOUR
+      )
+    : work.map((wp) => ({
+        hours: msTimestamp(wp.end_time) - msTimestamp(wp.start_time),
+        project: wp.project,
+      }));
+};
+
+const totalIncome = (workPeriods) => {
+  return sum(
+    workPeriods.map(
+      (wp) =>
+        ((msTimestamp(wp.end_time) - msTimestamp(wp.start_time)) /
+          MILLISECONDS_IN_HOUR) *
+        wp.project_rate
+    )
   );
+};
+
+const mostPopularProject = (workPeriods) => {
+  const hourCounts = {};
+  const mappedPeriods = convertWorkToHours(workPeriods, true);
+  mappedPeriods.forEach((wp) =>
+    hourCounts[wp.project]
+      ? (hourCounts[wp.project] += wp.hours)
+      : (hourCounts[wp.project] = wp.hours)
+  );
+  let largest = 0;
+  let projectName = null;
+  Object.keys(hourCounts).forEach((project) => {
+    if (hourCounts[project] > largest) {
+      projectName = project;
+      largest = hourCounts[project];
+    }
+  });
+  if (largest === 0) return null;
+  return [projectName, largest];
 };
 
 const sum = (array) => {
@@ -61,6 +98,10 @@ const validateEmail = (email) => {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
+};
+
+const dayTimestamp = (num = 1) => {
+  return Date.now() - MILLISECONDS_IN_DAY * num;
 };
 
 const fortnightTimestamp = (num = 1) => {
@@ -86,8 +127,11 @@ export {
   destroySession,
   formattedWorkPeriodDuration,
   sum,
+  totalIncome,
+  mostPopularProject,
   convertWorkToHours,
   validateEmail,
+  dayTimestamp,
   fortnightTimestamp,
   weekTimestamp,
   workPeriodsBetweenTimestamps,

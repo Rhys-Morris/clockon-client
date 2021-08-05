@@ -28,7 +28,7 @@ import WageContext from "../contexts/hourlyRate";
 import applicationColors from "../style/colors";
 import NewButton from "./styled/NewButton";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
-import ProjectChart from "./charts/projectChart";
+import ProjectChart from "./charts/ProjectChart";
 
 const Project = () => {
   const initialState = {

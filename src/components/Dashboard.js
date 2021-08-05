@@ -1,10 +1,25 @@
 import React from "react";
-import { Box, Flex, Center, Heading, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Center,
+  Heading,
+  Spinner,
+  Text,
+  Select,
+} from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
-import { getDash } from "../data/api";
+import { getDash, updateDash } from "../data/api";
 import { useHistory } from "react-router-dom";
-import { formattedTaskDate, msTimestamp } from "../helpers/date";
+import {
+  formattedTaskDate,
+  MILLISECONDS_IN_HOUR,
+  msTimestamp,
+  msToFormattedTime,
+} from "../helpers/date";
 import applicationColors from "../style/colors";
+import { convertWorkToHours, sum, totalIncome } from "../helpers/helper";
+import { BarChart, PieChart } from "./charts/DashChart";
 
 const dashReducer = (state, action) => {
   switch (action.type) {
@@ -16,10 +31,20 @@ const dashReducer = (state, action) => {
         loading: false,
         error: null,
         tasks: action.tasks,
+        workPeriods: action.work_periods,
         user: action.user,
       };
     case "failure":
       return { ...state, loading: false, error: null };
+    case "setPeriod":
+      return { ...state, period: action.data };
+    case "updateWorkPeriods":
+      return {
+        ...state,
+        workPeriods: action.data,
+        loading: false,
+        error: null,
+      };
     default:
       return { ...state };
   }
@@ -33,9 +58,11 @@ const Dashboard = () => {
     error: null,
     user: null,
     tasks: null,
+    workPeriods: null,
+    period: "week",
   };
   const [dashState, dispatch] = React.useReducer(dashReducer, initialState);
-  const { user, tasks, loading } = dashState;
+  const { user, tasks, loading, workPeriods, period } = dashState;
 
   // ----- RENDER -----
   React.useEffect(() => {
@@ -45,13 +72,31 @@ const Dashboard = () => {
     dispatch({ type: "request" });
     getDash()
       .then((data) => {
-        if (data.user)
-          dispatch({ type: "success", tasks: data.tasks, user: data.user });
+        if (data.user) console.log(data);
+        dispatch({
+          type: "success",
+          tasks: data.tasks,
+          user: data.user,
+          work_periods: data.work_periods,
+        });
       })
+      // BUG
       .catch((e) => {
         if (e?.response?.status === 401) history.push("/401");
       });
   }, [history]);
+
+  // ---- FETCH NEW WORK PERIODS -----
+  React.useEffect(() => {
+    dispatch({ type: "request" });
+    updateDash(period)
+      .then((data) => {
+        if (data.work_periods) {
+          dispatch({ type: "updateWorkPeriods", data: data.work_periods });
+        }
+      })
+      .catch((e) => console.warn(e));
+  }, [period]);
 
   const greeting = () => {
     const currentTime = new Date(Date.now()).getHours();
@@ -81,7 +126,7 @@ const Dashboard = () => {
             )}
             {!loading && (
               <>
-                <Center h="100px">
+                <Center h="100px" boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)">
                   {/* GREETING */}
 
                   <Heading
@@ -94,8 +139,55 @@ const Dashboard = () => {
                     {greeting()}, <strong>{user?.name}!</strong>
                   </Heading>
                 </Center>
+                {/* MAIN DASH */}
+                <Flex p="50px" justify="space-around">
+                  {/* SELECT PERIOD */}
+                  <Flex direction="column" width="65%">
+                    <Select
+                      w="300px"
+                      color="gray.700"
+                      textTransform="uppercase"
+                      value={period}
+                      onChange={(e) =>
+                        dispatch({ type: "setPeriod", data: e.target.value })
+                      }
+                    >
+                      <option value="week">Last week</option>
+                      <option value="fortnight">Last fortnight</option>
+                      <option value="month">Last month</option>
+                    </Select>
+                    {/* GRAPH */}
+                    <BarChart workPeriods={workPeriods} period={period} />
+                  </Flex>
+                  {/* TOTALS */}
+                  <Flex direction="column">
+                    <Heading as="h3" size="md" color="gray.700">
+                      Total Hours
+                    </Heading>
+                    <Text fontSize="3xl" color="gray.400" mb="20px">
+                      {workPeriods && workPeriods.length !== 0
+                        ? msToFormattedTime(
+                            sum(convertWorkToHours(workPeriods)) *
+                              MILLISECONDS_IN_HOUR
+                          )
+                        : "No work completed"}
+                    </Text>
+                    <Heading as="h3" size="md" color="gray.700">
+                      Total Income
+                    </Heading>
+                    <Text fontSize="3xl" color="gray.400" mb="20px">
+                      {workPeriods && workPeriods.length !== 0
+                        ? `$${totalIncome(workPeriods).toFixed(2)}`
+                        : "No work completed"}
+                    </Text>
+                    <Heading as="h3" size="md" color="gray.700" mb="10px">
+                      Most Popular Project
+                    </Heading>
+                    <PieChart workPeriods={workPeriods} period={period} />
+                  </Flex>
+                </Flex>
                 {/* TASKS */}
-                <Flex direction="column">
+                <Flex direction="column" p="50px">
                   <Heading as="h3" mb="20px" color="gray.600" size="lg">
                     Priority Tasks
                   </Heading>
@@ -104,13 +196,17 @@ const Dashboard = () => {
                       <Flex
                         key={task.id}
                         align="center"
-                        color="gray.600"
                         p="3px"
                         w="50%"
-                        bg={
+                        fontWeight={
                           msTimestamp(Date.now()) > msTimestamp(task.due_date)
-                            ? applicationColors.SOFT_ERROR_COLOR
-                            : null
+                            ? "bold"
+                            : "400"
+                        }
+                        color={
+                          msTimestamp(Date.now()) > msTimestamp(task.due_date)
+                            ? applicationColors.ERROR_COLOR
+                            : "gray.600"
                         }
                       >
                         <Text w="110px">
