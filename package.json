@@ -50,7 +50,9 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^8.2.0",
     "eslint": "^7.32.0",
+    "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-testing-library": "^4.10.1"
