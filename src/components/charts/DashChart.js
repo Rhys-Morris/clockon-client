@@ -7,30 +7,36 @@ import {
   sum,
   weekTimestamp,
 } from "../../helpers/helper";
-import {
-  msTimestamp,
-  MILLISECONDS_IN_HOUR,
-  inputFormattedTimestamp,
-} from "../../helpers/date";
+import { MILLISECONDS_IN_HOUR } from "../../helpers/date";
 import PropTypes from "prop-types";
 
-// BARCHART
-const BarChart = ({ workPeriods }) => {
+// ----- BARCHART -----
+const BarChart = ({ workPeriods, period }) => {
   const [chartData, setChartData] = React.useState({});
 
   // Split projects into hours per day for chart
   const data = () => {
     if (!workPeriods) return [];
     const projects = Array.from(new Set(workPeriods.map((wp) => wp.project)));
-    const timeDemarcations = [
-      dayTimestamp(),
-      dayTimestamp(2),
-      dayTimestamp(3),
-      dayTimestamp(4),
-      dayTimestamp(5),
-      dayTimestamp(6),
-      dayTimestamp(7),
-    ];
+    const timeDemarcations =
+      period === "week"
+        ? [
+            dayTimestamp(),
+            dayTimestamp(2),
+            dayTimestamp(3),
+            dayTimestamp(4),
+            dayTimestamp(5),
+            dayTimestamp(6),
+            dayTimestamp(7),
+          ]
+        : [
+            weekTimestamp(),
+            weekTimestamp(2),
+            weekTimestamp(3),
+            weekTimestamp(4),
+            weekTimestamp(5),
+            weekTimestamp(6),
+          ];
 
     // Map projects to relevant data
     const mappedData = projects.map((project) => {
@@ -41,8 +47,7 @@ const BarChart = ({ workPeriods }) => {
           // If not for this project return false
           if (wp.project !== project) return false;
           // Get end timestamp
-          const endPoint = msTimestamp(wp.end_time);
-          console.log(wp.title, endPoint, inputFormattedTimestamp(endPoint));
+          const endPoint = wp.end_time;
           if (endPoint < time) return false;
           if (index === 0 && endPoint >= time) return true;
           if (endPoint >= time && endPoint < timeDemarcations[index - 1])
@@ -61,7 +66,6 @@ const BarChart = ({ workPeriods }) => {
       ).project_color;
       return projectData;
     });
-    console.log(mappedData);
     return mappedData;
   };
 
@@ -70,15 +74,25 @@ const BarChart = ({ workPeriods }) => {
   // CHART
   const Chart = () => {
     setChartData({
-      labels: [
-        "Last 24 hours",
-        "Last 48 hours",
-        "3 days ago",
-        "4 days ago",
-        "5 days ago",
-        "6 days ago",
-        "1 week ago",
-      ],
+      labels:
+        period === "week"
+          ? [
+              "Last 24 hours",
+              "Last 48 hours",
+              "3 days ago",
+              "4 days ago",
+              "5 days ago",
+              "6 days ago",
+              "1 week ago",
+            ]
+          : [
+              "This Week",
+              "Last Week",
+              "3 weeks ago",
+              "4 weeks ago",
+              "5 weeks ago",
+              "6 weeks ago",
+            ],
       datasets: data(),
     });
   };
@@ -93,8 +107,6 @@ const BarChart = ({ workPeriods }) => {
         data={chartData}
         options={{
           responsive: true,
-          title: { text: "Where?", display: true },
-          scales: {},
         }}
       />
     </Box>
@@ -102,33 +114,25 @@ const BarChart = ({ workPeriods }) => {
 };
 
 BarChart.propTypes = {
-  workPeriods: PropTypes.object,
+  workPeriods: PropTypes.array,
   period: PropTypes.string,
 };
 
-// PIE CHART
-const PieChart = ({ workPeriods, period }) => {
+// ----- PIE CHART -----
+const PieChart = ({ workPeriods }) => {
   const [chartData, setChartData] = React.useState({});
 
   const data = () => {
     if (!workPeriods) return [];
-    const startPoint = period === "week" ? weekTimestamp() : weekTimestamp(5);
-
-    const relevantWorkperiods = workPeriods.filter(
-      (wp) => msTimestamp(wp.end_time) > startPoint
-    );
-
     const projectCounts = {};
 
-    relevantWorkperiods.forEach((wp) => {
+    workPeriods.forEach((wp) => {
       const { project, end_time, start_time } = wp;
       projectCounts[project]
         ? (projectCounts[project] +=
-            (msTimestamp(end_time) - msTimestamp(start_time)) /
-            MILLISECONDS_IN_HOUR)
+            (end_time - start_time) / MILLISECONDS_IN_HOUR)
         : (projectCounts[project] =
-            (msTimestamp(end_time) - msTimestamp(start_time)) /
-            MILLISECONDS_IN_HOUR);
+            (end_time - start_time) / MILLISECONDS_IN_HOUR);
     });
 
     const labels = [];
@@ -139,7 +143,7 @@ const PieChart = ({ workPeriods, period }) => {
       labels.push(key);
       datapoints.push(Number(value.toFixed(2)));
       backgroundColors.push(
-        workPeriods.find((wp) => wp.project === key).project_color
+        workPeriods.find((wp) => wp.project === key)?.project_color
       );
     }
     return [labels, backgroundColors, datapoints];
@@ -167,7 +171,7 @@ const PieChart = ({ workPeriods, period }) => {
   }, [workPeriods]);
 
   return (
-    <Box>
+    <Box mb="20px">
       <Pie
         data={chartData}
         options={{
@@ -181,7 +185,7 @@ const PieChart = ({ workPeriods, period }) => {
 };
 
 PieChart.propTypes = {
-  workPeriods: PropTypes.object,
+  workPeriods: PropTypes.array,
   period: PropTypes.string,
 };
 

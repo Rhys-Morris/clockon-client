@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Center,
-  Heading,
-  Spinner,
-  Text,
-  Select,
-} from "@chakra-ui/react";
+import { Box, Flex, Center, Heading, Text, Select } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import { getDash, updateDash } from "../data/api";
 import { useHistory } from "react-router-dom";
@@ -72,7 +64,6 @@ const Dashboard = () => {
     dispatch({ type: "request" });
     getDash()
       .then((data) => {
-        if (data.user) console.log(data);
         dispatch({
           type: "success",
           tasks: data.tasks,
@@ -105,7 +96,6 @@ const Dashboard = () => {
     if (currentTime >= 12 && currentTime < 18) return "Good Afternoon";
   };
 
-  console.log(dashState);
   return (
     <>
       <Flex h="100%">
@@ -119,11 +109,6 @@ const Dashboard = () => {
         </Box>
         <Box flex="1" color="gray.400">
           <Flex h="100%" direction="column">
-            {loading && (
-              <Center>
-                <Spinner />
-              </Center>
-            )}
             {!loading && (
               <>
                 <Center h="100px" boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)">
@@ -140,7 +125,7 @@ const Dashboard = () => {
                   </Heading>
                 </Center>
                 {/* MAIN DASH */}
-                <Flex p="50px" justify="space-around">
+                <Flex p="50px" justify="space-around" align="center">
                   {/* SELECT PERIOD */}
                   <Flex direction="column" width="65%">
                     <Select
@@ -153,14 +138,26 @@ const Dashboard = () => {
                       }
                     >
                       <option value="week">Last week</option>
-                      <option value="fortnight">Last fortnight</option>
-                      <option value="month">Last month</option>
+                      <option value="month">Last six weeks</option>
                     </Select>
                     {/* GRAPH */}
+                    <Heading
+                      alignSelf="center"
+                      as="h3"
+                      size="md"
+                      color="gray.700"
+                      mb="10px"
+                    >
+                      Hours Worked Per Project
+                    </Heading>
                     <BarChart workPeriods={workPeriods} period={period} />
                   </Flex>
                   {/* TOTALS */}
                   <Flex direction="column">
+                    <Heading as="h3" size="md" color="gray.700" mb="10px">
+                      Popular Projects
+                    </Heading>
+                    <PieChart workPeriods={workPeriods} />
                     <Heading as="h3" size="md" color="gray.700">
                       Total Hours
                     </Heading>
@@ -173,17 +170,13 @@ const Dashboard = () => {
                         : "No work completed"}
                     </Text>
                     <Heading as="h3" size="md" color="gray.700">
-                      Total Income
+                      Estimated Total Income
                     </Heading>
                     <Text fontSize="3xl" color="gray.400" mb="20px">
                       {workPeriods && workPeriods.length !== 0
                         ? `$${totalIncome(workPeriods).toFixed(2)}`
                         : "No work completed"}
                     </Text>
-                    <Heading as="h3" size="md" color="gray.700" mb="10px">
-                      Most Popular Project
-                    </Heading>
-                    <PieChart workPeriods={workPeriods} period={period} />
                   </Flex>
                 </Flex>
                 {/* TASKS */}
