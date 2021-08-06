@@ -184,13 +184,16 @@ const Dashboard = () => {
                   <Heading as="h3" mb="20px" color="gray.600" size="lg">
                     Priority Tasks
                   </Heading>
+                  {(!tasks || tasks.length === 0) && (
+                    <Text>No tasks to display</Text>
+                  )}
                   {tasks?.map((task) => {
                     return (
                       <Flex
                         key={task.id}
                         align="center"
                         p="3px"
-                        w="50%"
+                        w="100%"
                         fontWeight={
                           msTimestamp(Date.now()) > msTimestamp(task.due_date)
                             ? "bold"
@@ -216,15 +219,16 @@ const Dashboard = () => {
                           }}
                         ></Box>
                         <Text
-                          w="120px"
+                          w="175px"
                           mr="10px"
+                          whiteSpace="nowrap"
                           overflow="hidden"
                           textOverflow="ellipsis"
                         >
                           {task.project}
                         </Text>
                         <Text
-                          w="150px"
+                          whiteSpace="nowrap"
                           overflow="hidden"
                           textOverflow="ellipsis"
                         >

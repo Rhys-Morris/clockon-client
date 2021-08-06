@@ -8,7 +8,7 @@ import { getProjects, createWorkPeriod } from "../data/api";
 import { msToTimer } from "../helpers/date";
 import PropTypes from "prop-types";
 
-const Timer = ({ updateCurrentView, setShowTimer }) => {
+const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
   const [projects, setProjects] = React.useState([]);
   const [projectId, setProjectId] = React.useState(0);
   const [playing, setPlaying] = React.useState(false);
@@ -90,13 +90,14 @@ const Timer = ({ updateCurrentView, setShowTimer }) => {
               createWorkPeriod({
                 title,
                 project_id: projectId,
-                start_time: new Date(startTime),
-                end_time: new Date(Date.now()),
+                start_time: startTime,
+                end_time: Date.now(),
               }).then((data) => {
                 if (data.work_periods) {
                   updateCurrentView(data.work_periods);
                 }
                 setShowTimer(false);
+                setFlash("Work successfully logged!");
               });
             }
             setPlaying(!playing);
@@ -141,6 +142,7 @@ const Timer = ({ updateCurrentView, setShowTimer }) => {
 Timer.propTypes = {
   updateCurrentView: PropTypes.func,
   setShowTimer: PropTypes.func,
+  setFlash: PropTypes.func,
 };
 
 export default Timer;

@@ -80,7 +80,7 @@ const Login = () => {
         {loading ? <Spinner /> : "Log in"}
       </Button>
       <Text sz="xs" mt="10px">
-        {"Don't have an account?"}
+        {"Don't have an account?"}{" "}
         <Link to="/register" style={{ textDecoration: "underline" }}>
           Register
         </Link>

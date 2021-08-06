@@ -14,6 +14,7 @@ import {
   faClock,
   faPenAlt,
   faPencilAlt,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import NewButton from "./styled/NewButton";
 
@@ -24,6 +25,7 @@ const Work = () => {
   const [filteredWork, setFilteredWork] = React.useState([]);
   const [nameFilter, setNameFilter] = React.useState([]);
   const [detailsFilter, setDetailsFilter] = React.useState("");
+  const [flash, setFlash] = React.useState("");
   let history = useHistory();
 
   // GET WORK PERIODS ON RENDER
@@ -101,7 +103,7 @@ const Work = () => {
     cursor: "pointer",
   };
 
-  console.log(workPeriods);
+  console.log(flash);
 
   return (
     <Flex h="100%">
@@ -128,6 +130,31 @@ const Work = () => {
             mt="20px"
             p="30px 100px"
           >
+            {/* Flash */}
+            {flash && (
+              <Box
+                p="10px"
+                color="gray.800"
+                bg="green.300"
+                w="100%"
+                borderRadius="5px"
+                textAlign="center"
+                position="relative"
+              >
+                {flash}
+                <Box onClick={() => setFlash("")}>
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    style={{
+                      position: "absolute",
+                      right: "10px",
+                      top: "12px",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Box>
+              </Box>
+            )}
             {/* Buttons */}
             {!showForm && !showTimer && (
               <Flex align="center" alignSelf="center" mt="30px">
@@ -171,12 +198,14 @@ const Work = () => {
               <WorkPeriodForm
                 setShowForm={setShowForm}
                 updateCurrentView={updateCurrentView}
+                setFlash={setFlash}
               />
             )}
             {showTimer && (
               <Timer
                 setShowTimer={setShowTimer}
                 updateCurrentView={updateCurrentView}
+                setFlash={setFlash}
               />
             )}
             {(showTimer || showForm) && (

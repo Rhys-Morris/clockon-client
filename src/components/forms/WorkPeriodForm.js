@@ -15,7 +15,7 @@ import { msTimestamp } from "../../helpers/date";
 import NewButton from "../styled/NewButton";
 import PropTypes from "prop-types";
 
-const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
+const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
   const [projects, setProjects] = React.useState([]);
   const [projectId, setProjectId] = React.useState(0);
   const [title, setTitle] = React.useState("");
@@ -24,6 +24,8 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
   const [endDate, setEndDate] = React.useState("");
   const [endTime, setEndTime] = React.useState("");
   const [error, setError] = React.useState(null);
+
+  console.log(setFlash);
 
   React.useEffect(() => {
     getProjects().then((data) => {
@@ -65,6 +67,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
     }).then((data) => {
       if (data.work_periods) {
         updateCurrentView(data.work_periods);
+        setFlash("Work successfully logged!");
       }
       setShowForm(false);
     });
@@ -189,6 +192,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
 WorkPeriodForm.propTypes = {
   updateCurrentView: PropTypes.func,
   setShowForm: PropTypes.func,
+  setFlash: PropTypes.func,
 };
 
 export default WorkPeriodForm;
