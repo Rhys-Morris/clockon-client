@@ -16,7 +16,14 @@ const BarChart = ({ workPeriods, period }) => {
 
   // Split projects into hours per day for chart
   const data = () => {
-    if (!workPeriods) return [];
+    if (!workPeriods || workPeriods.length === 0)
+      return [
+        {
+          label: "No Work Periods to Display",
+          data: [],
+          backgroundColor: "grey",
+        },
+      ];
     const projects = Array.from(new Set(workPeriods.map((wp) => wp.project)));
     const timeDemarcations =
       period === "week"

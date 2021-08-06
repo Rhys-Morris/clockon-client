@@ -112,4 +112,39 @@ const projectReducer = (state, action) => {
   }
 };
 
-export { clientCardReducer, clientsReducer, projectsReducer, projectReducer };
+const dashReducer = (state, action) => {
+  switch (action.type) {
+    case "request":
+      return { ...state, loading: true, error: null };
+    case "success":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        tasks: action.tasks,
+        workPeriods: action.work_periods,
+        user: action.user,
+      };
+    case "failure":
+      return { ...state, loading: false, error: null };
+    case "setPeriod":
+      return { ...state, period: action.data };
+    case "updateWorkPeriods":
+      return {
+        ...state,
+        workPeriods: action.data,
+        loading: false,
+        error: null,
+      };
+    default:
+      return { ...state };
+  }
+};
+
+export {
+  clientCardReducer,
+  clientsReducer,
+  projectsReducer,
+  projectReducer,
+  dashReducer,
+};

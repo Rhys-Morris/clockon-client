@@ -48,7 +48,7 @@ const Hero = () => {
           <Text style={letterRotate}>o</Text>
           <Text style={letterRotate}>l</Text> of your work
         </Heading>
-        <Link exact to="/register">
+        <Link to="/register">
           <PillButton fontSize="20px">Get Started</PillButton>
         </Link>
       </Box>

@@ -1,10 +1,11 @@
 import axios from "axios";
+import { getToken } from "../helpers/helper";
 
-const AUTH_HEADER = {
+const AUTH_HEADER = () => ({
   headers: {
-    Authorization: "Bearer " + sessionStorage.getItem("token"),
+    Authorization: "Bearer " + getToken(),
   },
-};
+});
 const URL = "http://localhost:4000";
 
 // ----- USERS -----
@@ -16,28 +17,30 @@ const register = (newUser) => {
 };
 
 const getUser = () => {
-  return axios.get(`${URL}/user`, AUTH_HEADER).then((res) => res.data);
+  return axios.get(`${URL}/user`, AUTH_HEADER()).then((res) => res.data);
 };
 
 // ----- DASHBOARD -----
 
 const getDash = () => {
-  return axios.get(`${URL}/dash`, AUTH_HEADER).then((res) => res.data);
+  return axios.get(`${URL}/dash`, AUTH_HEADER()).then((res) => res.data);
 };
 
 const updateDash = (query) => {
-  return axios.get(`${URL}/dash/${query}`, AUTH_HEADER).then((res) => res.data);
+  return axios
+    .get(`${URL}/dash/${query}`, AUTH_HEADER())
+    .then((res) => res.data);
 };
 
 // ----- CLIENTS -----
 
 const getClients = () => {
-  return axios.get(`${URL}/clients`, AUTH_HEADER).then((res) => res.data);
+  return axios.get(`${URL}/clients`, AUTH_HEADER()).then((res) => res.data);
 };
 
 const destroyClient = (id) => {
   return axios
-    .delete(`${URL}/clients/${id}`, AUTH_HEADER)
+    .delete(`${URL}/clients/${id}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
@@ -54,7 +57,7 @@ const addClient = (clientDetails) => {
           active: true,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
@@ -72,7 +75,7 @@ const updateClient = (clientDetails) => {
           active,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
@@ -80,12 +83,12 @@ const updateClient = (clientDetails) => {
 // ----- PROJECTS -----
 
 const getProjects = () => {
-  return axios.get(`${URL}/projects`, AUTH_HEADER).then((res) => res.data);
+  return axios.get(`${URL}/projects`, AUTH_HEADER()).then((res) => res.data);
 };
 
 const getProject = (id) => {
   return axios
-    .get(`${URL}/projects/${id}`, AUTH_HEADER)
+    .get(`${URL}/projects/${id}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
@@ -107,14 +110,14 @@ const addProject = (projectDetails) => {
           billable_rate: billableRate,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
 const destroyProject = (id) => {
   return axios
-    .delete(`${URL}/projects/${id}`, AUTH_HEADER)
+    .delete(`${URL}/projects/${id}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
@@ -135,7 +138,7 @@ const updateProject = (projectDetails) => {
           billable_rate: billableRate,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
@@ -152,7 +155,7 @@ const createTask = (task) => {
           completed: false,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
@@ -166,14 +169,14 @@ const updateTask = (task) => {
           ...task,
         },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
 const destroyTask = (projectId, taskId) => {
   return axios
-    .delete(`${URL}/tasks/${projectId}/${taskId}`, AUTH_HEADER)
+    .delete(`${URL}/tasks/${projectId}/${taskId}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
@@ -184,7 +187,7 @@ const createExpense = (expense) => {
       {
         expense,
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
@@ -198,21 +201,21 @@ const updateExpense = (expense) => {
       {
         expense,
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
 const destroyExpense = (projectId, taskId) => {
   return axios
-    .delete(`${URL}/expenses/${projectId}/${taskId}`, AUTH_HEADER)
+    .delete(`${URL}/expenses/${projectId}/${taskId}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
 //  ----- WORK PERIODS -----
 
 const getWorkPeriods = () => {
-  return axios.get(`${URL}/work`, AUTH_HEADER).then((res) => res.data);
+  return axios.get(`${URL}/work`, AUTH_HEADER()).then((res) => res.data);
 };
 
 const createWorkPeriod = (workPeriod) => {
@@ -222,20 +225,20 @@ const createWorkPeriod = (workPeriod) => {
       {
         work_period: { ...workPeriod, invoiced: false },
       },
-      AUTH_HEADER
+      AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
 const destroyWorkPeriod = (projectId, id) => {
   return axios
-    .delete(`${URL}/work/${projectId}/${id}`, AUTH_HEADER)
+    .delete(`${URL}/work/${projectId}/${id}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
 const invoiceWorkPeriods = (projectId) => {
   return axios
-    .get(`${URL}/work/${projectId}/invoice`, AUTH_HEADER)
+    .get(`${URL}/work/${projectId}/invoice`, AUTH_HEADER())
     .then((res) => res.data);
 };
 

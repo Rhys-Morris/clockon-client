@@ -10,37 +10,14 @@ import {
   msToFormattedTime,
 } from "../helpers/date";
 import applicationColors from "../style/colors";
-import { convertWorkToHours, sum, totalIncome } from "../helpers/helper";
+import {
+  convertWorkToHours,
+  sum,
+  totalIncome,
+  // getToken,
+} from "../helpers/helper";
 import { BarChart, PieChart } from "./charts/DashChart";
-
-const dashReducer = (state, action) => {
-  switch (action.type) {
-    case "request":
-      return { ...state, loading: true, error: null };
-    case "success":
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        tasks: action.tasks,
-        workPeriods: action.work_periods,
-        user: action.user,
-      };
-    case "failure":
-      return { ...state, loading: false, error: null };
-    case "setPeriod":
-      return { ...state, period: action.data };
-    case "updateWorkPeriods":
-      return {
-        ...state,
-        workPeriods: action.data,
-        loading: false,
-        error: null,
-      };
-    default:
-      return { ...state };
-  }
-};
+import { dashReducer } from "../data/reducers";
 
 const Dashboard = () => {
   // ----- STATE -----
@@ -59,7 +36,7 @@ const Dashboard = () => {
   // ----- RENDER -----
   React.useEffect(() => {
     // Handle no token
-    if (!sessionStorage.getItem("token")) history.push("/401");
+    // if (!getToken()) history.push("/401");
     // Start request
     dispatch({ type: "request" });
     getDash()
@@ -157,7 +134,14 @@ const Dashboard = () => {
                     <Heading as="h3" size="md" color="gray.700" mb="10px">
                       Popular Projects
                     </Heading>
-                    <PieChart workPeriods={workPeriods} />
+                    {workPeriods && workPeriods.length !== 0 && (
+                      <PieChart workPeriods={workPeriods} />
+                    )}
+                    {(!workPeriods || workPeriods.length === 0) && (
+                      <Text fontSize="3xl" color="gray.400" mb="20px">
+                        No work to display
+                      </Text>
+                    )}
                     <Heading as="h3" size="md" color="gray.700">
                       Total Hours
                     </Heading>
@@ -167,7 +151,7 @@ const Dashboard = () => {
                             sum(convertWorkToHours(workPeriods)) *
                               MILLISECONDS_IN_HOUR
                           )
-                        : "No work completed"}
+                        : "No work to display"}
                     </Text>
                     <Heading as="h3" size="md" color="gray.700">
                       Estimated Total Income
@@ -175,7 +159,7 @@ const Dashboard = () => {
                     <Text fontSize="3xl" color="gray.400" mb="20px">
                       {workPeriods && workPeriods.length !== 0
                         ? `$${totalIncome(workPeriods).toFixed(2)}`
-                        : "No work completed"}
+                        : "No work to display"}
                     </Text>
                   </Flex>
                 </Flex>
