@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Box, Link, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { msToFormattedTime, msTimestamp } from "../../helpers/date";
+import { msToFormattedTime } from "../../helpers/date";
 import { destroyWorkPeriod } from "../../data/api";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -53,9 +53,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
         {workPeriod.title}
       </Text>
       <Text display="inline" color="#bbb" fontStyle="italic">
-        {msToFormattedTime(
-          msTimestamp(workPeriod.end_time) - msTimestamp(workPeriod.start_time)
-        )}
+        {msToFormattedTime(workPeriod.end_time - workPeriod.start_time)}
       </Text>
       <ConfirmDestroyModal
         trigger={

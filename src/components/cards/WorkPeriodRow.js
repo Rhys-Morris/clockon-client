@@ -1,10 +1,6 @@
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
-import {
-  msToTimer,
-  msTimestamp,
-  inputFormattedTimestamp,
-} from "../../helpers/date";
+import { msToTimer, inputFormattedTimestamp } from "../../helpers/date";
 import PropTypes from "prop-types";
 
 const WorkPeriodRow = ({ workPeriod }) => {
@@ -25,9 +21,7 @@ const WorkPeriodRow = ({ workPeriod }) => {
         fontStyle="italic"
         marginLeft="30px"
       >
-        {msToTimer(
-          msTimestamp(workPeriod.end_time) - msTimestamp(workPeriod.start_time)
-        )}
+        {msToTimer(workPeriod.end_time - workPeriod.start_time)}
       </Text>
     </Flex>
   );

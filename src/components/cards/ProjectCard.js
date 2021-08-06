@@ -50,7 +50,9 @@ const ProjectCard = ({ project, dispatch }) => {
             {project.name}
           </Text>
         </Flex>
-        {project.billable && <FontAwesomeIcon icon={faDollarSign} />}
+        {project.billable && (
+          <FontAwesomeIcon icon={faDollarSign} data-testid="billable-icon" />
+        )}
       </Flex>
       <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">
         {project.client}
