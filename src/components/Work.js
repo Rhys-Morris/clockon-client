@@ -4,11 +4,7 @@ import Sidebar from "./Sidebar";
 import WorkPeriodForm from "./forms/WorkPeriodForm";
 import Timer from "./Timer";
 import { getWorkPeriods } from "../data/api";
-import {
-  msTimestamp,
-  MILLISECONDS_IN_DAY,
-  MILLISECONDS_IN_WEEK,
-} from "../helpers/date";
+import { MILLISECONDS_IN_DAY, MILLISECONDS_IN_WEEK } from "../helpers/date";
 import WorkPeriodCard from "./cards/WorkPeriodCard";
 import { useHistory } from "react-router-dom";
 import applicationColors from "../style/colors";
@@ -55,22 +51,22 @@ const Work = () => {
   // WORK FROM LAST 24 HOURS
   const today = () => {
     return filteredWork.filter(
-      (wp) => Date.now() - msTimestamp(wp.end_time) < MILLISECONDS_IN_DAY
+      (wp) => Date.now() - wp.end_time < MILLISECONDS_IN_DAY
     );
   };
   // WORK FROM LAST 1 WEEK
   const lastWeek = () => {
     return filteredWork.filter(
       (wp) =>
-        Date.now() - msTimestamp(wp.end_time) < MILLISECONDS_IN_WEEK &&
-        Date.now() - msTimestamp(wp.end_time) > MILLISECONDS_IN_DAY
+        Date.now() - wp.end_time < MILLISECONDS_IN_WEEK &&
+        Date.now() - wp.end_time > MILLISECONDS_IN_DAY
     );
   };
 
   // WORK > 1 WEEK
   const remaining = () => {
     return filteredWork.filter(
-      (wp) => Date.now() - msTimestamp(wp.end_time) > MILLISECONDS_IN_WEEK
+      (wp) => Date.now() - wp.end_time > MILLISECONDS_IN_WEEK
     );
   };
 
@@ -104,6 +100,8 @@ const Work = () => {
     transition: ".3s",
     cursor: "pointer",
   };
+
+  console.log(workPeriods);
 
   return (
     <Flex h="100%">

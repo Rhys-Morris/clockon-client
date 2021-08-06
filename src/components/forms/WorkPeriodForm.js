@@ -60,8 +60,8 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm }) => {
     createWorkPeriod({
       title,
       project_id: projectId,
-      start_time: `${startDate} ${startTime}`,
-      end_time: `${endDate} ${endTime}`,
+      start_time: msTimestamp(formatTimestamp(startDate, startTime)),
+      end_time: msTimestamp(formatTimestamp(endDate, endTime)),
     }).then((data) => {
       if (data.work_periods) {
         updateCurrentView(data.work_periods);
