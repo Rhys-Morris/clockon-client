@@ -79,11 +79,16 @@ const Register = () => {
           <Flex direction="column" align="center">
             <FormControl isRequired mb="10px">
               <FormLabel>First Name:</FormLabel>
-              <Input value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                data-cy="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </FormControl>
             <FormControl isRequired mb="10px">
               <FormLabel>Email:</FormLabel>
               <Input
+                data-cy="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -92,6 +97,7 @@ const Register = () => {
             <FormControl isRequired mb="10px">
               <FormLabel>Password:</FormLabel>
               <Input
+                data-cy="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -105,6 +111,7 @@ const Register = () => {
             type="submit"
             mt="15px"
             w="100%"
+            data-cy="submit"
           >
             {loading ? <Spinner /> : "Register"}
           </Button>

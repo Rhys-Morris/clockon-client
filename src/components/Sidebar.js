@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import SidebarLink from "./styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,11 +9,14 @@ import {
   faUserFriends,
   faClipboardList,
   faSignOutAlt,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { destroySession } from "../helpers/helper";
 import SettingsModal from "./modals/SettingsModal";
 import { WageConsumer } from "../contexts/hourlyRate";
 import { getUser } from "../data/api";
+import { destroyUser } from "../data/api";
+import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
 
 // ----- COMPONENT STYLES -----
 const linkActive = { color: "#031424" };
@@ -22,6 +25,7 @@ const iconStyle = { margin: "0 5px" };
 
 const Sidebar = () => {
   const [user, setUser] = React.useState(null);
+  let history = useHistory();
 
   // ----- RENDER -----
   React.useEffect(() => {
@@ -29,6 +33,17 @@ const Sidebar = () => {
       if (data.user) setUser(data.user); // Set user name and email
     });
   }, []);
+
+  // ----- REMOVE USER -----
+  const removeUser = () => {
+    destroyUser().then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        destroySession();
+        history.push("/");
+      }
+    });
+  };
 
   return (
     <Flex direction="column" h="100%" justify="space-between">
@@ -78,6 +93,16 @@ const Sidebar = () => {
             Log Out
           </SidebarLink>
         </NavLink>
+        <ConfirmDestroyModal
+          trigger={
+            <SidebarLink style={sideBarLinkStyle} primary={"#CF6766"}>
+              <FontAwesomeIcon icon={faTrash} style={iconStyle} />
+              Remove Account
+            </SidebarLink>
+          }
+          action={removeUser}
+          message={"Are you sure you wish to delete your account permanently?"}
+        />
         <Text>{user?.name}</Text>
         <Text fontSize="xs">{user?.email}</Text>
       </Box>

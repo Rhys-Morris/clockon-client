@@ -20,6 +20,10 @@ const getUser = () => {
   return axios.get(`${URL}/user`, AUTH_HEADER()).then((res) => res.data);
 };
 
+const destroyUser = () => {
+  return axios.delete(`${URL}/user`, AUTH_HEADER());
+};
+
 // ----- DASHBOARD -----
 
 const getDash = () => {
@@ -244,6 +248,7 @@ const invoiceWorkPeriods = (projectId) => {
 
 export {
   register,
+  destroyUser,
   getDash,
   updateDash,
   getClients,
