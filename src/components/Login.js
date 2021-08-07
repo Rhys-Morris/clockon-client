@@ -32,7 +32,7 @@ const Login = () => {
       .then((data) => {
         if (data.error === "Invalid username or password") {
           setLoading(false);
-          setError("Invalid username or password");
+          setError("Invalid email or password");
         } else {
           sessionStorage.setItem("token", data.token);
           setTimeout(() => history.push("/dashboard"), 1000);
@@ -50,6 +50,7 @@ const Login = () => {
         <FormControl isRequired mb="10px">
           <FormLabel>Email:</FormLabel>
           <Input
+            data-cy="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -58,6 +59,7 @@ const Login = () => {
         <FormControl isRequired mb="10px">
           <FormLabel>Password:</FormLabel>
           <Input
+            data-cy="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +67,7 @@ const Login = () => {
         </FormControl>
       </Flex>
       {error && (
-        <Box w="100%" color="salmon">
+        <Box w="100%" color="salmon" data-cy="error">
           {error}
         </Box>
       )}
@@ -76,6 +78,7 @@ const Login = () => {
         type="submit"
         mt="15px"
         w="100%"
+        data-cy="submit"
       >
         {loading ? <Spinner /> : "Log in"}
       </Button>

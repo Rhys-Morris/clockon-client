@@ -23,6 +23,7 @@ const LoginModal = () => {
         borderRadius="none"
         _hover={{ borderBottom: "2px solid #eee" }}
         onClick={onOpen}
+        data-cy="login"
       >
         Log in
       </Link>

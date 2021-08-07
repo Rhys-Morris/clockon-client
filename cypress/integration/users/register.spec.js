@@ -1,45 +1,73 @@
 describe("user registration", () => {
-  // CLean up previously registered user
+  const baseUser = (
+    name = "Cypress",
+    email = "cypresstest@email.com",
+    password = "password"
+  ) => {
+    cy.get("[data-cy=name]").type(name).should("have.value", name);
+    cy.get("[data-cy=email]").type(email).should("have.value", email);
+    cy.get("[data-cy=password]").type(password).should("have.value", password);
 
-  it("creates a new user", () => {
-    // Navigate to signup page
-    cy.visit("/register");
-    // fill out the fields
-    cy.get("[data-cy=name]").type("Fake").should("have.value", "Fake");
-
-    cy.get("[data-cy=email]")
-      .type("fake@email.com")
-      .should("have.value", "fake@email.com");
-
-    cy.get("[data-cy=password]")
-      .type("fakepassword")
-      .should("have.value", "fakepassword");
-    // click the sign up buttons
     cy.get("[data-cy=submit]").click();
-    // CHeck for token
+  };
 
-    // Redirects to Dashboard
-    cy.url().should("eq", "/dashboard");
+  it("should allow user creation and deletion", () => {
+    // Creation
+    cy.visit("/register");
+    baseUser();
+    cy.url("eq", Cypress.config().baseUrl + "/dashboard");
+
+    // Deletion
+    cy.get("[data-cy=trigger-destroy]").click();
+    cy.get("[data-cy=confirm-destroy]").click();
+    cy.url("eq", Cypress.config().baseUrl + "/");
   });
 
-  it("should reject the same use being rejected", () => {
+  it("should reject an existing user being recreated", () => {
     cy.visit("/register");
-    // fill out the fields
-    cy.get("[data-cy=name]").type("Fake").should("have.value", "Fake");
-
+    // Existing User in DB
+    cy.get("[data-cy=name]").type("Test").should("have.value", "Test");
     cy.get("[data-cy=email]")
-      .type("fake@email.com")
-      .should("have.value", "fake@email.com");
-
+      .type("test@test.com")
+      .should("have.value", "test@test.com");
     cy.get("[data-cy=password]")
-      .type("fakepassword")
-      .should("have.value", "fakepassword");
-    // click the sign up buttons
+      .type("password")
+      .should("have.value", "password");
+
     cy.get("[data-cy=submit]").click();
-    // Redirects to Dashboard
-    cy.get("[data-cy]=error").should(
-      "have.value",
+
+    cy.get("[data-cy=error]").should(
+      "have.text",
       "Email has already been taken"
+    );
+  });
+
+  it("should prevent a user from being created with a non-alphabet name", () => {
+    cy.visit("/register");
+    baseUser("0100");
+    cy.get("[data-cy=error]").should(
+      "have.text",
+      "Name can only contain alphabet characters"
+    );
+  });
+
+  it("should prevent a user from being created with a name > 40 chars", () => {
+    cy.visit("/register");
+    baseUser(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    );
+    cy.get("[data-cy=error]").should(
+      "have.text",
+      "Name is too long (maximum is 40 characters)"
+    );
+  });
+
+  it("should prevent a user from being created with a password < 8 chars", () => {
+    cy.visit("/register");
+    baseUser("Cypress", "cypresstest@email.com", "short");
+    cy.get("[data-cy=error]").should(
+      "have.text",
+      "Password is too short (minimum is 8 characters)"
     );
   });
 });

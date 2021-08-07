@@ -117,7 +117,11 @@ const Register = () => {
           </Button>
           {/* Single error */}
           {error && error.length === 1 && (
-            <Text mt="10px" color={applicationColors.ERROR_COLOR}>
+            <Text
+              mt="10px"
+              color={applicationColors.ERROR_COLOR}
+              data-cy="error"
+            >
               {/* Display more meaningful error message if name validation fails */}
               {error[0] === "Name is invalid"
                 ? "Name can only contain alphabet characters"

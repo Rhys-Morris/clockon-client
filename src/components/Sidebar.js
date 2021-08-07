@@ -87,7 +87,7 @@ const Sidebar = () => {
         <WageConsumer>{() => <SettingsModal />}</WageConsumer>
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
-        <NavLink to="/" onClick={destroySession}>
+        <NavLink to="/" onClick={destroySession} data-cy="sign-out">
           <SidebarLink style={sideBarLinkStyle} primary={"#CF6766"}>
             <FontAwesomeIcon icon={faSignOutAlt} style={iconStyle} />
             Log Out
@@ -95,7 +95,11 @@ const Sidebar = () => {
         </NavLink>
         <ConfirmDestroyModal
           trigger={
-            <SidebarLink style={sideBarLinkStyle} primary={"#CF6766"}>
+            <SidebarLink
+              style={sideBarLinkStyle}
+              primary={"#CF6766"}
+              data-cy="trigger-destroy"
+            >
               <FontAwesomeIcon icon={faTrash} style={iconStyle} />
               Remove Account
             </SidebarLink>

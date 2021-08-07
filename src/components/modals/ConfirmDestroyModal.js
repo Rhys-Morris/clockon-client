@@ -34,6 +34,7 @@ const ConfirmDestroyModal = ({ trigger, action, message, closePopover }) => {
                 : "Clicking confirm will remove this entry permanently."}
             </Text>
             <NewButton
+              data-cy="confirm-destroy"
               primary={applicationColors.ERROR_COLOR}
               hoverColor={applicationColors.SOFT_ERROR_COLOR}
               style={{ marginRight: "10px" }}
