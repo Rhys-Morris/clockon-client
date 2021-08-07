@@ -113,6 +113,7 @@ const Clients = () => {
                 </InputLeftElement>
 
                 <Input
+                  data-cy="search"
                   placeholder="Find a client"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
@@ -125,6 +126,7 @@ const Clients = () => {
                 ml="10px"
                 style={{ border: "1px solid lightgrey" }}
                 onChange={(e) => setActiveFilter(e.target.value)}
+                data-cy="active-select"
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>

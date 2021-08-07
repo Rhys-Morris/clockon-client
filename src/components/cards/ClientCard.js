@@ -88,7 +88,7 @@ const ClientCard = ({ client, updateClients }) => {
   };
 
   return (
-    <Flex style={cardStyle} m="10px">
+    <Flex style={cardStyle} m="10px" data-cy="client-card">
       <Box
         w="4px"
         h="100%"
@@ -109,6 +109,7 @@ const ClientCard = ({ client, updateClients }) => {
             style={ellipsisStyle}
             onClick={toggleOpen}
             data-testid="popover-trigger"
+            data-cy="popover-trigger"
           >
             <FontAwesomeIcon icon={faEllipsisV} color="lightgrey" size="1x" />
           </div>
@@ -119,6 +120,7 @@ const ClientCard = ({ client, updateClients }) => {
             <Flex direction="column">
               <PopoverContentButton
                 data-testid="edit-button"
+                data-cy="edit"
                 color={
                   edit ? applicationColors.GREEN : applicationColors.LIGHT_BLUE
                 }
@@ -141,6 +143,7 @@ const ClientCard = ({ client, updateClients }) => {
                 trigger={
                   <PopoverContentButton
                     data-testid="delete-button"
+                    data-cy="delete"
                     color={applicationColors.ERROR_COLOR}
                     hoverColor={applicationColors.SOFT_ERROR_COLOR}
                     style={{ width: "100%" }}
@@ -171,7 +174,7 @@ const ClientCard = ({ client, updateClients }) => {
               <Text mb="10px" casing="uppercase">
                 {name}
               </Text>
-              <Text fontSize="sm">
+              <Text fontSize="sm" data-cy="contact-text">
                 Contact:{" "}
                 {contact ? (
                   contact
@@ -196,6 +199,7 @@ const ClientCard = ({ client, updateClients }) => {
                 <Badge
                   colorScheme={active ? "green" : "red"}
                   cursor="pointer"
+                  data-cy="toggle-active"
                   onClick={() => {
                     // Send to back end first, then update on front to prevent timing issues
                     editCard(!active);
@@ -206,7 +210,11 @@ const ClientCard = ({ client, updateClients }) => {
                 </Badge>
               </Flex>
               {error && (
-                <Text fontSize="xs" color={applicationColors.ERROR_COLOR}>
+                <Text
+                  fontSize="xs"
+                  color={applicationColors.ERROR_COLOR}
+                  data-cy="error"
+                >
                   {error}
                 </Text>
               )}
@@ -241,6 +249,7 @@ const ClientCard = ({ client, updateClients }) => {
                   Contact:
                 </FormLabel>
                 <Input
+                  data-cy="edit-contact"
                   fontSize="sm"
                   mb="3px"
                   p="xs"

@@ -91,6 +91,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
               Project Name
             </FormLabel>
             <Input
+              data-cy="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="New Project"
@@ -105,6 +106,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
                 outline: "none",
                 cursor: "pointer",
               }}
+              data-cy="color"
               id="color-picker"
               type="color"
               value={projectColor}
@@ -175,6 +177,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
           id="clientSelect"
           value={client}
           onChange={(e) => setClient(e.target.value)}
+          data-cy="client"
         >
           {clients.map((c, index) => (
             <option key={index} value={c.id}>
@@ -189,6 +192,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
             Billable Rate:
           </FormLabel>
           <Input
+            data-cy="rate"
             type="number"
             mt="5px"
             value={billableRate}
@@ -203,6 +207,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
             Due Date:
           </FormLabel>
           <Input
+            data-cy="dueDate"
             type="date"
             mt="5px"
             min={inputFormattedToday()}
@@ -229,12 +234,14 @@ const ProjectForm = ({ action, onClose, type, project }) => {
         </FormControl>
       </Flex>
       {error && (
-        <Text color={applicationColors.ERROR_COLOR} mt="15px">
+        <Text color={applicationColors.ERROR_COLOR} mt="15px" data-cy="error">
           {error}
         </Text>
       )}
       <Center mt="15px">
-        <Button type="submit">{type} Project</Button>
+        <Button type="submit" data-cy="submit">
+          {type} Project
+        </Button>
       </Center>
     </form>
   );

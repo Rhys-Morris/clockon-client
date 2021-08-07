@@ -8,8 +8,16 @@ describe("user login", () => {
   };
 
   it("should login and logout an existing user", () => {
+    cy.window().its("sessionStorage").invoke("clear");
     baseLogin();
     cy.url("eq", Cypress.config().baseUrl + "/dashboard");
+
+    // Token check
+    cy.window()
+      .its("sessionStorage")
+      .invoke("getItem", "token")
+      .should("exist");
+
     cy.get("[data-cy=sign-out]").click();
     cy.url("eq", Cypress.config().baseUrl + "/");
   });

@@ -74,7 +74,12 @@ const BaseNewModal = ({
 
   return (
     <>
-      <NewButton onClick={onOpen} {...buttonProps} style={buttonStyle}>
+      <NewButton
+        onClick={onOpen}
+        {...buttonProps}
+        style={buttonStyle}
+        data-cy="new"
+      >
         <FontAwesomeIcon icon={faPlus} style={{ marginRight: "8px" }} />
         New {type}
       </NewButton>
@@ -83,7 +88,7 @@ const BaseNewModal = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{headerSwitch(type)}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton data-cy="close" />
           <ModalBody>{formSwitch(type, action)}</ModalBody>
         </ModalContent>
       </Modal>

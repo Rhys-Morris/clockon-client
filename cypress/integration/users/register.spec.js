@@ -17,6 +17,12 @@ describe("user registration", () => {
     baseUser();
     cy.url("eq", Cypress.config().baseUrl + "/dashboard");
 
+    // Token check
+    cy.window()
+      .its("sessionStorage")
+      .invoke("getItem", "token")
+      .should("exist");
+
     // Deletion
     cy.get("[data-cy=trigger-destroy]").click();
     cy.get("[data-cy=confirm-destroy]").click();

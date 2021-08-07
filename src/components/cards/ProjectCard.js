@@ -20,6 +20,7 @@ const ProjectCard = ({ project, dispatch }) => {
 
   return (
     <Flex
+      data-cy="project-card"
       align="center"
       color="gray.600"
       fontWeight="bold"
@@ -69,6 +70,7 @@ const ProjectCard = ({ project, dispatch }) => {
             icon={faTimes}
             color={applicationColors.SOFT_ERROR_COLOR}
             style={{ cursor: "pointer" }}
+            data-cy="destroy-project"
           />
         }
         action={destroyCard}
