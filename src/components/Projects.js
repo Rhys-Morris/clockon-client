@@ -160,6 +160,7 @@ const Projects = () => {
                   style={iconMarginRight}
                 />
                 <Input
+                  data-cy="filter-name"
                   placeholder="Project name"
                   style={inputStyle}
                   value={filterProjectName}
@@ -174,6 +175,7 @@ const Projects = () => {
               <Center mr="10px">
                 <FontAwesomeIcon icon={faUser} style={iconMarginRight} />
                 <Input
+                  data-cy="filter-client"
                   placeholder="Client name"
                   style={inputStyle}
                   value={filterClient}
@@ -185,6 +187,7 @@ const Projects = () => {
               <Center>
                 <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
                 <Select
+                  data-cy="filter-billable"
                   value={filterBillable}
                   onChange={(e) =>
                     dispatch({
@@ -201,6 +204,7 @@ const Projects = () => {
             </Flex>
             <Center>
               <Select
+                data-cy="filter-active"
                 style={activeSelectStyle}
                 value={filterActive}
                 onChange={(e) =>

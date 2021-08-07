@@ -25,6 +25,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
       justify="space-between"
       w="100%"
       maxWidth="1200px"
+      data-cy="work"
     >
       <Flex align="center">
         <Box
@@ -62,6 +63,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
             color={applicationColors.ERROR_COLOR}
             cursor="pointer"
             size="lg"
+            data-cy="work-delete"
           />
         }
         action={destroy}

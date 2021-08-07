@@ -54,7 +54,7 @@ const Sidebar = () => {
         <Text fontSize="xs" casing="uppercase" mb="5px">
           Overview
         </Text>
-        <NavLink to="/dashboard" activeStyle={linkActive}>
+        <NavLink to="/dashboard" activeStyle={linkActive} data-cy="dash">
           <SidebarLink style={{ width: "100%" }}>
             <FontAwesomeIcon icon={faHome} style={iconStyle} />
             Dashboard
@@ -63,19 +63,19 @@ const Sidebar = () => {
         <Text fontSize="xs" casing="uppercase" mb="3px" mt="30px">
           Manage
         </Text>
-        <NavLink to="/clients" activeStyle={linkActive}>
+        <NavLink to="/clients" activeStyle={linkActive} data-cy="clients">
           <SidebarLink style={sideBarLinkStyle}>
             <FontAwesomeIcon icon={faUserFriends} style={iconStyle} />
             Clients
           </SidebarLink>
         </NavLink>
-        <NavLink to="/projects" activeStyle={linkActive}>
+        <NavLink to="/projects" activeStyle={linkActive} data-cy="projects">
           <SidebarLink style={sideBarLinkStyle}>
             <FontAwesomeIcon icon={faClipboardList} style={iconStyle} />
             Projects
           </SidebarLink>
         </NavLink>
-        <NavLink to="/work" activeStyle={linkActive}>
+        <NavLink to="/work" activeStyle={linkActive} data-cy="work-link">
           <SidebarLink style={sideBarLinkStyle}>
             <FontAwesomeIcon icon={faClock} style={iconStyle} />
             Work

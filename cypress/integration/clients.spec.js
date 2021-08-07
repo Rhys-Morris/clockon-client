@@ -1,37 +1,13 @@
+import { login, mockClient } from "../support/helpers/helper";
+
 describe("client creation and deletion", () => {
-  const baseLogin = (email = "test@test.com", password = "password") => {
-    cy.visit(Cypress.config().baseUrl);
-    cy.get("[data-cy=login]").click();
-    cy.get("[data-cy=email]").type(email).should("have.value", email);
-    cy.get("[data-cy=password]").type(password).should("have.value", password);
-    cy.get("[data-cy=submit]").click();
-  };
-
-  const baseClient = (
-    name = "CypressTest",
-    email = "cypress@test.com",
-    contact = "Mr. Cypress"
-  ) => {
-    cy.get("[data-cy=new]").click();
-    cy.get("[data-cy=name]").type(name).should("have.value", name);
-    cy.get("[data-cy=contact]").type(contact).should("have.value", contact);
-    cy.get("[data-cy=email]").type(email).should("have.value", email);
-    cy.get("[data-cy=submit]").click();
-  };
-
   it("should create and destroy a client", () => {
-    baseLogin();
+    login();
     cy.url("eq", Cypress.config().baseUrl + "/dashboard");
-
-    // Token check
-    cy.window()
-      .its("sessionStorage")
-      .invoke("getItem", "token")
-      .should("exist");
 
     cy.visit("/clients");
 
-    baseClient();
+    mockClient();
 
     cy.wait(500)
       .get("[data-cy=client-card]")
@@ -48,7 +24,7 @@ describe("client creation and deletion", () => {
   });
 
   it("should reject clients with a name > 40 chars", () => {
-    baseClient(
+    mockClient(
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     );
     cy.get("[data-cy=error]").should(
@@ -59,7 +35,7 @@ describe("client creation and deletion", () => {
 
   it("should reject clients with an email > 40 chars", () => {
     cy.visit("/clients");
-    baseClient(
+    mockClient(
       "CypressTest",
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@test.com"
     );
@@ -71,13 +47,13 @@ describe("client creation and deletion", () => {
 
   it("should reject clients with an invalid email format", () => {
     cy.visit("/clients");
-    baseClient("CypressTest", "invalidformat");
+    mockClient("CypressTest", "invalidformat");
     cy.get("[data-cy=error]").should("have.text", "Email is an invalid format");
   });
 
   it("should reject clients with a contact > 40 chars", () => {
     cy.visit("/clients");
-    baseClient(
+    mockClient(
       "CypressTest",
       "cypress@test.com",
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -112,31 +88,31 @@ describe("client editing", () => {
 
     cy.wait(500)
       .get("[data-cy=client-card]")
-      .last()
+      .first()
       .find("[data-cy=contact-text]")
       .should("have.text", "Contact: Edited");
 
     // Restore
     cy.get("[data-cy=client-card]")
-      .last()
+      .first()
       .find("[data-cy=popover-trigger]")
       .click();
 
-    cy.get("[data-cy=client-card]").last().find("[data-cy=edit]").click();
+    cy.get("[data-cy=client-card]").first().find("[data-cy=edit]").click();
 
     cy.get("[data-cy=client-card]")
-      .last()
+      .first()
       .find("[data-cy=edit-contact]")
       .clear()
       .type("John Doe")
       .should("have.value", "John Doe");
 
     // Confirm
-    cy.get("[data-cy=client-card]").last().find("[data-cy=edit]").click();
+    cy.get("[data-cy=client-card]").first().find("[data-cy=edit]").click();
 
     cy.wait(500)
       .get("[data-cy=client-card]")
-      .last()
+      .first()
       .find("[data-cy=contact-text]")
       .should("have.text", "Contact: John Doe");
   });

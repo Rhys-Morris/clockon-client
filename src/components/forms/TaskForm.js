@@ -78,6 +78,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
           Task Title
         </FormLabel>
         <Input
+          data-cy="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="My new task"
@@ -88,6 +89,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
           Due Date:
         </FormLabel>
         <Input
+          data-cy="date"
           type="date"
           mt="5px"
           min={inputFormattedToday()}
@@ -100,6 +102,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
           Estimated time to complete task (hours):
         </FormLabel>
         <Input
+          data-cy="time"
           placeholder="8.5"
           value={estimatedHours}
           onChange={(e) => setEstimatedHours(e.target.value)}
@@ -113,7 +116,9 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
         </Text>
       )}
       <Center mt="15px">
-        <Button type="submit">{type} Task</Button>
+        <Button type="submit" data-cy="submit">
+          {type} Task
+        </Button>
       </Center>
     </form>
   );

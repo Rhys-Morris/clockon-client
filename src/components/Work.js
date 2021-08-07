@@ -103,8 +103,6 @@ const Work = () => {
     cursor: "pointer",
   };
 
-  console.log(flash);
-
   return (
     <Flex h="100%">
       <Box
@@ -140,10 +138,12 @@ const Work = () => {
                 borderRadius="5px"
                 textAlign="center"
                 position="relative"
+                data-cy="flash"
               >
                 {flash}
                 <Box onClick={() => setFlash("")}>
                   <FontAwesomeIcon
+                    data-cy="remove-flash"
                     icon={faTimes}
                     style={{
                       position: "absolute",
@@ -161,6 +161,7 @@ const Work = () => {
                 <Flex
                   style={buttonStyle}
                   _hover={{ transform: "translateY(-5px)" }}
+                  data-cy="form"
                   onClick={() => {
                     setShowForm(true);
                   }}
@@ -177,6 +178,7 @@ const Work = () => {
                 </Flex>
                 <Flex
                   style={buttonStyle}
+                  data-cy="timer"
                   _hover={{ transform: "translateY(-5px)" }}
                   onClick={() => {
                     setShowTimer(true);
@@ -232,6 +234,7 @@ const Work = () => {
                   style={{ marginRight: "5px" }}
                 />
                 <Input
+                  data-cy="project-filter"
                   placeholder="Project name"
                   value={nameFilter}
                   onChange={(e) => setNameFilter(e.target.value)}
@@ -243,6 +246,7 @@ const Work = () => {
                   style={{ marginRight: "5px" }}
                 />
                 <Input
+                  data-cy="title-filter"
                   placeholder="Work details"
                   value={detailsFilter}
                   onChange={(e) => setDetailsFilter(e.target.value)}

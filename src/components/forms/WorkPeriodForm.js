@@ -87,6 +87,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
         <Flex align="center" justify="center" width="100%" p="50px">
           <Flex direction="column" flex="3.2" mr="30px">
             <Input
+              data-cy="title"
               placeholder="What did you work on?"
               p="25px"
               border="none"
@@ -103,6 +104,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                 w="50%"
                 value={projectId}
                 onChange={(e) => setProjectId(e.target.value)}
+                data-cy="project"
               >
                 {projects.map((proj) => (
                   <option key={proj.id} value={proj.id}>
@@ -118,6 +120,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                 Start Date:
               </FormLabel>
               <Input
+                data-cy="startDate"
                 type="date"
                 value={startDate}
                 onChange={(e) => {
@@ -132,6 +135,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                   Start Time:
                 </FormLabel>
                 <Input
+                  data-cy="startTime"
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
@@ -145,6 +149,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                 End Date:
               </FormLabel>
               <Input
+                data-cy="endDate"
                 min={startDate}
                 type="date"
                 value={endDate}
@@ -155,6 +160,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                   End Time:
                 </FormLabel>
                 <Input
+                  data-cy="endTime"
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
@@ -164,6 +170,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
           </Flex>
           <Flex direction="column" ml="20px" flex=".75">
             <NewButton
+              data-cy="submit"
               type="submit"
               style={{ marginBottom: "15px", textAlign: "center" }}
             >
@@ -177,6 +184,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
       </form>
       {error && (
         <Text
+          data-cy="error"
           color={applicationColors.ERROR_COLOR}
           textAlign="center"
           m="20px 0"

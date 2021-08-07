@@ -62,6 +62,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
 
   return (
     <Flex
+      data-cy="task-card"
       align="center"
       color="gray.600"
       fontWeight="bold"
@@ -108,6 +109,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
         <PopoverTrigger>
           <div onClick={toggleOpen}>
             <FontAwesomeIcon
+              data-cy="open-popover"
               icon={faEllipsisV}
               color="gray"
               size="1x"
@@ -132,6 +134,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
                     color={applicationColors.ERROR_COLOR}
                     hoverColor={applicationColors.ERROR_COLOR}
                     style={{ width: "100%" }}
+                    data-cy="trigger-destroy"
                   >
                     Delete
                   </PopoverContentButton>

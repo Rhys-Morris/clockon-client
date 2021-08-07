@@ -73,6 +73,7 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
       >
         {/* Play button */}
         <Flex
+          data-cy="play"
           align="center"
           justify="center"
           p="25px"
@@ -111,6 +112,7 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
           />
         </Flex>
         <Input
+          data-cy="title"
           placeholder="What are you working on?"
           p="25px"
           border="none"
@@ -122,7 +124,11 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
           onChange={(e) => setTitle(e.target.value)}
           flex="2"
         />
-        <Select flex="1" onChange={(e) => setProjectId(e.target.value)}>
+        <Select
+          flex="1"
+          onChange={(e) => setProjectId(e.target.value)}
+          data-cy="project"
+        >
           {projects?.map((proj) => (
             <option key={proj.id} value={proj.id}>
               {proj.name}

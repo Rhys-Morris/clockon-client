@@ -1,20 +1,10 @@
+import { mockUser } from "../../support/helpers/helper";
+
 describe("user registration", () => {
-  const baseUser = (
-    name = "Cypress",
-    email = "cypresstest@email.com",
-    password = "password"
-  ) => {
-    cy.get("[data-cy=name]").type(name).should("have.value", name);
-    cy.get("[data-cy=email]").type(email).should("have.value", email);
-    cy.get("[data-cy=password]").type(password).should("have.value", password);
-
-    cy.get("[data-cy=submit]").click();
-  };
-
   it("should allow user creation and deletion", () => {
     // Creation
     cy.visit("/register");
-    baseUser();
+    mockUser();
     cy.url("eq", Cypress.config().baseUrl + "/dashboard");
 
     // Token check
@@ -50,7 +40,7 @@ describe("user registration", () => {
 
   it("should prevent a user from being created with a non-alphabet name", () => {
     cy.visit("/register");
-    baseUser("0100");
+    mockUser("0100");
     cy.get("[data-cy=error]").should(
       "have.text",
       "Name can only contain alphabet characters"
@@ -59,7 +49,7 @@ describe("user registration", () => {
 
   it("should prevent a user from being created with a name > 40 chars", () => {
     cy.visit("/register");
-    baseUser(
+    mockUser(
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     );
     cy.get("[data-cy=error]").should(
@@ -70,7 +60,7 @@ describe("user registration", () => {
 
   it("should prevent a user from being created with a password < 8 chars", () => {
     cy.visit("/register");
-    baseUser("Cypress", "cypresstest@email.com", "short");
+    mockUser("Cypress", "cypresstest@email.com", "short");
     cy.get("[data-cy=error]").should(
       "have.text",
       "Password is too short (minimum is 8 characters)"
