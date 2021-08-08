@@ -16,6 +16,8 @@ import applicationColors from "../../style/colors";
 import { destroyExpense } from "../../data/api";
 import BaseEditModal from "../modals/BaseEditModal";
 import PropTypes from "prop-types";
+import ReceiptUpload from "../modals/ReceiptUpload";
+import OpenImage from "../modals/OpenImage";
 
 const popoverButtonStyle = {
   background: applicationColors.LIGHT_BLUE,
@@ -63,6 +65,19 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
       <Text fontSize="sm" flex="1.25" textAlign="center">
         ${cost}
       </Text>
+      {expense?.receipt_url ? (
+        <OpenImage
+          image={expense.receipt_url}
+          expense={expense}
+          updateExpensesForProject={updateExpensesForProject}
+        />
+      ) : (
+        <ReceiptUpload
+          expense={expense}
+          updateExpensesForProject={updateExpensesForProject}
+        />
+      )}
+
       {/* POPOVER */}
       <Popover isLazy placement="left" isOpen={isOpen}>
         <PopoverTrigger>

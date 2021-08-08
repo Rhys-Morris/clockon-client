@@ -22,7 +22,8 @@ const ClientForm = ({ action, onClose, type }) => {
     if (name.length > 40) return [false, "Name must be < 40 characters"];
     if (email.length > 40) return [false, "Email must be < 40 characters"];
     if (contact.length > 40) return [false, "Contact must be < 40 characters"];
-    if (!validateEmail(email)) return [false, "Email is an invalid format"];
+    if (!validateEmail(email) && email)
+      return [false, "Email is an invalid format"];
     return [true];
   };
 

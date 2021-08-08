@@ -37,7 +37,6 @@ const Sidebar = () => {
   // ----- REMOVE USER -----
   const removeUser = () => {
     destroyUser().then((res) => {
-      console.log(res);
       if (res.status === 200) {
         destroySession();
         history.push("/");

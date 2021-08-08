@@ -52,7 +52,6 @@ const Project = () => {
   const update = (project) => {
     updateProject(project)
       .then((data) => {
-        console.log(data);
         if (data.project)
           dispatch({
             type: "success",
@@ -88,7 +87,6 @@ const Project = () => {
   const markAsInvoiced = () => {
     invoiceWorkPeriods(project.id)
       .then((data) => {
-        console.log(data);
         if (data.work_periods)
           dispatch({ type: "updateWorkPeriods", data: data.work_periods });
         if (data.error) {

@@ -99,7 +99,7 @@ const BaseNewModal = ({
 BaseNewModal.propTypes = {
   type: PropTypes.string,
   action: PropTypes.func,
-  buttonProps: PropTypes.func,
+  buttonProps: PropTypes.object,
   buttonStyle: PropTypes.object,
   projectId: PropTypes.number,
 };

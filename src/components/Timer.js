@@ -58,7 +58,7 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
     <>
       {timerDisplayed && (
         <Box alignSelf="center">
-          <Text color="gray.700" fontSize="3xl">
+          <Text color="gray.700" fontSize="5xl">
             {timer}
           </Text>
         </Box>

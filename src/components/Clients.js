@@ -51,7 +51,6 @@ const Clients = () => {
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
-        // Redirect unauthorised
         if (e?.response?.status === 401) history.push("/401");
         dispatch({ type: "failure", data: e });
       });
@@ -59,18 +58,24 @@ const Clients = () => {
 
   // ----- FILTER CLIENTS ----
   React.useEffect(() => {
-    const regex = new RegExp(searchValue, "i");
-    let filtered = clients.filter((client) => {
-      if (!searchValue) return true;
-      return client.name.match(regex);
-    });
-    filtered = filtered.filter((client) => {
-      if (activeFilter === "both") return true;
-      if (activeFilter === "active" && client.active) return true;
-      if (activeFilter === "inactive" && !client.active) return true;
-      return false;
-    });
-    dispatch({ type: "setFiltered", data: filtered });
+    // Wrap in try catch to prevent bug with trailing "\"
+    try {
+      let filtered = clients.filter((client) => {
+        if (!searchValue) return true;
+        // TO DO - see if this can be fixed more concretely
+        if (searchValue === "\\") return false;
+        if (searchValue) return client.name.match(new RegExp(searchValue, "i"));
+      });
+      filtered = filtered.filter((client) => {
+        if (activeFilter === "both") return true;
+        if (activeFilter === "active" && client.active) return true;
+        if (activeFilter === "inactive" && !client.active) return true;
+        return false;
+      });
+      dispatch({ type: "setFiltered", data: filtered });
+    } catch (err) {
+      console.warn(err);
+    }
   }, [searchValue, clients, activeFilter]);
 
   // ----- UPDATE CLIENTS  -----

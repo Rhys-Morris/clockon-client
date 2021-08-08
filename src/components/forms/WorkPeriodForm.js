@@ -25,8 +25,6 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
   const [endTime, setEndTime] = React.useState("");
   const [error, setError] = React.useState(null);
 
-  console.log(setFlash);
-
   React.useEffect(() => {
     getProjects().then((data) => {
       if (data.projects) {
@@ -38,7 +36,6 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
 
   // Check validity of input
   const checkTimeValidity = () => {
-    console.log(startTime, startDate, endTime, endDate);
     if (!startDate || !startTime || !endDate || !endTime) {
       setError("All time related fields must be filled out");
       return false;

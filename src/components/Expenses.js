@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisV,
@@ -169,6 +169,9 @@ const Expenses = ({ projectId, expenses, action }) => {
           )}
         </Flex>
         {/* Keep spacing the same */}
+        <Box fontSize="sm" p="3px" marginRight="20px" visibility="hidden">
+          Upload receipt
+        </Box>
         <FontAwesomeIcon icon={faEllipsisV} color="transparent" />
       </Flex>
       {(!expenses || expenses?.length === 0) && (

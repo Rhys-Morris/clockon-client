@@ -184,35 +184,48 @@ const destroyTask = (projectId, taskId) => {
     .then((res) => res.data);
 };
 
+// ----- EXPENSES -----
+
 const createExpense = (expense) => {
   return axios
     .post(
       `${URL}/expenses/${expense.project_id}`,
       {
-        expense,
+        ...expense,
       },
       AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
-// ----- EXPENSES -----
+const updateExpense = (expense, receipt = null) => {
+  let toSend;
 
-const updateExpense = (expense) => {
+  if (receipt) {
+    toSend = new FormData();
+    Object.entries(expense).forEach(([key, value]) => {
+      toSend.append(key, value);
+    });
+    toSend.append("receipt", receipt);
+  }
   return axios
     .put(
       `${URL}/expenses/${expense.project_id}/${expense.id}`,
-      {
-        expense,
-      },
+      receipt ? toSend : { ...expense },
       AUTH_HEADER()
     )
     .then((res) => res.data);
 };
 
-const destroyExpense = (projectId, taskId) => {
+const destroyExpense = (projectId, expenseId) => {
   return axios
-    .delete(`${URL}/expenses/${projectId}/${taskId}`, AUTH_HEADER())
+    .delete(`${URL}/expenses/${projectId}/${expenseId}`, AUTH_HEADER())
+    .then((res) => res.data);
+};
+
+const purgeReceipt = (expense) => {
+  return axios
+    .delete(`${URL}/receipt/${expense.project_id}/${expense.id}`, AUTH_HEADER())
     .then((res) => res.data);
 };
 
@@ -271,4 +284,5 @@ export {
   destroyWorkPeriod,
   getUser,
   invoiceWorkPeriods,
+  purgeReceipt,
 };

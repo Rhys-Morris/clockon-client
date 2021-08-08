@@ -40,8 +40,6 @@ const ProjectChart = ({ workPeriods }) => {
     );
   };
 
-  console.log(data());
-
   // CHART
   const Chart = () => {
     setChartData({
