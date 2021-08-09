@@ -3,6 +3,7 @@ import { getToken } from "../helpers/helper";
 
 const AUTH_HEADER = () => ({
   headers: {
+    "Access-Control-Allow-Origin": "*",
     Authorization: "Bearer " + getToken(),
   },
 });
@@ -10,8 +11,6 @@ const URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:4000"
     : "https://clockon-api.herokuapp.com";
-
-console.log(URL);
 
 // ----- USERS -----
 
