@@ -24,6 +24,8 @@ const LandingNav = () => {
     document.getElementById("hamburger").style.visbility = "visible";
   };
 
+  console.log(process.env.REACT_APP_VAR);
+
   return (
     <nav
       style={{
