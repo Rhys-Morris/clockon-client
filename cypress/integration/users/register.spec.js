@@ -14,7 +14,7 @@ describe("user registration", () => {
       .should("exist");
 
     // Deletion
-    cy.get("[data-cy=trigger-destroy]").click();
+    cy.get("[data-cy=account-destroy]").click();
     cy.get("[data-cy=confirm-destroy]").click();
     cy.url("eq", Cypress.config().baseUrl + "/");
   });

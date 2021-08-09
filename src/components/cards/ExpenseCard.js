@@ -55,14 +55,15 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
       fontWeight="bold"
       borderBottom="1px solid rgba(0, 0,0, .2)"
       p="10px 20px"
+      data-cy="expense-card"
     >
-      <Text fontSize="sm" flex="2">
+      <Text fontSize="sm" flex="2" data-cy="expense-name">
         {name}
       </Text>
-      <Text fontSize="sm" flex="1.25" textAlign="center">
+      <Text fontSize="sm" flex="1.25" textAlign="center" data-cy="expense-date">
         {date}
       </Text>
-      <Text fontSize="sm" flex="1.25" textAlign="center">
+      <Text fontSize="sm" flex="1.25" textAlign="center" data-cy="expense-cost">
         ${cost}
       </Text>
       {expense?.receipt_url ? (
@@ -83,6 +84,7 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
         <PopoverTrigger>
           <div onClick={toggleOpen} data-testid="popover-trigger">
             <FontAwesomeIcon
+              data-cy="open-popover"
               icon={faEllipsisV}
               color="gray"
               size="1x"
@@ -104,6 +106,7 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
               <ConfirmDestroyModal
                 trigger={
                   <PopoverContentButton
+                    data-cy="trigger-destroy"
                     color={applicationColors.ERROR_COLOR}
                     hoverColor={applicationColors.ERROR_COLOR}
                     style={{ width: "100%" }}

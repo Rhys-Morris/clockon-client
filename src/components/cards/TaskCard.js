@@ -70,6 +70,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       p="10px 20px"
     >
       <Text
+        data-cy="task-title"
         fontSize="sm"
         flex="2"
         style={
@@ -81,6 +82,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
         {task.title}
       </Text>
       <Text
+        data-cy="task-date"
         fontSize="sm"
         flex="1.25"
         textAlign="center"
@@ -89,6 +91,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
         {task.due_date ? task.due_date : "Not specified"}
       </Text>
       <Text
+        data-cy="task-hours"
         fontSize="sm"
         flex="1.25"
         textAlign="center"
@@ -98,6 +101,7 @@ const TaskCard = ({ task, updateTasksForProject }) => {
       </Text>
       <div onClick={toggleChecked} style={{ flex: ".3" }}>
         <FontAwesomeIcon
+          data-cy="task-completed"
           icon={faCheck}
           color={applicationColors.GREEN}
           size="1x"

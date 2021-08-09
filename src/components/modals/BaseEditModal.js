@@ -55,7 +55,7 @@ const BaseEditModal = ({ type, action, entity, buttonStyle, closePopover }) => {
 
   return (
     <>
-      <NewButton style={buttonStyle} onClick={onOpen}>
+      <NewButton style={buttonStyle} onClick={onOpen} data-cy="edit">
         Edit {type === "Project" ? type : null}
       </NewButton>
 

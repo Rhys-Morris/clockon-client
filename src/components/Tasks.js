@@ -89,6 +89,7 @@ const Tasks = ({ projectId, tasks, action }) => {
         </Heading>
         <Flex align="center">
           <Text
+            data-cy="toggle-completed"
             color="gray.700"
             mr="20px"
             _hover={{ color: "gray.500", cursor: "pointer" }}
@@ -135,6 +136,7 @@ const Tasks = ({ projectId, tasks, action }) => {
             cursor="pointer"
             // Sort by due date
             onClick={sortDueDate}
+            data-cy="sort-date"
           >
             Due date
           </Text>
@@ -162,6 +164,7 @@ const Tasks = ({ projectId, tasks, action }) => {
         </Flex>
         <Flex justify="center" flex="1.25">
           <Text
+            data-cy="sort-hours"
             fontSize="sm"
             casing="uppercase"
             textAlign="center"
@@ -228,6 +231,7 @@ const Tasks = ({ projectId, tasks, action }) => {
               padding: "5px 10px",
               position: "relative",
             }}
+            data-cy="tasks-previous"
           >
             <FontAwesomeIcon icon={faChevronLeft} size="sm" color="white" />
           </NewButton>
@@ -238,6 +242,7 @@ const Tasks = ({ projectId, tasks, action }) => {
           <NewButton
             onClick={nextPage}
             style={{ padding: "5px 10px", position: "relative" }}
+            data-cy="tasks-next"
           >
             <FontAwesomeIcon icon={faChevronRight} size="sm" color="white" />
           </NewButton>

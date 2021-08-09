@@ -39,6 +39,7 @@ const ReceiptUpload = ({ expense, updateExpensesForProject }) => {
         bg="none"
         _hover={{ color: applicationColors.LIGHT_BLUE }}
         onClick={onOpen}
+        width="100px"
       >
         Upload receipt
       </Button>

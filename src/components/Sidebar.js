@@ -97,7 +97,7 @@ const Sidebar = () => {
             <SidebarLink
               style={sideBarLinkStyle}
               primary={"#CF6766"}
-              data-cy="trigger-destroy"
+              data-cy="account-destroy"
             >
               <FontAwesomeIcon icon={faTrash} style={iconStyle} />
               Remove Account

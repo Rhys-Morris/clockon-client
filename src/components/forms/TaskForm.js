@@ -22,7 +22,24 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
   );
   const [error, setError] = React.useState(null);
 
+  const validate = () => {
+    if (estimatedHours < 0) {
+      setError("Estimated hours must be greater than 0.0");
+      return false;
+    }
+    if (estimatedHours > 1000) {
+      setError("Estimated hours must be less than 1000.0");
+      return false;
+    }
+    if (title.length > 100) {
+      setError("Task title must be less than 100 characters");
+      return false;
+    }
+    return true;
+  };
+
   const create = (task) => {
+    if (!validate) return;
     createTask(task)
       .then((data) => {
         if (data.tasks) {
@@ -31,7 +48,6 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
         }
         if (data.error) {
           setError(data.error[0]);
-          setTimeout(() => setError(null), 5000);
         }
       })
       .catch((e) => {
@@ -40,6 +56,7 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
   };
 
   const update = (task) => {
+    if (!validate) return;
     updateTask(task)
       .then((data) => {
         if (data.tasks) {
@@ -111,7 +128,12 @@ const TaskForm = ({ action, onClose, type, task, projectId, closePopover }) => {
         ></Input>
       </FormControl>
       {error && (
-        <Text fontSize="sm" color={applicationColors.ERROR_COLOR} m="10px 0">
+        <Text
+          data-cy="task-error"
+          fontSize="sm"
+          color={applicationColors.ERROR_COLOR}
+          m="10px 0"
+        >
           {error}
         </Text>
       )}

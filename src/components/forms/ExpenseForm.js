@@ -64,8 +64,25 @@ const ExpenseForm = ({
       });
   };
 
+  const validate = () => {
+    if (name.length > 40) {
+      setError("Expense name must be < 40 characters");
+      return false;
+    }
+    if (cost <= 0) {
+      setError("Cost must be greater than 0");
+      return false;
+    }
+    if (cost > 10000) {
+      setError("Cost must be less than 10000.0");
+      return false;
+    }
+    return true;
+  };
+
   const submitForm = (e) => {
     e.preventDefault();
+    if (!validate()) return;
     const expenseDetails = {
       name,
       date,
@@ -89,6 +106,7 @@ const ExpenseForm = ({
           Name of expense
         </FormLabel>
         <Input
+          data-cy="expense-name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="A new expense"
@@ -99,6 +117,7 @@ const ExpenseForm = ({
           Date
         </FormLabel>
         <Input
+          data-cy="expense-date"
           type="date"
           mt="5px"
           value={date}
@@ -111,6 +130,7 @@ const ExpenseForm = ({
           <FontAwesomeIcon icon={faDollarSign} color="gray" />)
         </FormLabel>
         <Input
+          data-cy="cost"
           placeholder="20"
           value={cost}
           onChange={(e) => setCost(e.target.value)}
@@ -119,12 +139,19 @@ const ExpenseForm = ({
         ></Input>
       </FormControl>
       {error && (
-        <Text fontSize="sm" color={applicationColors.ERROR_COLOR} m="10px 0">
+        <Text
+          data-cy="expense-error"
+          fontSize="sm"
+          color={applicationColors.ERROR_COLOR}
+          m="10px 0"
+        >
           {error}
         </Text>
       )}
       <Center mt="15px">
-        <Button type="submit">{type} Expense</Button>
+        <Button type="submit" data-cy="submit">
+          {type} Expense
+        </Button>
       </Center>
     </form>
   );

@@ -9,6 +9,7 @@ import {
   Image,
   Text,
   Spinner,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -24,6 +25,14 @@ const Register = () => {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+
+  // Media Queries
+  const [breakpoint1400] = useMediaQuery("(max-width: 1200px)");
+  const [breakpoint1200] = useMediaQuery("(max-width: 1200px)");
+  const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
+  const [breakpoint800] = useMediaQuery("(max-width: 850px)");
+  const [breakpoint600] = useMediaQuery("(max-width: 600px)");
+  const [breakpoint400] = useMediaQuery("(max-width: 600px)");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -52,8 +61,18 @@ const Register = () => {
         color="gray.600"
         align="center"
         justify="center"
-        h="75%"
-        w="80%"
+        h={breakpoint800 ? "65%" : "75%"}
+        w={
+          breakpoint400
+            ? "95%"
+            : breakpoint600
+            ? "80%"
+            : breakpoint800
+            ? "60%"
+            : breakpoint1000
+            ? "90%"
+            : "80%"
+        }
         maxWidth="1200px"
         border="3px solid #8eaedd"
         borderRadius="20px"
@@ -144,14 +163,18 @@ const Register = () => {
             </ul>
           )}
         </form>
-        <Image
-          ml="30px"
-          w="50%"
-          maxWidth="600px"
-          src="./assets/register.jpg"
-          alt="vector image of freelancer"
-          flex="1"
-        />
+        {breakpoint800 ? null : (
+          <Image
+            ml="30px"
+            w="50%"
+            maxWidth={
+              breakpoint1200 ? "400px" : breakpoint1400 ? "450px" : "600px"
+            }
+            src="./assets/register.jpg"
+            alt="vector image of freelancer"
+            flex="1"
+          />
+        )}
       </Flex>
     </Flex>
   );

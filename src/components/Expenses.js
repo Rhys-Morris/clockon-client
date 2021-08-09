@@ -110,6 +110,7 @@ const Expenses = ({ projectId, expenses, action }) => {
             cursor="pointer"
             // Sort by date
             onClick={sortDate}
+            data-cy="sort-expenses-date"
           >
             Date
           </Text>
@@ -143,6 +144,7 @@ const Expenses = ({ projectId, expenses, action }) => {
             cursor="pointer"
             // Sort by hours
             onClick={sortCost}
+            data-cy="sort-expenses-cost"
           >
             Cost
           </Text>
@@ -197,6 +199,7 @@ const Expenses = ({ projectId, expenses, action }) => {
         {/* Previous */}
         {page !== 1 && (
           <NewButton
+            data-cy="expenses-prev"
             onClick={previousPage}
             style={{
               marginRight: "10px",
@@ -211,6 +214,7 @@ const Expenses = ({ projectId, expenses, action }) => {
         {(expenses?.length > page * 6 ||
           (page === 1 && expenses?.length > 6)) && (
           <NewButton
+            data-cy="expenses-next"
             onClick={nextPage}
             style={{ padding: "5px 10px", position: "relative" }}
           >

@@ -9,12 +9,12 @@ describe("user login", () => {
   });
 
   it("should reject invalid email", () => {
-    login("wrong@email.com");
+    login("wrong@email.com", "password", false);
     cy.get("[data-cy=error]").should("have.text", "Invalid email or password");
   });
 
   it("should reject invalid password", () => {
-    login("test@test.com", "wrong");
+    login("test@test.com", "wrong", false);
     cy.get("[data-cy=error]").should("have.text", "Invalid email or password");
   });
 });

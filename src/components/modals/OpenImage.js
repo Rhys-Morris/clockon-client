@@ -37,6 +37,7 @@ const OpenImage = ({ image, expense, updateExpensesForProject }) => {
         bg="none"
         _hover={{ color: applicationColors.LIGHT_BLUE }}
         onClick={onOpen}
+        width="100px"
       >
         View receipt
       </Button>
