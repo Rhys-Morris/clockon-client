@@ -1,20 +1,15 @@
 import React from "react";
-import { Flex, Heading, Box, Text } from "@chakra-ui/react";
+import { Flex, Heading, Box, Text, useMediaQuery } from "@chakra-ui/react";
 import herovid from "../assets/video.mp4";
-import "../style/stylesheets/hero.css";
 import PillButton from "./styled/PillButton";
 import LandingNav from "./LandingNav";
 import { Link } from "react-router-dom";
-
-const letterRotate = {
-  transform: "rotate(15deg)",
-  color: "#8eaedd",
-  display: "inline-block",
-  margin: "0 1px",
-  fontWeight: "bold",
-};
+import { letterRotate, videoBackground } from "../style/styleObjects";
 
 const Hero = () => {
+  // MEDIA QUERIES
+  const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
+  const [breakpoint750] = useMediaQuery("(max-width: 750px)");
   return (
     <Flex
       direction="column"
@@ -29,10 +24,10 @@ const Hero = () => {
     >
       <LandingNav />
       {/* BG video for hero */}
-      <video id="video-bg" autoPlay loop muted>
+      <video style={videoBackground} autoPlay loop muted>
         <source src={herovid} type="video/mp4" />
       </video>
-      <Box pl="20%">
+      <Box pl={breakpoint750 ? "5%" : breakpoint1000 ? "10%" : "20%"}>
         <Heading as="h1" size="3xl" fontWeight="400" mb="15px">
           Manage your projects,
         </Heading>

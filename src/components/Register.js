@@ -55,6 +55,7 @@ const Register = () => {
       })
       .catch((err) => console.error(err));
   };
+
   return (
     <Flex h="100%" w="100%" align="center" justify="center">
       <Flex

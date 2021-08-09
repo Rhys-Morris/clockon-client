@@ -1,15 +1,33 @@
 import React from "react";
-import { Flex, Link } from "@chakra-ui/react";
+import { Flex, Link, useMediaQuery } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import PillButton from "./styled/PillButton";
 import LoginModal from "./modals/LoginModal";
 import applicationColors from "../style/colors";
+import { getToken } from "../helpers/helper";
+import { HamburgerBox, HamburgerLine } from "./styled/HamburgerElements";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const LandingNav = () => {
+  const [breakpoint500] = useMediaQuery("(max-width: 500px)");
+
+  const showMenu = () => {
+    document.getElementById("menu").style.visibility = "visible";
+    document.getElementById("menu").style.opacity = "1";
+    document.getElementById("hamburger").style.visbility = "hidden";
+  };
+
+  const closeMenu = () => {
+    document.getElementById("menu").style.visibility = "hidden";
+    document.getElementById("menu").style.opacity = "0";
+    document.getElementById("hamburger").style.visbility = "visible";
+  };
+
   return (
     <nav
       style={{
-        padding: "15px 20px",
+        padding: breakpoint500 ? "0" : "15px 20px",
         position: "fixed",
         top: "0",
         width: "100%",
@@ -18,33 +36,96 @@ const LandingNav = () => {
     >
       <Flex justify="space-between" align="center">
         <Flex align="center">
-          <Link mr="50px" fontSize="30" _hover={{ textDecoration: "none" }}>
+          <Link
+            p={breakpoint500 ? "0 20px" : "0"}
+            mt={breakpoint500 ? "10px" : "0"}
+            fontSize="30"
+            _hover={{ textDecoration: "none" }}
+          >
             ClockOn
           </Link>
           {/* Feature, About Links here if time */}
         </Flex>
-        <Flex align="center">
-          {sessionStorage.getItem("token") ? (
-            <Link
-              as={RouterLink}
-              to="/dashboard"
-              fontSize="lg"
-              _hover={{ textDecoration: "none", color: applicationColors.NAVY }}
+        {breakpoint500 ? (
+          <Flex flex="1" justify="flex-end">
+            <HamburgerBox
+              style={{ marginRight: "10px", marginTop: "10px" }}
+              onClick={showMenu}
+              id="hamburger"
             >
-              Dashboard
-            </Link>
-          ) : (
-            <LoginModal />
-          )}
-          <Link as={RouterLink} to="/register" ml="50px" fontSize="lg">
-            <PillButton
+              <HamburgerLine />
+              <HamburgerLine />
+              <HamburgerLine />
+            </HamburgerBox>
+            {/* Options to appear */}
+            <Flex
+              direction="column"
               bg={applicationColors.NAVY}
-              bgHover={applicationColors.LIGHT_NAVY}
+              height="100vh"
+              width="150px"
+              position="absolute"
+              visibility="hidden"
+              opacity="0"
+              id="menu"
+              transition=".3s"
+              p="5px"
             >
-              Register
-            </PillButton>
-          </Link>
-        </Flex>
+              <FontAwesomeIcon
+                style={{
+                  marginTop: "10px",
+                }}
+                icon={faTimes}
+                color={applicationColors.SOFT_LIGHT_BLUE}
+                size="2x"
+                onClick={closeMenu}
+              />
+              {getToken() ? (
+                <Link
+                  as={RouterLink}
+                  to="/dashboard"
+                  fontSize="2xl"
+                  _hover={{
+                    textDecoration: "none",
+                    color: applicationColors.NAVY,
+                  }}
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <LoginModal style={{ marginTop: "30px" }} />
+              )}
+              <Link as={RouterLink} to="/register" fontSize="2xl">
+                Register
+              </Link>
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex align="center">
+            {getToken() ? (
+              <Link
+                as={RouterLink}
+                to="/dashboard"
+                fontSize="lg"
+                _hover={{
+                  textDecoration: "none",
+                  color: applicationColors.NAVY,
+                }}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <LoginModal />
+            )}
+            <Link as={RouterLink} to="/register" ml="50px" fontSize="lg">
+              <PillButton
+                bg={applicationColors.NAVY}
+                bgHover={applicationColors.LIGHT_NAVY}
+              >
+                Register
+              </PillButton>
+            </Link>
+          </Flex>
+        )}
       </Flex>
     </nav>
   );

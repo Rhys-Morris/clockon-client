@@ -8,16 +8,19 @@ import {
   ModalCloseButton,
   useDisclosure,
   Link,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Login from "../Login";
 
 const LoginModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [breakpoint500] = useMediaQuery("(max-width: 500px)");
 
   return (
     <>
       <Link
-        fontSize="lg"
+        fontSize={breakpoint500 ? "2xl" : "lg"}
+        m={breakpoint500 ? "10px 0" : "0"}
         transition=".2s all"
         borderBottom="2px solid transparent"
         borderRadius="none"
