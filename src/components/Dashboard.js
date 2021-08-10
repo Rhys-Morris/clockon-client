@@ -18,7 +18,12 @@ import {
   msToFormattedTime,
 } from "../helpers/date";
 import applicationColors from "../style/colors";
-import { convertWorkToHours, sum, totalIncome } from "../helpers/helper";
+import {
+  convertWorkToHours,
+  sum,
+  totalIncome,
+  greeting,
+} from "../helpers/helper";
 import { BarChart, PieChart } from "./charts/DashChart";
 import { dashReducer } from "../data/reducers";
 
@@ -58,6 +63,13 @@ const Dashboard = () => {
       });
   }, [history]);
 
+  // Set title
+  React.useEffect(() => {
+    window.document.title = `ClockOn | ${
+      user?.name ? `${user?.name} - ` : ""
+    } Dashboard`;
+  }, [user]);
+
   // ---- FETCH NEW WORK PERIODS -----
   React.useEffect(() => {
     dispatch({ type: "request" });
@@ -74,13 +86,6 @@ const Dashboard = () => {
         if (e?.response?.status === 401) history.push("/401");
       });
   }, [period]);
-
-  const greeting = () => {
-    const currentTime = new Date(Date.now()).getHours();
-    if (currentTime >= 18 || currentTime < 2) return "Good Evening";
-    if (currentTime >= 2 && currentTime < 12) return "Good Morning";
-    if (currentTime >= 12 && currentTime < 18) return "Good Afternoon";
-  };
 
   return (
     <>

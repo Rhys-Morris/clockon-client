@@ -24,7 +24,9 @@ const LoginModal = () => {
         transition=".2s all"
         borderBottom="2px solid transparent"
         borderRadius="none"
-        _hover={{ borderBottom: "2px solid #eee" }}
+        _hover={{
+          borderBottom: breakpoint500 ? null : "2px solid #eee",
+        }}
         onClick={onOpen}
         data-cy="login"
       >

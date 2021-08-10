@@ -48,6 +48,11 @@ const Project = () => {
   const { loading, project, tasks, expenses, workPeriods } = projectStore;
   const { hourlyRate } = React.useContext(WageContext);
 
+  // Set title
+  React.useEffect(() => {
+    window.document.title = `ClockOn ${project ? `| ${project?.name}` : ""}`;
+  }, [project]);
+
   // ----- UPDATE THE PROJECT -----
   const update = (project) => {
     updateProject(project)

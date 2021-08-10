@@ -28,6 +28,11 @@ const Work = () => {
   const [flash, setFlash] = React.useState("");
   let history = useHistory();
 
+  // Set title
+  React.useEffect(() => {
+    window.document.title = "ClockOn | Work";
+  }, []);
+
   // GET WORK PERIODS ON RENDER
   React.useEffect(() => {
     getWorkPeriods()

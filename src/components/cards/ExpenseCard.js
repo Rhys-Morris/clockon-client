@@ -118,9 +118,6 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
                   destroy();
                   close();
                 }}
-                message={
-                  "Clicking confirm will permanently delete this client, and all projects associated with this client."
-                }
                 closePopover={close}
               />
             </Flex>

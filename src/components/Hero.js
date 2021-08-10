@@ -10,6 +10,7 @@ const Hero = () => {
   // MEDIA QUERIES
   const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
   const [breakpoint750] = useMediaQuery("(max-width: 750px)");
+
   return (
     <Flex
       direction="column"

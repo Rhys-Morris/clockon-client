@@ -8,7 +8,6 @@ import {
   sum,
   validateEmail,
   convertWorkToHours,
-  fortnightTimestamp,
   weekTimestamp,
   workPeriodsBetweenTimestamps,
 } from "../helper";
@@ -155,23 +154,6 @@ describe(convertWorkToHours, () => {
     expect(convertWorkToHours(testArray).length).toEqual(2);
     expect(convertWorkToHours(testArray)[0]).toBeCloseTo(4.066);
     expect(convertWorkToHours(testArray)[1]).toBeCloseTo(2.033);
-  });
-});
-
-describe(fortnightTimestamp, () => {
-  it("should return a timestamp exactly two weeks prior when called without arguments", () => {
-    const dateNowStub = jest.fn(() => 1627950712221);
-    global.Date.now = dateNowStub;
-    expect(Date.now()).toBe(1627950712221);
-    expect(fortnightTimestamp()).toBe(1626741112221);
-    expect(dateNowStub).toHaveBeenCalled();
-  });
-  it("should return a timestamp exactly 4 weeks prior when called with 2", () => {
-    const dateNowStub = jest.fn(() => 1627950712221);
-    global.Date.now = dateNowStub;
-    expect(Date.now()).toBe(1627950712221);
-    expect(fortnightTimestamp(2)).toBe(1625531512221);
-    expect(dateNowStub).toHaveBeenCalled();
   });
 });
 

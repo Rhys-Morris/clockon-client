@@ -30,7 +30,6 @@ const Clients = () => {
 
   const [searchValue, setSearchValue] = React.useState("");
   const [activeFilter, setActiveFilter] = React.useState("active");
-
   const [clientsStore, dispatch] = React.useReducer(
     clientsReducer,
     initialState
@@ -40,10 +39,6 @@ const Clients = () => {
 
   // ----- RENDER -----
   React.useEffect(() => {
-    // Check for token
-    if (!sessionStorage.getItem("token")) {
-      history.push("/401");
-    }
     dispatch({ type: "request" });
     getClients()
       .then((data) => {
@@ -83,6 +78,11 @@ const Clients = () => {
     dispatch({ type: "setClients", data: updatedClients });
     setSearchValue("");
   };
+
+  // Set title
+  React.useEffect(() => {
+    window.document.title = "ClockOn | Clients";
+  }, []);
 
   return (
     <Flex h="100%">

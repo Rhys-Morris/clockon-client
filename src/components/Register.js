@@ -32,7 +32,12 @@ const Register = () => {
   const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
   const [breakpoint800] = useMediaQuery("(max-width: 850px)");
   const [breakpoint600] = useMediaQuery("(max-width: 600px)");
-  const [breakpoint400] = useMediaQuery("(max-width: 600px)");
+  const [breakpoint400] = useMediaQuery("(max-width: 400px)");
+
+  // Set title
+  React.useEffect(() => {
+    window.document.title = "ClockOn | Register";
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();

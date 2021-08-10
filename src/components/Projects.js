@@ -24,7 +24,7 @@ import {
   iconMarginRight,
   inputStyle,
   activeSelectStyle,
-} from "../style/projects";
+} from "../style/styleObjects";
 import { getProjects, addProject } from "../data/api";
 import { projectsReducer } from "../data/reducers";
 import { useHistory } from "react-router";
@@ -56,6 +56,11 @@ const Projects = () => {
     dueDateSortedFirst,
   } = projectsState;
   let history = useHistory();
+
+  // Set title
+  React.useEffect(() => {
+    window.document.title = "ClockOn | Projects";
+  }, []);
 
   // ---- SET PROJECTS ON RENDER -----
   React.useEffect(() => {

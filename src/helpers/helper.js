@@ -1,6 +1,5 @@
 import {
   MILLISECONDS_IN_DAY,
-  MILLISECONDS_IN_FORTNIGHT,
   MILLISECONDS_IN_HOUR,
   MILLISECONDS_IN_WEEK,
   msTimestamp,
@@ -104,10 +103,6 @@ const dayTimestamp = (num = 1) => {
   return Date.now() - MILLISECONDS_IN_DAY * num;
 };
 
-const fortnightTimestamp = (num = 1) => {
-  return Date.now() - MILLISECONDS_IN_FORTNIGHT * num;
-};
-
 const weekTimestamp = (num = 1) => {
   return Date.now() - MILLISECONDS_IN_WEEK * num;
 };
@@ -117,6 +112,13 @@ const workPeriodsBetweenTimestamps = (workPeriods, start, end) => {
   return workPeriods.filter((wp) => {
     return msTimestamp(wp.end_time) > start && msTimestamp(wp.end_time) < end;
   });
+};
+
+const greeting = () => {
+  const currentTime = new Date(Date.now()).getHours();
+  if (currentTime >= 18 || currentTime < 2) return "Good Evening";
+  if (currentTime >= 2 && currentTime < 12) return "Good Morning";
+  if (currentTime >= 12 && currentTime < 18) return "Good Afternoon";
 };
 
 export {
@@ -132,7 +134,7 @@ export {
   convertWorkToHours,
   validateEmail,
   dayTimestamp,
-  fortnightTimestamp,
   weekTimestamp,
   workPeriodsBetweenTimestamps,
+  greeting,
 };

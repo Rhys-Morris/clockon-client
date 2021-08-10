@@ -73,6 +73,7 @@ const ProjectCard = ({ project, dispatch }) => {
             data-cy="destroy-project"
           />
         }
+        message={"This action will permanently destroy the selected project."}
         action={destroyCard}
       />
     </Flex>

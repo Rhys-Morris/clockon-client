@@ -14,14 +14,14 @@ const LandingNav = () => {
 
   const showMenu = () => {
     document.getElementById("menu").style.visibility = "visible";
-    document.getElementById("menu").style.opacity = "1";
-    document.getElementById("hamburger").style.visbility = "hidden";
+    document.getElementById("menu").style.opacity = ".9";
+    document.getElementById("hamburger").style.visibility = "hidden";
   };
 
   const closeMenu = () => {
     document.getElementById("menu").style.visibility = "hidden";
     document.getElementById("menu").style.opacity = "0";
-    document.getElementById("hamburger").style.visbility = "visible";
+    document.getElementById("hamburger").style.visibility = "visible";
   };
 
   return (
@@ -49,7 +49,11 @@ const LandingNav = () => {
         {breakpoint500 ? (
           <Flex flex="1" justify="flex-end">
             <HamburgerBox
-              style={{ marginRight: "10px", marginTop: "10px" }}
+              style={{
+                marginRight: "10px",
+                marginTop: "10px",
+                transition: "0.2s",
+              }}
               onClick={showMenu}
               id="hamburger"
             >
@@ -62,13 +66,13 @@ const LandingNav = () => {
               direction="column"
               bg={applicationColors.NAVY}
               height="100vh"
-              width="150px"
+              width="180px"
               position="absolute"
               visibility="hidden"
               opacity="0"
               id="menu"
               transition=".3s"
-              p="5px"
+              p="10px"
             >
               <FontAwesomeIcon
                 style={{
@@ -86,7 +90,6 @@ const LandingNav = () => {
                   fontSize="2xl"
                   _hover={{
                     textDecoration: "none",
-                    color: applicationColors.NAVY,
                   }}
                 >
                   Dashboard
@@ -94,7 +97,14 @@ const LandingNav = () => {
               ) : (
                 <LoginModal style={{ marginTop: "30px" }} />
               )}
-              <Link as={RouterLink} to="/register" fontSize="2xl">
+              <Link
+                as={RouterLink}
+                to="/register"
+                fontSize="2xl"
+                _hover={{
+                  textDecoration: "none",
+                }}
+              >
                 Register
               </Link>
             </Flex>

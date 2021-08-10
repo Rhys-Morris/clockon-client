@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import PopoverContentButton from "../styled/PopoverContentButton";
 import { destroyClient, updateClient } from "../../data/api";
-import { cardStyle, ellipsisStyle } from "../../style/clients";
+import { cardStyle, ellipsisStyle } from "../../style/styleObjects";
 import { clientCardReducer } from "../../data/reducers";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import applicationColors from "../../style/colors";
@@ -48,7 +48,6 @@ const ClientCard = ({ client, updateClients }) => {
   const close = () => setIsOpen(false);
 
   // ----- API CALLS -----
-
   const destroyCard = () => {
     destroyClient(id)
       .then((data) => {
