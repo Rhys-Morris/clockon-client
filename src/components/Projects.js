@@ -124,10 +124,11 @@ const Projects = () => {
         bgGradient="linear(to-b, #30415D, #031424)"
         h="100%"
         p="15px"
+        position="fixed"
       >
         <Sidebar />
       </Box>
-      <Box flex="1" color="gray.400">
+      <Box flex="1" color="gray.400" ml="200px">
         <section>
           {/* HEADER */}
           <Flex

@@ -85,7 +85,7 @@ const ProjectChart = ({ workPeriods }) => {
 };
 
 ProjectChart.propTypes = {
-  workPeriods: PropTypes.object,
+  workPeriods: PropTypes.array,
 };
 
 export default ProjectChart;

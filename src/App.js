@@ -22,7 +22,7 @@ function App() {
       <ChakraProvider theme={theme}>
         <Router>
           <Center>
-            <Box h="100vh" w="100vw" color="white">
+            <Box h="100vh" width="100%" color="white">
               <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/register" component={Register} />

@@ -9,9 +9,9 @@ import {
   Spinner,
   Box,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { login } from "../data/api";
 
 const Login = () => {
   const [password, setPassword] = React.useState("");
@@ -23,14 +23,9 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    axios
-      .post("http://localhost:4000/login", {
-        email,
-        password,
-      })
-      .then((res) => res.data)
+    login(email, password)
       .then((data) => {
-        if (data.error === "Invalid username or password") {
+        if (data.error === "Invalid email or password") {
           setLoading(false);
           setError("Invalid email or password");
         } else {
@@ -39,7 +34,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.warn(err);
         setLoading(false);
         setError(err.message);
       });

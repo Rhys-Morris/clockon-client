@@ -19,14 +19,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
   };
 
   return (
-    <Flex
-      m="5px 0"
-      align="center"
-      justify="space-between"
-      w="100%"
-      maxWidth="1200px"
-      data-cy="work"
-    >
+    <Flex m="5px 0" align="center" w="100%" maxWidth="1000px" data-cy="work">
       <Flex align="center">
         <Box
           display="inline-block"
@@ -41,8 +34,11 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
             fontWeight: "bold",
             color: "#444",
             marginRight: "20px",
-            width: "250px",
+            width: "140px",
             display: "inline-block",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
           }}
           as={RouterLink}
           to={`/project/${workPeriod.project_id}`}
@@ -50,10 +46,24 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
           {workPeriod.project}
         </Link>
       </Flex>
-      <Text style={{ overflow: "hidden", textOverflow: "wrap" }}>
+      <Text
+        style={{
+          width: "500px",
+          display: "inline-block",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        }}
+      >
         {workPeriod.title}
       </Text>
-      <Text display="inline" color="#bbb" fontStyle="italic">
+      <Text
+        display="inline"
+        color="#bbb"
+        fontStyle="italic"
+        w="200px"
+        mr="20px"
+      >
         {msToFormattedTime(workPeriod.end_time - workPeriod.start_time)}
       </Text>
       <ConfirmDestroyModal

@@ -126,6 +126,8 @@ const Project = () => {
       });
   }, []);
 
+  console.log(project);
+
   return (
     <Flex h="100%">
       <Box
@@ -133,10 +135,11 @@ const Project = () => {
         bgGradient="linear(to-b, #30415D, #031424)"
         h="100%"
         p="15px"
+        position="fixed"
       >
         <Sidebar />
       </Box>
-      <Box flex="1" color="gray.400">
+      <Box flex="1" color="gray.400" ml="200px">
         <section>
           {/* HEADER */}
           <Flex
@@ -194,7 +197,10 @@ const Project = () => {
                       fontSize="lg"
                       fontWeight="bold"
                     >
-                      Hourly Rate: ${project?.billable_rate || hourlyRate}
+                      Hourly Rate: $
+                      {project?.billable_rate === 0
+                        ? "0 (Non-billable)"
+                        : project?.billable_rate}
                     </Text>
                   </Flex>
                   {/* GRAPH AND NUMERIC */}
@@ -237,7 +243,10 @@ const Project = () => {
                               ).toFixed(2)}`}
                         </Text>
                       </Flex>
-                      <Flex direction="column">
+                      <Flex
+                        direction="column"
+                        display={project?.billable ? "flex" : "none"}
+                      >
                         <Heading as="h3" size="md" color="gray.700">
                           Uninvoiced
                         </Heading>
@@ -283,25 +292,18 @@ const Project = () => {
                     )}
                   </Flex>
                   {/* BUTTONS */}
-                  <Flex align="center" justify="flex-start">
-                    <NewButton
-                      style={{
-                        textAlign: "center",
-                        padding: "15px",
-                        marginRight: "20px",
-                      }}
-                    >
-                      Generate Invoice
-                    </NewButton>
+                  <Flex
+                    align="center"
+                    justify="flex-start"
+                    display={project?.billable_rate ? "flex" : "none"}
+                  >
                     <ConfirmDestroyModal
                       action={markAsInvoiced}
                       message={
-                        "Clicking confirm will set all previously uninvoiced work for this project to invoiced."
+                        "Clicking confirm will set all previously uninvoiced hours for this project as invoiced."
                       }
                       trigger={
                         <NewButton
-                          primary={applicationColors.NAVY}
-                          hoverColor={applicationColors.LIGHT_NAVY}
                           style={{
                             textAlign: "center",
                             padding: "15px",

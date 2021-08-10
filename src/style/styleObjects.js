@@ -10,7 +10,7 @@ const letterRotate = {
 
 const videoBackground = {
   objectFit: "cover",
-  width: "100v",
+  width: "100%",
   height: "100vh",
   position: "fixed",
   top: "0",

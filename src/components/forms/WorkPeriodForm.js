@@ -11,7 +11,7 @@ import {
 import { getProjects, createWorkPeriod } from "../../data/api";
 import applicationColors from "../../style/colors";
 import { formatTimestamp } from "../../helpers/helper";
-import { msTimestamp } from "../../helpers/date";
+import { inputFormattedToday, msTimestamp } from "../../helpers/date";
 import NewButton from "../styled/NewButton";
 import PropTypes from "prop-types";
 
@@ -79,7 +79,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
     setEndTime("");
   };
   return (
-    <Box w="100%" maxWidth="1200px" alignSelf="center">
+    <Box w="100%" maxWidth="1200px">
       <form onSubmit={onSubmit}>
         <Flex align="center" justify="center" width="100%" p="50px">
           <Flex direction="column" flex="3.2" mr="30px">
@@ -120,6 +120,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                 data-cy="startDate"
                 type="date"
                 value={startDate}
+                max={inputFormattedToday()}
                 onChange={(e) => {
                   setStartDate(e.target.value);
                   setEndDate(
@@ -150,6 +151,7 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
                 min={startDate}
                 type="date"
                 value={endDate}
+                max={inputFormattedToday()}
                 onChange={(e) => setEndDate(e.target.value)}
               />
               <FormControl mt="10px">

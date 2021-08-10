@@ -44,12 +44,14 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
       interval = window.setInterval(() => {
         const timer = Date.now() - startTime;
         setTimer(msToTimer(timer));
+        window.document.title = msToTimer(timer);
       }, 1000);
     }
     if (!playing) {
       setTimer(null);
       setTimerDisplayed(false);
       clearInterval(interval);
+      window.document.title = "ClockOn | Work";
     }
     return () => clearInterval(interval);
   }, [playing]);
@@ -57,20 +59,13 @@ const Timer = ({ updateCurrentView, setShowTimer, setFlash }) => {
   return (
     <>
       {timerDisplayed && (
-        <Box alignSelf="center">
+        <Box>
           <Text color="gray.700" fontSize="5xl">
             {timer}
           </Text>
         </Box>
       )}
-      <Flex
-        alignSelf="center"
-        align="center"
-        w="100%"
-        maxWidth="1000px"
-        mb="30px"
-        mt="30px"
-      >
+      <Flex align="center" w="100%" maxWidth="1000px" mb="30px" mt="30px">
         {/* Play button */}
         <Flex
           data-cy="play"

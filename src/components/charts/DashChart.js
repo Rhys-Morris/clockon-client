@@ -109,7 +109,7 @@ const BarChart = ({ workPeriods, period }) => {
   }, [workPeriods]);
 
   return (
-    <Box>
+    <Box maxWidth="1200px">
       <Bar
         data={chartData}
         options={{

@@ -3,7 +3,6 @@ import { getToken } from "../helpers/helper";
 
 const AUTH_HEADER = () => ({
   headers: {
-    "Access-Control-Allow-Origin": "*",
     Authorization: "Bearer " + getToken(),
   },
 });
@@ -17,6 +16,15 @@ const URL =
 const register = (newUser) => {
   return axios
     .post(`${URL}/register`, { user: newUser })
+    .then((res) => res.data);
+};
+
+const login = (email, password) => {
+  return axios
+    .post(`${URL}/login`, {
+      email,
+      password,
+    })
     .then((res) => res.data);
 };
 
@@ -265,6 +273,7 @@ const invoiceWorkPeriods = (projectId) => {
 
 export {
   register,
+  login,
   destroyUser,
   getDash,
   updateDash,

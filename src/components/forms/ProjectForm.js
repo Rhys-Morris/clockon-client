@@ -46,8 +46,10 @@ const ProjectForm = ({ action, onClose, type, project }) => {
 
   const validateInput = () => {
     if (name.length > 40) return [false, "Name must not exceed 40 characters"];
-    if (billableRate > 9999)
+    if (billableRate >= 10000)
       return [false, "Billable rate must be less than 10000"];
+    if (billableRate < 0)
+      return [false, "Billable rate must be greater than or equal to 0"];
     return [true];
   };
 
@@ -60,7 +62,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
         name,
         color: projectColor,
         billable,
-        billableRate: billableRate ? billableRate : hourlyRate,
+        billableRate: billableRate ? billableRate : billable ? hourlyRate : 0,
         dueDate,
         clientId: client,
         active: project?.active ? project.active : true,
@@ -197,7 +199,15 @@ const ProjectForm = ({ action, onClose, type, project }) => {
             mt="5px"
             value={billableRate}
             onChange={(e) => setBillableRate(e.target.value)}
-            placeholder="Leave blank to use base hourly rate"
+            placeholder={
+              billable
+                ? "Leave blank to use base hourly rate"
+                : "Non-billable project - rate set to $0"
+            }
+            disabled={!billable}
+            _placeholder={{
+              color: billable ? "inherit" : applicationColors.ERROR_COLOR,
+            }}
           />
         </Flex>
       </FormControl>
@@ -228,7 +238,10 @@ const ProjectForm = ({ action, onClose, type, project }) => {
             <Checkbox
               isChecked={billable}
               pl="20px"
-              onChange={(e) => setBillable(e.target.checked)}
+              onChange={(e) => {
+                if (billable) setBillableRate("");
+                setBillable(e.target.checked);
+              }}
             />
           </Flex>
         </FormControl>

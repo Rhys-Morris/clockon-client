@@ -110,10 +110,11 @@ const Work = () => {
         bgGradient="linear(to-b, #30415D, #031424)"
         h="100%"
         p="15px"
+        position="fixed"
       >
         <Sidebar />
       </Box>
-      <Box flex="1" color="gray.600">
+      <Box flex="1" color="gray.600" ml="200px">
         <section>
           {/* HEADER */}
           <Box p="30px 35px" w="100%" boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)">
@@ -130,13 +131,11 @@ const Work = () => {
           >
             {/* Flash */}
             {flash && (
-              <Box
+              <Flex
                 p="10px"
                 color="gray.800"
-                bg="green.300"
-                w="100%"
+                bg="green.200"
                 borderRadius="5px"
-                textAlign="center"
                 position="relative"
                 data-cy="flash"
               >
@@ -146,18 +145,16 @@ const Work = () => {
                     data-cy="remove-flash"
                     icon={faTimes}
                     style={{
-                      position: "absolute",
-                      right: "10px",
-                      top: "12px",
                       cursor: "pointer",
+                      marginLeft: "20px",
                     }}
                   />
                 </Box>
-              </Box>
+              </Flex>
             )}
             {/* Buttons */}
             {!showForm && !showTimer && (
-              <Flex align="center" alignSelf="center" mt="30px">
+              <Flex align="center" mt="30px">
                 <Flex
                   style={buttonStyle}
                   _hover={{ transform: "translateY(-5px)" }}

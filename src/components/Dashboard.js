@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Flex, Center, Heading, Text, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Center,
+  Heading,
+  Text,
+  Select,
+  Skeleton,
+} from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import { getDash, updateDash } from "../data/api";
 import { useHistory } from "react-router-dom";
@@ -10,12 +18,7 @@ import {
   msToFormattedTime,
 } from "../helpers/date";
 import applicationColors from "../style/colors";
-import {
-  convertWorkToHours,
-  sum,
-  totalIncome,
-  // getToken,
-} from "../helpers/helper";
+import { convertWorkToHours, sum, totalIncome } from "../helpers/helper";
 import { BarChart, PieChart } from "./charts/DashChart";
 import { dashReducer } from "../data/reducers";
 
@@ -31,26 +34,27 @@ const Dashboard = () => {
     period: "week",
   };
   const [dashState, dispatch] = React.useReducer(dashReducer, initialState);
-  const { user, tasks, loading, workPeriods, period } = dashState;
+  const { user, tasks, loading, workPeriods, period, error } = dashState;
 
   // ----- RENDER -----
   React.useEffect(() => {
-    // Handle no token
-    // if (!getToken()) history.push("/401");
-    // Start request
     dispatch({ type: "request" });
     getDash()
       .then((data) => {
-        dispatch({
-          type: "success",
-          tasks: data.tasks,
-          user: data.user,
-          work_periods: data.work_periods,
-        });
+        // Load over at least 1.5secs
+        setTimeout(() => {
+          dispatch({
+            type: "success",
+            tasks: data.tasks,
+            user: data.user,
+            work_periods: data.work_periods,
+          });
+        }, 1500);
       })
-      // BUG
       .catch((e) => {
+        // Redirect unauthorised
         if (e?.response?.status === 401) history.push("/401");
+        dispatch({ type: "failure", data: e.message });
       });
   }, [history]);
 
@@ -60,10 +64,15 @@ const Dashboard = () => {
     updateDash(period)
       .then((data) => {
         if (data.work_periods) {
-          dispatch({ type: "updateWorkPeriods", data: data.work_periods });
+          setTimeout(() => {
+            dispatch({ type: "updateWorkPeriods", data: data.work_periods });
+          }, 1500);
         }
       })
-      .catch((e) => console.warn(e));
+      .catch((e) => {
+        // Redirect unauthorised
+        if (e?.response?.status === 401) history.push("/401");
+      });
   }, [period]);
 
   const greeting = () => {
@@ -81,14 +90,63 @@ const Dashboard = () => {
           bgGradient="linear(to-b, #30415D, #031424)"
           h="100%"
           p="15px"
+          position="fixed"
         >
           <Sidebar />
         </Box>
-        <Box flex="1" color="gray.400">
+        <Box flex="1" color="gray.400" ml="200px">
           <Flex h="100%" direction="column">
-            {!loading && (
+            {(loading || error) && (
+              <Flex direction="column" h="50vh" align="center" justify="center">
+                {loading && (
+                  <>
+                    <Heading
+                      mb="40px"
+                      size="2xl"
+                      color="gray.700"
+                      fontWeight="400"
+                    >
+                      Loading Dashboard
+                    </Heading>
+                    <Flex w="100px" justify="space-between">
+                      <Skeleton
+                        startColor={applicationColors.LIGHT_BLUE}
+                        endColor={applicationColors.NAVY}
+                        h="30px"
+                        w="30px"
+                        borderRadius="50%"
+                      />
+                      <Skeleton
+                        startColor={applicationColors.LIGHT_BLUE}
+                        endColor={applicationColors.NAVY}
+                        h="30px"
+                        w="30px"
+                        borderRadius="50%"
+                      />
+                      <Skeleton
+                        startColor={applicationColors.LIGHT_BLUE}
+                        endColor={applicationColors.NAVY}
+                        h="30px"
+                        w="30px"
+                        borderRadius="50%"
+                      />
+                    </Flex>
+                  </>
+                )}
+                {error && (
+                  <Heading
+                    size="2xl"
+                    color={applicationColors.ERROR_COLOR}
+                    fontWeight="400"
+                  >
+                    An error occurred whilst loading
+                  </Heading>
+                )}
+              </Flex>
+            )}
+            {!loading && !error && (
               <>
-                <Center h="100px" boxShadow="0 1px 3px 0 rgba(0, 0,0, .2)">
+                <Center h="100px" mt="50px">
                   {/* GREETING */}
 
                   <Heading
@@ -102,13 +160,18 @@ const Dashboard = () => {
                   </Heading>
                 </Center>
                 {/* MAIN DASH */}
-                <Flex p="50px" justify="space-around" align="center">
+                <Flex
+                  p="30px 50px 10px 50px"
+                  justify="space-around"
+                  align="center"
+                >
                   {/* SELECT PERIOD */}
                   <Flex direction="column" width="65%">
                     <Select
                       w="300px"
                       color="gray.700"
                       textTransform="uppercase"
+                      mb="20px"
                       value={period}
                       onChange={(e) =>
                         dispatch({ type: "setPeriod", data: e.target.value })

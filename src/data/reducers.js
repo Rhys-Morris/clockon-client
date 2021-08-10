@@ -126,7 +126,7 @@ const dashReducer = (state, action) => {
         user: action.user,
       };
     case "failure":
-      return { ...state, loading: false, error: null };
+      return { ...state, loading: false, error: action.data };
     case "setPeriod":
       return { ...state, period: action.data };
     case "updateWorkPeriods":

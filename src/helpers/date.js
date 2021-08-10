@@ -36,7 +36,7 @@ const msTimestamp = (date) => new Date(date).getTime();
 const msToTimer = (ms) => {
   let start = ms;
   const time = { hours: 0, mins: 0, secs: 0 };
-  while (start > 0) {
+  while (start >= 1000) {
     if (start >= 3600000) {
       time.hours += 1;
       start = start - 3600000;
@@ -58,7 +58,7 @@ const msToTimer = (ms) => {
 const msToFormattedTime = (ms) => {
   let start = ms;
   const time = { hours: 0, mins: 0, secs: 0 };
-  while (start > 0) {
+  while (start >= 1000) {
     if (start >= 3600000) {
       time.hours += 1;
       start = start - 3600000;
