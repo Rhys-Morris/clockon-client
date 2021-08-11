@@ -16,6 +16,7 @@ import ProjectForm from "../forms/ProjectForm";
 import TaskForm from "../forms/TaskForm";
 import ExpenseForm from "../forms/ExpenseForm";
 import PropTypes from "prop-types";
+import { CurrencyConsumer } from "../../contexts/currencyContext";
 
 const BaseNewModal = ({
   type,
@@ -45,7 +46,11 @@ const BaseNewModal = ({
     switch (type) {
       case "Project":
         return (
-          <ProjectForm action={action} onClose={onClose} type={"Create"} />
+          <CurrencyConsumer>
+            {() => (
+              <ProjectForm action={action} onClose={onClose} type={"Create"} />
+            )}
+          </CurrencyConsumer>
         );
       case "Client":
         return <ClientForm action={action} onClose={onClose} type={"Create"} />;
@@ -60,12 +65,16 @@ const BaseNewModal = ({
         );
       case "Expense":
         return (
-          <ExpenseForm
-            action={action}
-            onClose={onClose}
-            type={"Create"}
-            projectId={projectId}
-          />
+          <CurrencyConsumer>
+            {() => (
+              <ExpenseForm
+                action={action}
+                onClose={onClose}
+                type={"Create"}
+                projectId={projectId}
+              />
+            )}
+          </CurrencyConsumer>
         );
       default:
         return null;

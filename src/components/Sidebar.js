@@ -14,6 +14,7 @@ import {
 import { destroySession } from "../helpers/helper";
 import SettingsModal from "./modals/SettingsModal";
 import { WageConsumer } from "../contexts/hourlyRate";
+import { CurrencyConsumer } from "../contexts/currencyContext";
 import { getUser } from "../data/api";
 import { destroyUser } from "../data/api";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
@@ -83,7 +84,9 @@ const Sidebar = () => {
         <Text fontSize="xs" casing="uppercase" mt="30px" mb="5px">
           Settings
         </Text>
-        <WageConsumer>{() => <SettingsModal />}</WageConsumer>
+        <WageConsumer>
+          {() => <CurrencyConsumer>{() => <SettingsModal />}</CurrencyConsumer>}
+        </WageConsumer>
       </Flex>
       <Box style={{ justifySelf: "flex-end" }}>
         <NavLink to="/" onClick={destroySession} data-cy="sign-out">

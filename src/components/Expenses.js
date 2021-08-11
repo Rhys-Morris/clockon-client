@@ -13,6 +13,7 @@ import BaseNewModal from "./modals/BaseNewModal";
 import { sortByDate, sortByNumeric } from "../helpers/helper";
 import NewButton from "./styled/NewButton";
 import PropTypes from "prop-types";
+import { CurrencyConsumer } from "../contexts/currencyContext";
 
 const Expenses = ({ projectId, expenses, action }) => {
   // ----- STATE -----
@@ -183,11 +184,14 @@ const Expenses = ({ projectId, expenses, action }) => {
         )}
         {expenses?.length > 0 &&
           paginatedExpenses?.map((expense) => (
-            <ExpenseCard
-              key={expense.id}
-              expense={expense}
-              updateExpensesForProject={action}
-            />
+            <CurrencyConsumer key={expense.id}>
+              {() => (
+                <ExpenseCard
+                  expense={expense}
+                  updateExpensesForProject={action}
+                />
+              )}
+            </CurrencyConsumer>
           ))}
       </Box>
       {/* Pagination */}

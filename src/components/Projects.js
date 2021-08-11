@@ -14,6 +14,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClipboardList,
   faDollarSign,
+  faEuroSign,
+  faPoundSign,
   faUser,
   faTimes,
   faSortDown,
@@ -30,6 +32,7 @@ import { getProjects, addProject } from "../data/api";
 import { projectsReducer } from "../data/reducers";
 import { useHistory } from "react-router";
 import applicationColors from "../style/colors";
+import CurrencyContext from "../contexts/currencyContext";
 
 const Projects = () => {
   // ----- STATE -----
@@ -60,6 +63,7 @@ const Projects = () => {
     error,
   } = projectsState;
   let history = useHistory();
+  const { currency } = React.useContext(CurrencyContext);
 
   // Set title
   React.useEffect(() => {
@@ -197,7 +201,16 @@ const Projects = () => {
                 />
               </Center>
               <Center>
-                <FontAwesomeIcon icon={faDollarSign} style={iconMarginRight} />
+                <FontAwesomeIcon
+                  icon={
+                    currency === "GBP£"
+                      ? faPoundSign
+                      : currency === "EUR€"
+                      ? faEuroSign
+                      : faDollarSign
+                  }
+                  style={iconMarginRight}
+                />
                 <Select
                   data-cy="filter-billable"
                   value={filterBillable}

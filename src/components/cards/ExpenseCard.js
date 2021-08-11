@@ -18,6 +18,7 @@ import BaseEditModal from "../modals/BaseEditModal";
 import PropTypes from "prop-types";
 import ReceiptUpload from "../modals/ReceiptUpload";
 import OpenImage from "../modals/OpenImage";
+import CurrencyContext from "../../contexts/currencyContext";
 
 const popoverButtonStyle = {
   background: applicationColors.LIGHT_BLUE,
@@ -37,6 +38,7 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
   const toggleOpen = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
   const { name, date, cost } = expense;
+  const { currency } = React.useContext(CurrencyContext);
 
   // ----- DESTROY TASK -----
   const destroy = () => {
@@ -64,7 +66,8 @@ const ExpenseCard = ({ expense, updateExpensesForProject }) => {
         {date}
       </Text>
       <Text fontSize="sm" flex="1.25" textAlign="center" data-cy="expense-cost">
-        ${cost}
+        {currency[currency.length - 1]}
+        {cost}
       </Text>
       {expense?.receipt_url ? (
         <OpenImage

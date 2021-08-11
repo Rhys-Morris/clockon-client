@@ -1,16 +1,23 @@
 import React from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDollarSign, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDollarSign,
+  faPoundSign,
+  faEuroSign,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import ConfirmDestroyModal from "../modals/ConfirmDestroyModal";
 import { destroyProject } from "../../data/api";
 import { useHistory } from "react-router-dom";
 import applicationColors from "../../style/colors";
 import PropTypes from "prop-types";
+import CurrencyContext from "../../contexts/currencyContext";
 
 const ProjectCard = ({ project, dispatch }) => {
   const dueDate = project.due_date;
   const history = useHistory();
+  const { currency } = React.useContext(CurrencyContext);
 
   const destroyCard = () => {
     destroyProject(project.id).then((data) =>
@@ -52,7 +59,16 @@ const ProjectCard = ({ project, dispatch }) => {
           </Text>
         </Flex>
         {project.billable && (
-          <FontAwesomeIcon icon={faDollarSign} data-testid="billable-icon" />
+          <FontAwesomeIcon
+            icon={
+              currency === "GBP£"
+                ? faPoundSign
+                : currency === "EUR€"
+                ? faEuroSign
+                : faDollarSign
+            }
+            data-testid="billable-icon"
+          />
         )}
       </Flex>
       <Text fontSize="xs" casing="uppercase" flex="1.5" textAlign="center">

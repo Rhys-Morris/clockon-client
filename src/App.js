@@ -13,37 +13,61 @@ import LandingPage from "./components/LandingPage";
 import Unauthorised from "./components/errorPages/401";
 import NoContent from "./components/errorPages/404";
 import { WageProvider, WageConsumer } from "./contexts/hourlyRate";
+import { CurrencyConsumer, CurrencyProvider } from "./contexts/currencyContext";
 function App() {
-  const [hourlyRate, setHourlyRate] = React.useState(35.0);
+  const [hourlyRate, setHourlyRate] = React.useState(
+    localStorage.getItem("clockon-wage") || 35.0
+  );
+  const [currency, setCurrency] = React.useState(
+    localStorage.getItem("clockon-currency") || "AUD$"
+  );
 
   const updateHourlyRate = (wage) => setHourlyRate(wage);
+  const updateCurrency = (currency) => setCurrency(currency);
+
   return (
     <WageProvider value={{ hourlyRate, updateHourlyRate }}>
-      <ChakraProvider theme={theme}>
-        <Router>
-          <Center>
-            <Box h="100vh" width="100%" color="white">
-              <Switch>
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/clients" component={Clients} />
-                <Route exact path="/projects" component={Projects} />
-                <Route
-                  exact
-                  path="/project/:id"
-                  render={() => (
-                    <WageConsumer>{() => <Project />}</WageConsumer>
-                  )}
-                />
-                <Route exact path="/work" component={Work} />
-                <Route exact path="/401" component={Unauthorised} />
-                <Route component={NoContent} />
-              </Switch>
-            </Box>
-          </Center>
-        </Router>
-      </ChakraProvider>
+      <CurrencyProvider value={{ currency, updateCurrency }}>
+        <ChakraProvider theme={theme}>
+          <Router>
+            <Center>
+              <Box h="100vh" width="100%" color="white">
+                <Switch>
+                  <Route exact path="/" component={LandingPage} />
+                  <Route exact path="/register" component={Register} />
+                  <Route
+                    exact
+                    path="/dashboard"
+                    render={() => (
+                      <CurrencyConsumer>{() => <Dashboard />}</CurrencyConsumer>
+                    )}
+                  />
+                  <Route exact path="/clients" component={Clients} />
+                  <Route
+                    exact
+                    path="/projects"
+                    render={() => (
+                      <CurrencyConsumer>{() => <Projects />}</CurrencyConsumer>
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/project/:id"
+                    render={() => (
+                      <CurrencyConsumer>
+                        {() => <WageConsumer>{() => <Project />}</WageConsumer>}
+                      </CurrencyConsumer>
+                    )}
+                  />
+                  <Route exact path="/work" component={Work} />
+                  <Route exact path="/401" component={Unauthorised} />
+                  <Route component={NoContent} />
+                </Switch>
+              </Box>
+            </Center>
+          </Router>
+        </ChakraProvider>
+      </CurrencyProvider>
     </WageProvider>
   );
 }

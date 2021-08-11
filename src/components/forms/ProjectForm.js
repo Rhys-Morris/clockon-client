@@ -14,6 +14,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDollarSign,
+  faPoundSign,
+  faEuroSign,
   faCheck,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +24,7 @@ import { getClients, addClient } from "../../data/api";
 import WageContext from "../../contexts/hourlyRate";
 import applicationColors from "../../style/colors";
 import PropTypes from "prop-types";
+import CurrencyContext from "../../contexts/currencyContext";
 
 const ProjectForm = ({ action, onClose, type, project }) => {
   const { hourlyRate } = React.useContext(WageContext);
@@ -43,6 +46,7 @@ const ProjectForm = ({ action, onClose, type, project }) => {
     project?.billableRate || ""
   );
   const [error, setError] = React.useState(null);
+  const { currency } = React.useContext(CurrencyContext);
 
   const validateInput = () => {
     if (name.length > 40) return [false, "Name must not exceed 40 characters"];
@@ -118,7 +122,6 @@ const ProjectForm = ({ action, onClose, type, project }) => {
         </Flex>
       </FormControl>
       <FormControl isRequired mb="15px">
-        {/* TO DO - ADD ABILITY TO CREATE NEW CLIENT HERE */}
         <Flex align="center" justify="space-between" mb="5px">
           <FormLabel htmlFor="clientSelect" fontSize="sm" flex="1">
             Client
@@ -202,7 +205,9 @@ const ProjectForm = ({ action, onClose, type, project }) => {
             placeholder={
               billable
                 ? "Leave blank to use base hourly rate"
-                : "Non-billable project - rate set to $0"
+                : `Non-billable project - rate set to ${
+                    currency[currency.length - 1]
+                  }0`
             }
             disabled={!billable}
             _placeholder={{
@@ -228,7 +233,13 @@ const ProjectForm = ({ action, onClose, type, project }) => {
         <FormControl mb="15px">
           <Flex align="center" justify="center">
             <FontAwesomeIcon
-              icon={faDollarSign}
+              icon={
+                currency === "GBP£"
+                  ? faPoundSign
+                  : currency === "EUR€"
+                  ? faEuroSign
+                  : faDollarSign
+              }
               color="#666"
               style={{ marginRight: "5px" }}
             />

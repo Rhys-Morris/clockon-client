@@ -10,9 +10,8 @@ import {
 import { createExpense, updateExpense } from "../../data/api";
 import { inputFormattedToday } from "../../helpers/date";
 import applicationColors from "../../style/colors";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import CurrencyContext from "../../contexts/currencyContext";
 
 const ExpenseForm = ({
   action,
@@ -28,6 +27,7 @@ const ExpenseForm = ({
   );
   const [cost, setCost] = React.useState(expense?.cost || "");
   const [error, setError] = React.useState(null);
+  const { currency } = React.useContext(CurrencyContext);
 
   const create = (expense) => {
     createExpense(expense)
@@ -121,13 +121,13 @@ const ExpenseForm = ({
           type="date"
           mt="5px"
           value={date}
+          max={inputFormattedToday()}
           onChange={(e) => setDate(e.target.value)}
         />
       </FormControl>
       <FormControl mt="10px" isRequired>
         <FormLabel fontSize="sm" casing="uppercase">
-          Cost of expense (in{" "}
-          <FontAwesomeIcon icon={faDollarSign} color="gray" />)
+          Cost of expense ({currency[currency.length - 1]})
         </FormLabel>
         <Input
           data-cy="cost"

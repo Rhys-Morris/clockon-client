@@ -26,6 +26,7 @@ import {
 } from "../helpers/helper";
 import { BarChart, PieChart } from "./charts/DashChart";
 import { dashReducer } from "../data/reducers";
+import CurrencyContext from "../contexts/currencyContext";
 
 const Dashboard = () => {
   // ----- STATE -----
@@ -40,13 +41,14 @@ const Dashboard = () => {
   };
   const [dashState, dispatch] = React.useReducer(dashReducer, initialState);
   const { user, tasks, loading, workPeriods, period, error } = dashState;
+  const { currency } = React.useContext(CurrencyContext);
 
   // ----- RENDER -----
   React.useEffect(() => {
     dispatch({ type: "request" });
     getDash()
       .then((data) => {
-        // Load over at least 1.5secs
+        // Load over at least 1 secs - smoother transition
         setTimeout(() => {
           dispatch({
             type: "success",
@@ -54,7 +56,7 @@ const Dashboard = () => {
             user: data.user,
             work_periods: data.work_periods,
           });
-        }, 1500);
+        }, 1000);
       })
       .catch((e) => {
         // Redirect unauthorised
@@ -78,7 +80,7 @@ const Dashboard = () => {
         if (data.work_periods) {
           setTimeout(() => {
             dispatch({ type: "updateWorkPeriods", data: data.work_periods });
-          }, 1500);
+          }, 1000);
         }
       })
       .catch((e) => {
@@ -226,7 +228,9 @@ const Dashboard = () => {
                     </Heading>
                     <Text fontSize="3xl" color="gray.400" mb="20px">
                       {workPeriods && workPeriods.length !== 0
-                        ? `$${totalIncome(workPeriods).toFixed(2)}`
+                        ? `${currency[currency.length - 1]}${totalIncome(
+                            workPeriods
+                          ).toFixed(2)}`
                         : "No work to display"}
                     </Text>
                   </Flex>

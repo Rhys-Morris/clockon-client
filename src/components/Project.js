@@ -29,6 +29,7 @@ import applicationColors from "../style/colors";
 import NewButton from "./styled/NewButton";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
 import ProjectChart from "./charts/ProjectChart";
+import CurrencyContext from "../contexts/currencyContext";
 
 const Project = () => {
   const initialState = {
@@ -47,6 +48,7 @@ const Project = () => {
   let history = useHistory();
   const { loading, project, tasks, expenses, workPeriods } = projectStore;
   const { hourlyRate } = React.useContext(WageContext);
+  const { currency } = React.useContext(CurrencyContext);
 
   // Set title
   React.useEffect(() => {
@@ -131,8 +133,6 @@ const Project = () => {
       });
   }, []);
 
-  console.log(project);
-
   return (
     <Flex h="100%">
       <Box
@@ -202,7 +202,7 @@ const Project = () => {
                       fontSize="lg"
                       fontWeight="bold"
                     >
-                      Hourly Rate: $
+                      Hourly Rate: {currency[currency.length - 1]}
                       {project?.billable_rate === 0
                         ? "0 (Non-billable)"
                         : project?.billable_rate}
@@ -240,7 +240,7 @@ const Project = () => {
                             : !workPeriods ||
                               sum(convertWorkToHours(workPeriods)) === 0
                             ? "No current earnings"
-                            : `$${(
+                            : `${currency[currency.length - 1]}${(
                                 sum(convertWorkToHours(workPeriods)) *
                                 (project?.billable_rate
                                   ? project.billable_rate
@@ -257,7 +257,7 @@ const Project = () => {
                         </Heading>
                         {project?.billable && (
                           <Text fontSize="3xl" color="gray.400">
-                            {`$${(
+                            {`${currency[currency.length - 1]}${(
                               sum(
                                 convertWorkToHours(
                                   workPeriods.filter((wp) => !wp.invoiced)
@@ -275,9 +275,9 @@ const Project = () => {
                           {!expenses ||
                           sum(expenses.map((exp) => exp.cost)) === 0
                             ? "No expenses"
-                            : `$${sum(expenses.map((exp) => exp.cost)).toFixed(
-                                2
-                              )}`}
+                            : `${currency[currency.length - 1]}${sum(
+                                expenses.map((exp) => exp.cost)
+                              ).toFixed(2)}`}
                         </Text>
                       </Flex>
                     </Flex>
@@ -344,6 +344,7 @@ const Project = () => {
                   action={updateExpenses}
                   projectId={project?.id}
                 />
+                ;
               </Flex>
             </Flex>
           </Flex>
