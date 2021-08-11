@@ -20,14 +20,17 @@ import { faCogs } from "@fortawesome/free-solid-svg-icons";
 import WageContext from "../../contexts/hourlyRate";
 import applicationColors from "../../style/colors";
 import CurrencyContext from "../../contexts/currencyContext";
+import { updateBillableRates } from "../../data/api";
+import { useHistory } from "react-router-dom";
 
 const SettingsModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { hourlyRate, updateHourlyRate } = React.useContext(WageContext);
   const { currency, updateCurrency } = React.useContext(CurrencyContext);
-  const [newWage, setNewWage] = React.useState(hourlyRate);
+  const [newWage, setNewWage] = React.useState(Number(hourlyRate).toFixed(2));
   const [newCurrency, setNewCurrency] = React.useState(currency);
   const [error, setError] = React.useState(null);
+  const history = useHistory();
 
   const validateInput = () => {
     if (newWage <= 0 || newWage > 9999) {
@@ -40,10 +43,17 @@ const SettingsModal = () => {
   const submitSettings = () => {
     if (validateInput()) {
       const updatedWage = Number(Number.parseFloat(newWage).toFixed(2));
-      updateHourlyRate(updatedWage);
       localStorage.setItem("clockon-wage", updatedWage);
-      updateCurrency(newCurrency);
       localStorage.setItem("clockon-currency", newCurrency);
+      updateCurrency(newCurrency);
+      updateHourlyRate(newWage);
+      // Force refresh after api call when wage updated
+      // Ignore on currency only changes
+      if (Number(Number(hourlyRate).toFixed(2)) !== updatedWage) {
+        updateBillableRates(hourlyRate, newWage).then((data) => {
+          if (data.message === "success") history.go(0);
+        });
+      }
       onClose();
     }
   };
@@ -63,6 +73,9 @@ const SettingsModal = () => {
           <ModalBody>
             <FormControl>
               <FormLabel>Adjust base hourly wage ({newCurrency})</FormLabel>
+              <Text m="10px 0" fontSize="sm" color="gray.400">
+                {`This action will update all projects currently using ${currency}${hourlyRate} to the new rate.`}
+              </Text>
               <Input
                 type="number"
                 min="0"
@@ -71,7 +84,7 @@ const SettingsModal = () => {
                 onChange={(e) => setNewWage(e.target.value)}
               />
             </FormControl>
-            <FormControl mt="10px">
+            <FormControl mt="30px">
               <FormLabel>Set currency:</FormLabel>
               <Select
                 value={newCurrency}
@@ -89,7 +102,7 @@ const SettingsModal = () => {
                 {error}
               </Text>
             )}
-            <Button mt="10px" onClick={submitSettings}>
+            <Button mt="30px" onClick={submitSettings}>
               Submit
             </Button>
           </ModalBody>

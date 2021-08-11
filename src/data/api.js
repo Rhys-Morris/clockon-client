@@ -36,6 +36,18 @@ const destroyUser = () => {
   return axios.delete(`${URL}/user`, AUTH_HEADER());
 };
 
+// ----- SETTINGS -----
+
+const updateBillableRates = (previousRate, newRate) => {
+  return axios
+    .post(
+      `${URL}/projects/rates/update`,
+      { project: { billable_rate: newRate, previous_rate: previousRate } },
+      AUTH_HEADER()
+    )
+    .then((res) => res.data);
+};
+
 // ----- DASHBOARD -----
 
 const getDash = () => {
@@ -298,4 +310,5 @@ export {
   getUser,
   invoiceWorkPeriods,
   purgeReceipt,
+  updateBillableRates,
 };
