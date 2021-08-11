@@ -7,6 +7,7 @@ import {
   Select,
   Center,
   Box,
+  Spinner,
 } from "@chakra-ui/react";
 import BaseNewModal from "./modals/BaseNewModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,6 +29,7 @@ import {
 import { getProjects, addProject } from "../data/api";
 import { projectsReducer } from "../data/reducers";
 import { useHistory } from "react-router";
+import applicationColors from "../style/colors";
 
 const Projects = () => {
   // ----- STATE -----
@@ -54,6 +56,8 @@ const Projects = () => {
     filterBillable,
     filterActive,
     dueDateSortedFirst,
+    loading,
+    error,
   } = projectsState;
   let history = useHistory();
 
@@ -64,6 +68,7 @@ const Projects = () => {
 
   // ---- SET PROJECTS ON RENDER -----
   React.useEffect(() => {
+    dispatch({ type: "request" });
     getProjects()
       .then((data) => {
         dispatch({ type: "setProjects", data: data.projects });
@@ -72,6 +77,7 @@ const Projects = () => {
         if (e?.response?.status === 401) {
           history.push("/401");
         }
+        dispatch({ type: "setError", data: e.message });
       });
   }, []);
 
@@ -294,13 +300,37 @@ const Projects = () => {
               <FontAwesomeIcon icon={faTimes} color="transparent" />
             </Flex>
             {/* Cards */}
-            {projects.length === 0 && (
+            {loading && (
+              <Spinner
+                h="50px"
+                w="50px"
+                ml="50px"
+                mt="25px"
+                color={applicationColors.DARK_LIGHT_BLUE}
+              />
+            )}
+            {error && (
+              <Text
+                ml="50px"
+                mt="25px"
+                fontSize="4xl"
+                color={applicationColors.ERROR_COLOR}
+              >
+                {error}
+              </Text>
+            )}
+            {!loading && !error && projects.length === 0 && (
               <Text p="15px 30px">No projects currently active</Text>
             )}
-            {projects.length >= 1 && filteredProjects.length === 0 && (
-              <Text p="15px 30px">No projects match your search</Text>
-            )}
-            {filteredProjects.length >= 1 &&
+            {!loading &&
+              !error &&
+              projects.length >= 1 &&
+              filteredProjects.length === 0 && (
+                <Text p="15px 30px">No projects match your search</Text>
+              )}
+            {!loading &&
+              !error &&
+              filteredProjects.length >= 1 &&
               filteredProjects.map((p) => {
                 return (
                   <ProjectCard key={p.id} project={p} dispatch={dispatch} />

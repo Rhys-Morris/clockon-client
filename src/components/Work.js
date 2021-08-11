@@ -1,5 +1,13 @@
 import React from "react";
-import { Flex, Box, Heading, Text, Input, Center } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Heading,
+  Text,
+  Input,
+  Center,
+  Spinner,
+} from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import WorkPeriodForm from "./forms/WorkPeriodForm";
 import Timer from "./Timer";
@@ -25,6 +33,8 @@ const Work = () => {
   const [filteredWork, setFilteredWork] = React.useState([]);
   const [nameFilter, setNameFilter] = React.useState([]);
   const [detailsFilter, setDetailsFilter] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const [flash, setFlash] = React.useState("");
   let history = useHistory();
 
@@ -35,11 +45,15 @@ const Work = () => {
 
   // GET WORK PERIODS ON RENDER
   React.useEffect(() => {
+    setLoading(true);
+    setError(null);
     getWorkPeriods()
       .then((data) => {
         if (data.work_periods) {
           setWorkPeriods(data.work_periods);
           setFilteredWork(data.work_periods);
+          setLoading(false);
+          setError(null);
         }
         // ERROR HANDLING
       })
@@ -47,6 +61,8 @@ const Work = () => {
         if (e?.response?.status === 401) {
           history.push("/401");
         }
+        setLoading(false);
+        setError(e.message);
       });
   }, []);
 
@@ -256,83 +272,105 @@ const Work = () => {
               </Center>
             </Flex>
             {/* WORK PERIODS */}
-            <Box
-              w="100%"
-              maxWidth="1200px"
-              h="40vh"
-              overflowY="scroll"
-              pr="30px"
-            >
-              {/* Today */}
-              <Heading
-                as="h4"
-                fontWeight="300"
-                mt="30px"
-                mb="10px"
-                size="md"
-                textTransform="uppercase"
+            {loading && (
+              <Spinner
+                h="50px"
+                w="50px"
+                mt="20px"
+                ml="20px"
+                color={applicationColors.DARK_LIGHT_BLUE}
+              />
+            )}
+            {error && (
+              <Text
+                ml="50px"
+                mt="50px"
+                fontSize="4xl"
+                color={applicationColors.ERROR_COLOR}
               >
-                Last 24 Hours
-              </Heading>
-              {(workPeriods?.length === 0 ||
-                (workPeriods?.length > 0 && today().length === 0)) && (
-                <Text>No work completed in the last 24 hours</Text>
-              )}
-              {workPeriods?.length > 0 &&
-                today().map((wp) => (
-                  <WorkPeriodCard
-                    key={wp.id}
-                    updateCurrentView={updateCurrentView}
-                    workPeriod={wp}
-                  />
-                ))}
-              {/* This Week */}
-              <Heading
-                as="h4"
-                fontWeight="300"
-                mt="30px"
-                mb="10px"
-                size="md"
-                textTransform="uppercase"
+                {error}
+              </Text>
+            )}
+            {!loading && !error && (
+              <Box
+                w="100%"
+                maxWidth="1200px"
+                h="40vh"
+                overflowY="scroll"
+                pr="30px"
               >
-                This Week
-              </Heading>
-              {(workPeriods?.length === 0 ||
-                (workPeriods?.length > 0 && lastWeek().length === 0)) && (
-                <Text>No work completed in the last week</Text>
-              )}
-              {workPeriods?.length > 0 &&
-                lastWeek().map((wp) => (
-                  <WorkPeriodCard
-                    key={wp.id}
-                    updateCurrentView={updateCurrentView}
-                    workPeriod={wp}
-                  />
-                ))}
-              {/* Over 1 week */}
-              <Heading
-                as="h4"
-                fontWeight="300"
-                mt="30px"
-                mb="10px"
-                size="md"
-                textTransform="uppercase"
-              >
-                PREVIOUS WORK
-              </Heading>
-              {(workPeriods?.length === 0 ||
-                (workPeriods?.length > 0 && remaining().length === 0)) && (
-                <Text>No work to display</Text>
-              )}
-              {workPeriods?.length > 0 &&
-                remaining().map((wp) => (
-                  <WorkPeriodCard
-                    key={wp.id}
-                    updateCurrentView={updateCurrentView}
-                    workPeriod={wp}
-                  />
-                ))}
-            </Box>
+                {/* Today */}
+                <Heading
+                  as="h4"
+                  fontWeight="300"
+                  mt="30px"
+                  mb="10px"
+                  size="md"
+                  textTransform="uppercase"
+                >
+                  Last 24 Hours
+                </Heading>
+                {(workPeriods?.length === 0 ||
+                  (workPeriods?.length > 0 && today().length === 0)) && (
+                  <Text>No work completed in the last 24 hours</Text>
+                )}
+                {workPeriods?.length > 0 &&
+                  today().map((wp) => (
+                    <WorkPeriodCard
+                      key={wp.id}
+                      updateCurrentView={updateCurrentView}
+                      workPeriod={wp}
+                    />
+                  ))}
+                {/* This Week */}
+                <Heading
+                  as="h4"
+                  fontWeight="300"
+                  mt="30px"
+                  mb="10px"
+                  size="md"
+                  textTransform="uppercase"
+                >
+                  This Week
+                </Heading>
+                {(workPeriods?.length === 0 ||
+                  (workPeriods?.length > 0 && lastWeek().length === 0)) && (
+                  <Text>No work completed in the last week</Text>
+                )}
+                {workPeriods?.length > 0 &&
+                  lastWeek().map((wp) => (
+                    <WorkPeriodCard
+                      key={wp.id}
+                      updateCurrentView={updateCurrentView}
+                      workPeriod={wp}
+                    />
+                  ))}
+                {/* Over 1 week */}
+                {console.log(error) && console.log(loading)}
+                <Heading
+                  as="h4"
+                  fontWeight="300"
+                  mt="30px"
+                  mb="10px"
+                  size="md"
+                  textTransform="uppercase"
+                >
+                  PREVIOUS WORK
+                </Heading>
+                {(workPeriods?.length === 0 ||
+                  (workPeriods?.length > 0 && remaining().length === 0)) && (
+                  <Text>No work to display</Text>
+                )}
+                {workPeriods?.length > 0 &&
+                  remaining().map((wp) => (
+                    <WorkPeriodCard
+                      key={wp.id}
+                      updateCurrentView={updateCurrentView}
+                      workPeriod={wp}
+                    />
+                  ))}
+              </Box>
+            )}
           </Flex>
         </section>
       </Box>
