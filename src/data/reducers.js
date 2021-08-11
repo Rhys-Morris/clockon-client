@@ -99,6 +99,8 @@ const projectReducer = (state, action) => {
       };
     case "failure":
       return { ...state, loading: false, error: action.data };
+    case "setClient":
+      return { ...state, client: action.data };
     case "updateTasks":
       return { ...state, tasks: action.data };
     case "updateExpenses":

@@ -6,6 +6,7 @@ import Work from "./components/Work";
 import Projects from "./components/Projects";
 import Project from "./components/Project";
 import Register from "./components/Register";
+import Invoice from "./components/Invoice";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import "@fontsource/raleway/400.css";
 import theme from "./style/theme";
@@ -31,10 +32,17 @@ function App() {
         <ChakraProvider theme={theme}>
           <Router>
             <Center>
-              <Box h="100vh" width="100%" color="white">
+              <Box h="100vh" width="100%" color="white" id="box">
                 <Switch>
                   <Route exact path="/" component={LandingPage} />
                   <Route exact path="/register" component={Register} />
+                  <Route
+                    exact
+                    path="/invoice"
+                    render={() => (
+                      <CurrencyConsumer>{() => <Invoice />}</CurrencyConsumer>
+                    )}
+                  />
                   <Route
                     exact
                     path="/dashboard"

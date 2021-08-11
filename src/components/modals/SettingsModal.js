@@ -13,6 +13,7 @@ import {
   Button,
   Text,
   Select,
+  Heading,
 } from "@chakra-ui/react";
 import SidebarLink from "../styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +30,18 @@ const SettingsModal = () => {
   const { currency, updateCurrency } = React.useContext(CurrencyContext);
   const [newWage, setNewWage] = React.useState(Number(hourlyRate).toFixed(2));
   const [newCurrency, setNewCurrency] = React.useState(currency);
+  const [companyName, setCompanyName] = React.useState(
+    localStorage.getItem("clockon-company") &&
+      JSON.parse(localStorage.getItem("clockon-company"))["companyName"]
+      ? JSON.parse(localStorage.getItem("clockon-company"))["companyName"]
+      : ""
+  );
+  const [companyAddress, setCompanyAddress] = React.useState(
+    localStorage.getItem("clockon-company") &&
+      JSON.parse(localStorage.getItem("clockon-company"))["companyAddress"]
+      ? JSON.parse(localStorage.getItem("clockon-company"))["companyAddress"]
+      : ""
+  );
   const [error, setError] = React.useState(null);
   const history = useHistory();
 
@@ -43,6 +56,10 @@ const SettingsModal = () => {
   const submitSettings = () => {
     if (validateInput()) {
       const updatedWage = Number(Number.parseFloat(newWage).toFixed(2));
+      if (companyName || companyAddress) {
+        const companyDetails = JSON.stringify({ companyName, companyAddress });
+        localStorage.setItem("clockon-company", companyDetails);
+      }
       localStorage.setItem("clockon-wage", updatedWage);
       localStorage.setItem("clockon-currency", newCurrency);
       updateCurrency(newCurrency);
@@ -84,7 +101,7 @@ const SettingsModal = () => {
                 onChange={(e) => setNewWage(e.target.value)}
               />
             </FormControl>
-            <FormControl mt="30px">
+            <FormControl mt="20px">
               <FormLabel>Set currency:</FormLabel>
               <Select
                 value={newCurrency}
@@ -96,6 +113,30 @@ const SettingsModal = () => {
                 <option value="GBP£">Great British Pound</option>
                 <option value="CAD$">Canadian Dollar</option>
               </Select>
+            </FormControl>
+            <Heading mt="20px" size="md">
+              Invoice Details
+            </Heading>
+            <Text m="10px 0" fontSize="sm" color="gray.400">
+              Change personal details applied to generated invoices.
+            </Text>
+            <FormControl mt="20px">
+              <FormLabel>Company Name</FormLabel>
+              <Input
+                type="text"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="Template Company"
+              />
+            </FormControl>
+            <FormControl mt="20px">
+              <FormLabel>Company Address</FormLabel>
+              <Input
+                type="text"
+                value={companyAddress}
+                onChange={(e) => setCompanyAddress(e.target.value)}
+                placeholder="Template Company Address"
+              />
             </FormControl>
             {error && (
               <Text m="10px 0" color={applicationColors.ERROR_COLOR}>

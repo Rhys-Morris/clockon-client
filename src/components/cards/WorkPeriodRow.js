@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex, Text } from "@chakra-ui/react";
-import { msToTimer, inputFormattedTimestamp } from "../../helpers/date";
+import { msToTimer, formattedTaskDate } from "../../helpers/date";
 import PropTypes from "prop-types";
 
 const WorkPeriodRow = ({ workPeriod }) => {
@@ -8,11 +8,11 @@ const WorkPeriodRow = ({ workPeriod }) => {
     <Flex align="center" m="5px 0" fontSize="lg" p="5px 25px" color="gray.600">
       <Text
         display="inline"
+        fontWeight="bold"
         color="gray.500"
-        fontStyle="italic"
-        marginRight="30px"
+        marginRight="20px"
       >
-        {inputFormattedTimestamp(workPeriod.end_time, true)}:
+        {formattedTaskDate(new Date(workPeriod.end_time))}:
       </Text>
       <Text> {workPeriod.title}</Text>
       <Text

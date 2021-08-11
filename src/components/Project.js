@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router";
-import { getProject } from "../data/api";
+import { getProject, getClient } from "../data/api";
 import Sidebar from "./Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -30,6 +30,7 @@ import NewButton from "./styled/NewButton";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
 import ProjectChart from "./charts/ProjectChart";
 import CurrencyContext from "../contexts/currencyContext";
+import InvoiceForm from "./forms/InvoiceForm";
 
 const Project = () => {
   const initialState = {
@@ -37,6 +38,7 @@ const Project = () => {
     loading: false,
     project: null,
     tasks: null,
+    client: null,
     expenses: null,
     workPeriods: null,
   };
@@ -46,7 +48,8 @@ const Project = () => {
     initialState
   );
   let history = useHistory();
-  const { loading, project, tasks, expenses, workPeriods } = projectStore;
+  const { loading, project, tasks, expenses, workPeriods, client } =
+    projectStore;
   const { hourlyRate } = React.useContext(WageContext);
   const { currency } = React.useContext(CurrencyContext);
 
@@ -111,7 +114,7 @@ const Project = () => {
     dispatch({ type: "request" });
     getProject(id)
       .then((data) => {
-        if (data.project)
+        if (data.project) {
           dispatch({
             type: "success",
             project: data.project,
@@ -119,6 +122,17 @@ const Project = () => {
             expenses: data.expenses,
             workPeriods: data.project.work_periods,
           });
+          // TO DO - FIX THIS CALL IF TIME
+          // ----- FETCH CLIENT FOR PDF RENDER FORM -----
+          getClient(data.project.client_id)
+            .then((data) => {
+              if (data.client)
+                dispatch({ type: "setClient", data: data.client });
+            })
+            .catch((e) => {
+              console.warn(e);
+            });
+        }
         if (data.error) dispatch({ type: "failure", data: data.error });
       })
       .catch((e) => {
@@ -318,6 +332,7 @@ const Project = () => {
                         </NewButton>
                       }
                     />
+                    <InvoiceForm client={client} projectId={project?.id} />
                   </Flex>
                 </Flex>
               </Box>

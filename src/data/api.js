@@ -66,6 +66,12 @@ const getClients = () => {
   return axios.get(`${URL}/clients`, AUTH_HEADER()).then((res) => res.data);
 };
 
+const getClient = (id) => {
+  return axios
+    .get(`${URL}/clients/${id}`, AUTH_HEADER())
+    .then((res) => res.data);
+};
+
 const destroyClient = (id) => {
   return axios
     .delete(`${URL}/clients/${id}`, AUTH_HEADER())
@@ -283,6 +289,12 @@ const invoiceWorkPeriods = (projectId) => {
     .then((res) => res.data);
 };
 
+const workPeriodsForInvoice = (projectId) => {
+  return axios
+    .get(`${URL}/work/${projectId}/invoice-creation`, AUTH_HEADER())
+    .then((res) => res.data);
+};
+
 export {
   register,
   login,
@@ -290,6 +302,7 @@ export {
   getDash,
   updateDash,
   getClients,
+  getClient,
   destroyClient,
   updateClient,
   addClient,
@@ -309,6 +322,7 @@ export {
   destroyWorkPeriod,
   getUser,
   invoiceWorkPeriods,
+  workPeriodsForInvoice,
   purgeReceipt,
   updateBillableRates,
 };
