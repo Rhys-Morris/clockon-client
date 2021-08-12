@@ -13,9 +13,8 @@ import PropTypes from "prop-types";
 // ----- BARCHART -----
 const BarChart = ({ workPeriods, period }) => {
   const [chartData, setChartData] = React.useState({});
-  const [breakpoint1500] = useMediaQuery("(max-width: 1500px)");
-  const [breakpoint1200] = useMediaQuery("(max-width: 1200px)");
   const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
+  const [breakpoint900] = useMediaQuery("(max-width: 900px)");
 
   defaults.color = breakpoint1000 ? "white" : "grey.700";
 
@@ -114,17 +113,7 @@ const BarChart = ({ workPeriods, period }) => {
   }, [workPeriods]);
 
   return (
-    <Box
-      width={
-        breakpoint1000
-          ? "95vw"
-          : breakpoint1200
-          ? "70vw"
-          : breakpoint1500
-          ? "80vw"
-          : "1200px"
-      }
-    >
+    <Box width={breakpoint900 ? "95vw" : "760px"}>
       <Bar
         data={chartData}
         options={{
@@ -194,7 +183,7 @@ const PieChart = ({ workPeriods }) => {
   }, [workPeriods]);
 
   return (
-    <Box mb="20px" width={breakpoint600 ? "220px" : "270px"} mr="20px">
+    <Box mb="20px" width={breakpoint600 ? "220px" : "250px"} mr="20px">
       <Pie
         data={chartData}
         options={{

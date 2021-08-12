@@ -125,6 +125,8 @@ const dashReducer = (state, action) => {
         error: null,
         tasks: action.tasks,
         workPeriods: action.work_periods,
+        active: action.active,
+        nextProject: action.nextProject,
         user: action.user,
       };
     case "failure":
