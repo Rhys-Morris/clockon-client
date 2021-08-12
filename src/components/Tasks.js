@@ -77,8 +77,9 @@ const Tasks = ({ projectId, tasks, action }) => {
 
   return (
     <Flex
-      flex="1"
+      flex=".8"
       direction="column"
+      minHeight="450px"
       justify="space-between"
       style={{ borderLeft: "1px solid rgba(0,0,0,.12)" }}
       position="relative"

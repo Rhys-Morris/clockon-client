@@ -49,6 +49,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
       <Text
         style={{
           width: "500px",
+          marginRight: "10px",
           display: "inline-block",
           overflow: "hidden",
           whiteSpace: "nowrap",
@@ -61,7 +62,7 @@ const WorkPeriodCard = ({ workPeriod, updateCurrentView }) => {
         display="inline"
         color="#bbb"
         fontStyle="italic"
-        w="200px"
+        w="180px"
         mr="20px"
       >
         {msToFormattedTime(workPeriod.end_time - workPeriod.start_time)}

@@ -1,6 +1,6 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
-import { Bar, Pie } from "react-chartjs-2";
+import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Bar, Pie, defaults } from "react-chartjs-2";
 import {
   convertWorkToHours,
   dayTimestamp,
@@ -13,6 +13,11 @@ import PropTypes from "prop-types";
 // ----- BARCHART -----
 const BarChart = ({ workPeriods, period }) => {
   const [chartData, setChartData] = React.useState({});
+  const [breakpoint1500] = useMediaQuery("(max-width: 1500px)");
+  const [breakpoint1200] = useMediaQuery("(max-width: 1200px)");
+  const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
+
+  defaults.color = breakpoint1000 ? "white" : "grey.700";
 
   // Split projects into hours per day for chart
   const data = () => {
@@ -109,7 +114,17 @@ const BarChart = ({ workPeriods, period }) => {
   }, [workPeriods]);
 
   return (
-    <Box maxWidth="1200px">
+    <Box
+      width={
+        breakpoint1000
+          ? "95vw"
+          : breakpoint1200
+          ? "70vw"
+          : breakpoint1500
+          ? "80vw"
+          : "1200px"
+      }
+    >
       <Bar
         data={chartData}
         options={{
@@ -128,6 +143,7 @@ BarChart.propTypes = {
 // ----- PIE CHART -----
 const PieChart = ({ workPeriods }) => {
   const [chartData, setChartData] = React.useState({});
+  const [breakpoint600] = useMediaQuery("(max-width: 600px)");
 
   const data = () => {
     if (!workPeriods) return [];
@@ -167,7 +183,7 @@ const PieChart = ({ workPeriods }) => {
           label: "Project Hours",
           data: datapoints,
           backgroundColor: backgroundColor,
-          borderWidth: 1,
+          borderColor: "white",
         },
       ],
     });
@@ -178,7 +194,7 @@ const PieChart = ({ workPeriods }) => {
   }, [workPeriods]);
 
   return (
-    <Box mb="20px">
+    <Box mb="20px" width={breakpoint600 ? "220px" : "270px"} mr="20px">
       <Pie
         data={chartData}
         options={{

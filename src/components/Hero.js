@@ -29,13 +29,28 @@ const Hero = () => {
         <source src={herovid} type="video/mp4" />
       </video>
       <Box pl={breakpoint750 ? "5%" : breakpoint1000 ? "10%" : "20%"}>
-        <Heading as="h1" size="3xl" fontWeight="400" mb="15px">
+        <Heading
+          as="h1"
+          size={breakpoint750 ? "2xl" : "3xl"}
+          fontWeight="400"
+          mb="15px"
+        >
           Manage your projects,
         </Heading>
-        <Heading as="h2" size="3xl" fontWeight="400" mb="15px">
+        <Heading
+          as="h2"
+          size={breakpoint750 ? "2xl" : "3xl"}
+          fontWeight="400"
+          mb="15px"
+        >
           track your hours,
         </Heading>
-        <Heading as="h3" size="3xl" fontWeight="400" mb="30px">
+        <Heading
+          as="h3"
+          size={breakpoint750 ? "2xl" : "3xl"}
+          fontWeight="400"
+          mb="30px"
+        >
           take <Text style={letterRotate}>c</Text>
           <Text style={letterRotate}>o</Text>
           <Text style={letterRotate}>n</Text>

@@ -82,7 +82,7 @@ const PDF = ({
                   marginBottom: "5px",
                 }}
               >
-                CLIENT:
+                Bill to:
               </Text>
               <Text style={{ marginBottom: "5px" }}>{clientName}</Text>
               {clientContact !== "empty" && (

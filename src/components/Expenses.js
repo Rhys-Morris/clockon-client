@@ -77,6 +77,7 @@ const Expenses = ({ projectId, expenses, action }) => {
     <Flex
       flex="1"
       direction="column"
+      minHeight="500px"
       justify="space-between"
       style={{ borderLeft: "1px solid rgba(0,0,0,.12)" }}
     >

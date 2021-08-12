@@ -92,7 +92,7 @@ const InvoiceForm = ({ client, projectId }) => {
         Generate Invoice
       </NewButton>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="2xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize="3xl">Invoice Details</ModalHeader>

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const LandingNav = () => {
+  const [breakpoint750] = useMediaQuery("(max-width: 750px)");
   const [breakpoint500] = useMediaQuery("(max-width: 500px)");
 
   const showMenu = () => {
@@ -39,7 +40,7 @@ const LandingNav = () => {
           <Link
             p={breakpoint500 ? "0 20px" : "0"}
             mt={breakpoint500 ? "10px" : "0"}
-            fontSize="30"
+            fontSize={breakpoint750 ? "2xl" : "3xl"}
             _hover={{ textDecoration: "none" }}
           >
             ClockOn
@@ -53,6 +54,7 @@ const LandingNav = () => {
                 marginRight: "10px",
                 marginTop: "10px",
                 transition: "0.2s",
+                boxShadow: "3px 3px 10px 3px rgba(0, 0,0, .2)",
               }}
               onClick={showMenu}
               id="hamburger"
@@ -87,7 +89,8 @@ const LandingNav = () => {
                 <Link
                   as={RouterLink}
                   to="/dashboard"
-                  fontSize="2xl"
+                  marginTop="10px"
+                  fontSize={breakpoint750 ? "xl" : "2xl"}
                   _hover={{
                     textDecoration: "none",
                   }}
@@ -100,7 +103,8 @@ const LandingNav = () => {
               <Link
                 as={RouterLink}
                 to="/register"
-                fontSize="2xl"
+                fontSize={breakpoint750 ? "xl" : "2xl"}
+                marginTop="10px"
                 _hover={{
                   textDecoration: "none",
                 }}

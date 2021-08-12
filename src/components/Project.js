@@ -201,7 +201,12 @@ const Project = () => {
             <Flex direction="column" flex="1">
               {/* Overview */}
               <Box flex="1.5">
-                <Flex height="100%" direction="column" p="10px 20px">
+                <Flex
+                  height="100%"
+                  minHeight="500px"
+                  direction="column"
+                  p="10px 20px"
+                >
                   <Flex
                     align="center"
                     justify="space-between"
@@ -345,7 +350,7 @@ const Project = () => {
               </Box>
             </Flex>
             {/* Tasks */}
-            <Flex flex="1" direction="column">
+            <Flex flex="1" direction="column" minHeight="500px">
               <Tasks
                 flex="1"
                 tasks={tasks}
@@ -359,7 +364,6 @@ const Project = () => {
                   action={updateExpenses}
                   projectId={project?.id}
                 />
-                ;
               </Flex>
             </Flex>
           </Flex>

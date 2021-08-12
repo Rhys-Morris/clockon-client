@@ -67,7 +67,7 @@ const Register = () => {
         color="gray.600"
         align="center"
         justify="center"
-        h={breakpoint800 ? "65%" : "75%"}
+        h={breakpoint800 ? "90%" : "75%"}
         w={
           breakpoint400
             ? "95%"

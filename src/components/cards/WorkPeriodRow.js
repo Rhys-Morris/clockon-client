@@ -5,16 +5,24 @@ import PropTypes from "prop-types";
 
 const WorkPeriodRow = ({ workPeriod }) => {
   return (
-    <Flex align="center" m="5px 0" fontSize="lg" p="5px 25px" color="gray.600">
+    <Flex
+      align="center"
+      m="5px 0"
+      fontSize="lg"
+      p="5px 25px"
+      color="gray.600"
+      w="100%"
+    >
       <Text
         display="inline"
         fontWeight="bold"
         color="gray.500"
         marginRight="20px"
+        width="120px"
       >
         {formattedTaskDate(new Date(workPeriod.end_time))}:
       </Text>
-      <Text> {workPeriod.title}</Text>
+      <Text flex="1"> {workPeriod.title}</Text>
       <Text
         display="inline"
         color="gray.400"

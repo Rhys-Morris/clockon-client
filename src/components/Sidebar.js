@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { NavLink, useHistory } from "react-router-dom";
 import SidebarLink from "./styled/SidebarLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ import {
   faClipboardList,
   faSignOutAlt,
   faTrash,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { destroySession } from "../helpers/helper";
 import SettingsModal from "./modals/SettingsModal";
@@ -18,15 +19,19 @@ import { CurrencyConsumer } from "../contexts/currencyContext";
 import { getUser } from "../data/api";
 import { destroyUser } from "../data/api";
 import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
+import applicationColors from "../style/colors";
+import PropTypes from "prop-types";
 
 // ----- COMPONENT STYLES -----
 const linkActive = { color: "#031424" };
 const sideBarLinkStyle = { width: "100%", margin: "5px 0" };
 const iconStyle = { margin: "0 5px" };
 
-const Sidebar = () => {
+const Sidebar = ({ setSidebarOpen }) => {
   const [user, setUser] = React.useState(null);
   let history = useHistory();
+  // MEDIA QUERIES
+  const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
 
   // ----- RENDER -----
   React.useEffect(() => {
@@ -46,7 +51,23 @@ const Sidebar = () => {
   };
 
   return (
-    <Flex direction="column" h="100%" justify="space-between">
+    <Flex
+      direction="column"
+      h="100%"
+      justify="space-between"
+      postion="relative"
+    >
+      {/* Close Sidebar for small devices */}
+      <Box
+        display={breakpoint1000 ? "block" : "none"}
+        position="fixed"
+        left="175px"
+        top="10px"
+        cursor="pointer"
+        onClick={() => setSidebarOpen(false)}
+      >
+        <FontAwesomeIcon icon={faTimes} color={applicationColors.ERROR_COLOR} />
+      </Box>
       <Flex direction="column">
         <Text color="#8eaedd" mb="20px" fontSize="2xl">
           ClockOn
@@ -114,6 +135,10 @@ const Sidebar = () => {
       </Box>
     </Flex>
   );
+};
+
+Sidebar.propTypes = {
+  setSidebarOpen: PropTypes.func,
 };
 
 export default Sidebar;

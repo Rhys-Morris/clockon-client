@@ -14,13 +14,14 @@ import Login from "../Login";
 
 const LoginModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [breakpoint750] = useMediaQuery("(max-width: 750px)");
   const [breakpoint500] = useMediaQuery("(max-width: 500px)");
 
   return (
     <>
       <Link
-        fontSize={breakpoint500 ? "2xl" : "lg"}
-        m={breakpoint500 ? "10px 0" : "0"}
+        fontSize={breakpoint750 ? "xl" : "2xl"}
+        mt={breakpoint500 ? "10px" : "0"}
         transition=".2s all"
         borderBottom="2px solid transparent"
         borderRadius="none"
