@@ -285,6 +285,7 @@ const Dashboard = () => {
                   <Flex
                     direction={breakpoint450 ? "column" : "row"}
                     align="center"
+                    textAlign={breakpoint450 ? "center" : null}
                     mt={breakpoint450 ? "10px" : breakpoint1000 ? "30px" : "0"}
                   >
                     <Box>
