@@ -87,7 +87,7 @@ const ClientCard = ({ client, updateClients }) => {
   };
 
   return (
-    <Flex style={cardStyle} m="10px" data-cy="client-card">
+    <Flex style={cardStyle} m="10px" data-cy="client-card" bg="white">
       <Box
         w="4px"
         h="100%"

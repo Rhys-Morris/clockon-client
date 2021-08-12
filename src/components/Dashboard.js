@@ -137,7 +137,7 @@ const Dashboard = () => {
         >
           <Sidebar setSidebarOpen={setSidebarOpen} />
         </Box>
-        <Box flex="1" color="white" ml={breakpoint1000 ? "0" : "200px"}>
+        <Box flex="1" ml={breakpoint1000 ? "0" : "200px"}>
           <Flex
             direction="column"
             bg={breakpoint1000 ? applicationColors.NAVY : "white"}
@@ -198,7 +198,7 @@ const Dashboard = () => {
                   <Heading
                     as="h2"
                     size="2xl"
-                    mt={breakpoint800 ? "20px" : "0"}
+                    mt={breakpoint800 ? "30px" : "0"}
                     mb={breakpoint1500 ? "20px" : "0"}
                     style={{ fontWeight: 300 }}
                     color={breakpoint1000 ? "white" : "#031424"}
