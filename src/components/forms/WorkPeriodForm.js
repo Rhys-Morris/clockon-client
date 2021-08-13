@@ -47,6 +47,10 @@ const WorkPeriodForm = ({ updateCurrentView, setShowForm, setFlash }) => {
       setError("End of work period must be later than start");
       return false;
     }
+    if (title.length > 100) {
+      setError("Title must be less than 100 characters");
+      return false;
+    }
     return true;
   };
 

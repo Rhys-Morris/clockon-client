@@ -37,7 +37,6 @@ function App() {
                   <Route exact path="/" component={LandingPage} />
                   <Route exact path="/register" component={Register} />
                   <Route
-                    exact
                     path="/invoice"
                     render={() => (
                       <CurrencyConsumer>{() => <Invoice />}</CurrencyConsumer>

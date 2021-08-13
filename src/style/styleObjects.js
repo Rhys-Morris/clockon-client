@@ -1,3 +1,5 @@
+import applicationColors from "./colors";
+
 // ----- HERO -----
 
 const letterRotate = {
@@ -52,6 +54,21 @@ const ellipsisStyle = {
   cursor: "pointer",
 };
 
+const workButtonStyle = {
+  flexDirection: "column",
+  background: applicationColors.DARK_LIGHT_BLUE,
+  borderRadius: "10px",
+  height: "250px",
+  width: "250px",
+  padding: "10px",
+  alignItems: "center",
+  justifyContent: "space-around",
+  margin: "0 20px",
+  boxShadow: "3px 3px 3px 3px rgba(0, 0, 0, 0.15)",
+  transition: ".3s",
+  cursor: "pointer",
+};
+
 export {
   letterRotate,
   videoBackground,
@@ -60,4 +77,5 @@ export {
   activeSelectStyle,
   cardStyle,
   ellipsisStyle,
+  workButtonStyle,
 };

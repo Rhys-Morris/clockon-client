@@ -25,6 +25,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import NewButton from "./styled/NewButton";
+import { workButtonStyle } from "../style/styleObjects";
 
 const Work = () => {
   const [workPeriods, setWorkPeriods] = React.useState([]);
@@ -109,21 +110,6 @@ const Work = () => {
     setFilteredWork(filtered);
   }, [workPeriods, nameFilter, detailsFilter]);
 
-  const buttonStyle = {
-    flexDirection: "column",
-    background: applicationColors.DARK_LIGHT_BLUE,
-    borderRadius: "10px",
-    height: "300px",
-    width: "300px",
-    padding: "10px",
-    alignItems: "center",
-    justifyContent: "space-around",
-    margin: "0 20px",
-    boxShadow: "3px 3px 3px 3px rgba(0, 0, 0, 0.15)",
-    transition: ".3s",
-    cursor: "pointer",
-  };
-
   return (
     <Flex h="100%">
       <Box
@@ -177,14 +163,14 @@ const Work = () => {
             {!showForm && !showTimer && (
               <Flex align="center" mt="30px">
                 <Flex
-                  style={buttonStyle}
+                  style={workButtonStyle}
                   _hover={{ transform: "translateY(-5px)" }}
                   data-cy="form"
                   onClick={() => {
                     setShowForm(true);
                   }}
                 >
-                  <FontAwesomeIcon color="white" size="9x" icon={faPencilAlt} />
+                  <FontAwesomeIcon color="white" size="8x" icon={faPencilAlt} />
                   <Text
                     textAlign="center"
                     fontWeight="bold"
@@ -195,14 +181,14 @@ const Work = () => {
                   </Text>
                 </Flex>
                 <Flex
-                  style={buttonStyle}
+                  style={workButtonStyle}
                   data-cy="timer"
                   _hover={{ transform: "translateY(-5px)" }}
                   onClick={() => {
                     setShowTimer(true);
                   }}
                 >
-                  <FontAwesomeIcon color="white" size="9x" icon={faClock} />
+                  <FontAwesomeIcon color="white" size="8x" icon={faClock} />
                   <Text
                     textAlign="center"
                     fontWeight="bold"

@@ -93,8 +93,6 @@ const Dashboard = () => {
     } Dashboard`;
   }, [user]);
 
-  console.log(initialState);
-
   // ---- FETCH NEW WORK PERIODS -----
   React.useEffect(() => {
     dispatch({ type: "request" });
@@ -153,7 +151,7 @@ const Dashboard = () => {
         <Flex
           direction="column"
           align="center"
-          paddingTop="30px"
+          paddingTop="50px"
           bg={breakpoint1000 ? applicationColors.NAVY : "white"}
           minHeight="100vh"
           w="100%"
@@ -500,7 +498,8 @@ const Dashboard = () => {
                             color="gray.800"
                             fontWeight="bold"
                           >
-                            {active && active[0]} Active Clients
+                            {active && active[0] ? active[0] : 0} Active Client
+                            {active && active[0] === 1 ? "" : "s"}
                           </Text>
                         </Flex>
                         <Flex
@@ -525,7 +524,8 @@ const Dashboard = () => {
                             color="gray.800"
                             fontWeight="bold"
                           >
-                            {active && active[1]} Active Projects
+                            {active && active[1] ? active[1] : 0} Active Project
+                            {active && active[1] === 1 ? "" : "s"}
                           </Text>
                         </Flex>
                       </Flex>

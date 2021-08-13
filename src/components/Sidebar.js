@@ -69,9 +69,11 @@ const Sidebar = ({ setSidebarOpen }) => {
         <FontAwesomeIcon icon={faTimes} color={applicationColors.ERROR_COLOR} />
       </Box>
       <Flex direction="column">
-        <Text color="#8eaedd" mb="20px" fontSize="2xl">
-          ClockOn
-        </Text>
+        <NavLink to="/" style={{ marginBottom: "20px" }}>
+          <Text color="#8eaedd" fontSize="2xl">
+            ClockOn
+          </Text>
+        </NavLink>
         <Text fontSize="xs" casing="uppercase" mb="5px">
           Overview
         </Text>
