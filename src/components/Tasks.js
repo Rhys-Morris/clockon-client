@@ -75,6 +75,8 @@ const Tasks = ({ projectId, tasks, action }) => {
     setDueDateSorted(null);
   };
 
+  console.log(paginatedTasks);
+
   return (
     <Flex
       flex=".8"
@@ -243,8 +245,8 @@ const Tasks = ({ projectId, tasks, action }) => {
             style={{
               padding: "5px 10px",
               visibility:
-                filteredTasks?.length > page * 6 ||
-                (page === 1 && tasks?.length > 6)
+                paginatedTasks?.length > page * 6 ||
+                (page === 1 && filteredTasks?.length > 6)
                   ? "visible"
                   : "hidden",
             }}
