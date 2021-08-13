@@ -28,7 +28,9 @@ const sideBarLinkStyle = { width: "100%", margin: "5px 0" };
 const iconStyle = { margin: "0 5px" };
 
 const Sidebar = ({ setSidebarOpen }) => {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState(
+    JSON.parse(sessionStorage.getItem("clockon-user") || null)
+  );
   let history = useHistory();
   // MEDIA QUERIES
   const [breakpoint1000] = useMediaQuery("(max-width: 1000px)");
@@ -36,7 +38,10 @@ const Sidebar = ({ setSidebarOpen }) => {
   // ----- RENDER -----
   React.useEffect(() => {
     getUser().then((data) => {
-      if (data.user) setUser(data.user); // Set user name and email
+      if (data.user) {
+        sessionStorage.setItem("clockon-user", JSON.stringify(data.user));
+        setUser(data.user);
+      } // Set user name and email
     });
   }, []);
 
