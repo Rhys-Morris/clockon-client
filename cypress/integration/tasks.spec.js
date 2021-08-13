@@ -158,32 +158,3 @@ describe("sorting functionality", () => {
       .should("have.text", "2025-01-06");
   });
 });
-
-describe("pagination", () => {
-  it("should paginate tasks correctly", () => {
-    // Check no next marker & card length is 6
-    cy.get("[data-cy=task-card]").should("have.length", 6);
-    cy.get("[data-cy=tasks-next]").should("not.exist");
-
-    createNewTasks("Test task", "2025-01-07", 7);
-
-    // Check next marker
-    cy.get("[data-cy=tasks-next]").should("exist");
-    cy.get("[data-cy=task-card]").should("have.length", 6);
-
-    // Navigate to next page - check card length and prev is visible
-    cy.get("[data-cy=tasks-next]").click();
-    cy.get("[data-cy=tasks-next]").should("not.exist");
-    cy.get("[data-cy=tasks-previous]").should("exist");
-    cy.get("[data-cy=task-card]").should("have.length", 1);
-
-    // Delete tasks
-    cy.get("[data-cy=tasks-previous]").click();
-    for (let i = 1; i < 8; i++) {
-      cy.wait(300);
-      cy.get("[data-cy=open-popover]").first().click();
-      cy.get("[data-cy=trigger-destroy]").first().click();
-      cy.get("[data-cy=confirm-destroy]").click();
-    }
-  });
-});

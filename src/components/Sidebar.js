@@ -22,7 +22,7 @@ import ConfirmDestroyModal from "./modals/ConfirmDestroyModal";
 import applicationColors from "../style/colors";
 import PropTypes from "prop-types";
 
-// ----- COMPONENT STYLES -----
+// ----- STYLES -----
 const linkActive = { color: "#031424" };
 const sideBarLinkStyle = { width: "100%", margin: "5px 0" };
 const iconStyle = { margin: "0 5px" };
